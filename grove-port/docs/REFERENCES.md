@@ -55,7 +55,7 @@ Code and docs that Grove Port depends on but does **not** duplicate.
 
 | URL | Purpose |
 |-----|---------|
-| `github.com/boske-ai/grove-port` | OSS repo |
+| `github.com/boske-ai/grove-port` | **Live** — OSS repo (this repo) |
 | `boske.dev/move` | Online converter (TBD path) |
 | `boske.dev` | Product + Community links |
 

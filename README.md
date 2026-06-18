@@ -4,6 +4,8 @@
 
 Boske Community is the **public OSS umbrella** under the Boske brand house — standards, plugins, docs, and migration tools. It is **not** the Boske product (proprietary) and **not** Boske Labs (R&D / models).
 
+**GitHub:** https://github.com/boske-ai/grove-port (public, `main`)
+
 **Start here:** [`docs/INDEX.md`](./docs/INDEX.md) — master capture of all planning decisions (June 2026).
 
 Parent: [Canopy Studio](../../docs/STUDIO_MANIFEST.md) · Product: [Boske](../boske/) · Labs: [../boske-labs/README.md](../boske-labs/README.md)
@@ -42,7 +44,7 @@ canopystudio/apps/
 └── boske-pulse/           # Operator tool → Community OSS
 ```
 
-**GitHub (planned):** `boske-ai/grove-port` (public project name) or `boske-ai/boske-community` (monorepo later).
+| **GitHub (live):** | https://github.com/boske-ai/grove-port |
 
 ---
 
