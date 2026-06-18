@@ -1,0 +1,16 @@
+node_modules/
+dist/
+*.grove-port
+*.boske-export
+.DS_Store
+.env
+.env.*
+!.env.example
+
+# Converter uploads (never commit user data)
+uploads/
+tmp/
+
+# IDE
+.idea/
+.vscode/

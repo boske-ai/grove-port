@@ -1,0 +1,12 @@
+node_modules/
+dist/
+*.grove-port
+*.boske-export
+.DS_Store
+.env
+.env.*
+!.env.example
+uploads/
+tmp/
+.idea/
+.vscode/
