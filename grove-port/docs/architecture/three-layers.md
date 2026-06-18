@@ -6,7 +6,7 @@ Simple map of what is free, what is paid, and how money connects to Grove Port.
 
 ## Layer 1 — Free & open (Boske Community)
 
-**Where:** this repo (`grove-port`), MIT license, GitHub public.
+**Where:** this repo (`grove-port`), MIT license. GitHub repo is **private until launch**.
 
 | Asset | Purpose |
 |-------|---------|

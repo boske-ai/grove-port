@@ -22,7 +22,7 @@ Master index: [`docs/INDEX.md`](./docs/INDEX.md) · Decisions: [`docs/decisions.
 | ✅ | Conversation capture in `docs/INDEX.md` + `decisions.md` |
 | ✅ | Folder layout `boske-community/grove-port` |
 | ✅ | Git repo at `boske-community/` root (includes hub docs) |
-| ✅ | First commit + [`github.com/boske-ai/grove-port`](https://github.com/boske-ai/grove-port) published 2026-06-18 |
+| ✅ | First commit + [`github.com/boske-ai/grove-port`](https://github.com/boske-ai/grove-port) (**private**, 2026-06-18) |
 | ⬜ | Link from Boske `TODO.md` / ADR 0009 to this repo |
 | ⬜ | boske.dev Community / Grove landing page |
 | ⬜ | Pulse OSS checklist (see INDEX §14) |

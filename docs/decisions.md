@@ -71,7 +71,7 @@ Boske product monorepo, Labs pack **content**, license signing, cloud proxy secr
 
 ## D10 — GitHub naming
 
-First public remote: **`boske-ai/grove-port`** (project name). Disk umbrella may remain `boske-community/` for multiple Community repos.
+First remote: **`boske-ai/grove-port`** — **private until launch**, then public MIT.
 
 ---
 

@@ -66,7 +66,7 @@ Foreign export ──► [IN adapter] ──► Grove Port v1 ──► [OUT ada
 |----------|------|
 | `~/apps/canopystudio/apps/boske-community/grove-port/` | Project path under Community umbrella |
 | `~/apps/canopystudio/apps/boske-community/` | Community hub README + future OSS siblings |
-| `github.com/boske-ai/grove-port` | Planned public remote (project name; org brand Boske Community) |
+| `github.com/boske-ai/grove-port` | Remote (**private** until launch; MIT when public) |
 | `apps/boske/docs/work/active/2026-06-18-wizard-user-preferences/` | Unrelated; Boske product work stays in boske monorepo |
 
 ---
@@ -85,4 +85,4 @@ Foreign export ──► [IN adapter] ──► Grove Port v1 ──► [OUT ada
 1. **Now:** docs + TODO + work folders (this repo).
 2. **Next:** extract `packages/schema` + `packages/cli` from Boske; MIT license.
 3. **Then:** ChatGPT IN adapter + boske.dev converter MVP.
-4. **Publish:** `boske-ai/grove-port` public under Boske Community.
+4. **Publish:** flip `boske-ai/grove-port` to **public** when spec + ChatGPT adapter ship.

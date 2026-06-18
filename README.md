@@ -4,7 +4,7 @@
 
 Boske Community is the **public OSS umbrella** under the Boske brand house — standards, plugins, docs, and migration tools. It is **not** the Boske product (proprietary) and **not** Boske Labs (R&D / models).
 
-**GitHub:** https://github.com/boske-ai/grove-port (public, `main`)
+**GitHub:** https://github.com/boske-ai/grove-port (**private** until launch, `main`)
 
 **Start here:** [`docs/INDEX.md`](./docs/INDEX.md) — master capture of all planning decisions (June 2026).
 
