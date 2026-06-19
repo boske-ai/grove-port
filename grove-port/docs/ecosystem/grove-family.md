@@ -17,7 +17,8 @@ Grove Port is the **hub** (in progress). Other **Grove** projects share naming a
 |---------|-------|--------|
 | **Grove Port** | `grove-port/` | In progress — spec, CLI, adapters |
 | **Online converter** | boske.dev/move | In progress — pairs with Port |
-| **Grove Fit** | `boske-labs/grove-fit/` | In progress — hardware fit extract |
+| **Grove Fit** | `boske-labs/grove-fit/` | In progress — separate track |
+| **Grove Vault** | `boske-community/grove-vault/` | In progress — **focus** |
 
 ## Done (reference only)
 
@@ -29,14 +30,18 @@ Port architecture: [README.md](../../README.md), [core-and-adapters.md](../archi
 
 ---
 
-## 7. Grove Vault (Community) — **active focus**
+## Active focus — Grove Vault (Community)
 
 **One-liner:** Keys the agent can use but never know — native in Boske (Mac + Linux).
 
 **Work folder:** [`docs/work/active/2026-06-19-grove-vault/`](../work/active/2026-06-19-grove-vault/)  
 **Spec:** [`spec/vault-handles-v1.md`](../../spec/vault-handles-v1.md)
 
-Other Grove projects (Guard, Pack, …) — paused, draft plans kept.
+Guard, Pack, Bridge, Index, Trust — **paused** (draft plans in `docs/work/active/`).
+
+---
+
+## 2. Grove Pack (spec only — Labs) — paused
 
 **One-liner:** Open **format** for assistant packs (Writing coach, Research, Meeting notes) — not the curated content.
 
