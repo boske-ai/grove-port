@@ -75,9 +75,17 @@ First remote: **`boske-ai/grove-port`** — **private until launch**, then publi
 
 ---
 
-## D11 — Build priority
+## D11 — Build priority (updated 2026-06-19)
 
-Grove Port foundation → ChatGPT adapter → Boske import → online converter → other adapters → Pulse public → Guard/Fit.
+**Shipped / in progress elsewhere:** Grove Port, online converter, Boske Pulse, Grove Fit.
+
+**Active Community/Labs backlog:**
+
+1. Grove Guard — MCP policy gateway
+2. Grove Pack spec — assistant pack format (Labs)
+3. Grove Index — RAG index lifecycle
+4. Grove Trust — model provenance (Labs)
+5. Stack A Search runbook (infra doc, optional)
 
 ---
 

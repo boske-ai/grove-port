@@ -120,17 +120,25 @@ Plan: [`../grove-port/docs/work/active/2026-06-18-online-converter/`](../grove-p
 
 ---
 
-## 9. Grove ecosystem (all projects)
+## 9. Grove ecosystem
 
-| Project | Brand | Folder (planned) | Status |
-|---------|-------|------------------|--------|
-| **Grove Port** | Community | `grove-port/` | **Active** |
-| **Boske Pulse** | Community | `../boske-pulse/` | OSS after sanitize |
-| Grove Guard | Community | `grove-guard/` (later) | Planned |
-| Grove Index | Community/Labs | TBD | Planned |
-| Grove Fit | Labs | `../boske-labs/grove-fit/` | Planned |
-| Grove Pack spec | Labs | `../boske-labs/grove-pack/` | Planned |
-| Grove Trust | Labs | Labs | Planned |
+### Shipped or in progress elsewhere
+
+| Project | Brand | Folder | Status |
+|---------|-------|--------|--------|
+| **Grove Port** | Community | `grove-port/` | **Shipped** |
+| **Online converter** | Community | boske.dev/move | **Shipped** |
+| **Boske Pulse** | Community | `../boske-pulse/` | **Done** |
+| **Grove Fit** | Labs | `../boske-labs/grove-fit/` | In progress |
+
+### Active backlog
+
+| Project | Brand | Folder | Status |
+|---------|-------|--------|--------|
+| **Grove Guard** | Community | `grove-guard/` (planned) | **P1 — work folder ready** |
+| **Grove Pack spec** | Labs | `../boske-labs/grove-pack/` | P2 — draft plan |
+| **Grove Index** | Community | `grove-index/` (planned) | P3 — draft plan |
+| **Grove Trust** | Labs | `../boske-labs/grove-trust/` | P4 — draft plan |
 
 Detail: [`../grove-port/docs/ecosystem/grove-family.md`](../grove-port/docs/ecosystem/grove-family.md)
 
@@ -165,16 +173,17 @@ Studio doc: [`../../docs/ARCHITECTURE.md`](../../docs/ARCHITECTURE.md)
 
 ---
 
-## 12. Build order
+## 12. Build order (updated 2026-06-19)
 
-1. Extract schema + CLI (`verify`, `inspect`) from Boske
-2. ChatGPT IN adapter
-3. Boske import preview + commit
-4. **boske.dev/move** (client-side convert)
-5. Claude, Mistral, Open WebUI adapters
-6. Publish `github.com/boske-ai/grove-port`
-7. Pulse public MIT (after example config scrub)
-8. Grove Guard / Fit when approved
+**Done:** Grove Port, online converter, Boske Pulse, Grove Fit (in progress separately).
+
+**Next:**
+
+1. **Grove Guard** — MCP policy gateway ([work folder](../grove-port/docs/work/active/2026-06-19-grove-guard/))
+2. **Grove Pack spec** — assistant pack format (Labs)
+3. **Grove Index** — RAG index lifecycle
+4. **Grove Trust** — model provenance (Labs)
+5. Stack A Search runbook (optional infra doc)
 
 Backlog: [`../grove-port/TODO.md`](../grove-port/TODO.md)
 
@@ -201,4 +210,4 @@ Ref: [`../boske-pulse/MANIFEST.md`](../boske-pulse/MANIFEST.md)
 
 ---
 
-*Last updated: 2026-06-18 — planning conversation capture.*
+*Last updated: 2026-06-19 — backlog refocused on Guard, Pack, Index, Trust.*

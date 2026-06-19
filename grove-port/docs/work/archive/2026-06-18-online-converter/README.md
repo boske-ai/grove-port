@@ -1,7 +1,7 @@
 # Online converter — boske.dev migration tool
 
-**Status:** **approved — after foundation (schema + ChatGPT adapter)**  
-**Started:** 2026-06-18
+**Status:** **shipped** — boske.dev/move live (pairs with Grove Port)  
+**Started:** 2026-06-18 · **Archived:** 2026-06-19
 
 ---
 

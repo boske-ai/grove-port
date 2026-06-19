@@ -14,17 +14,16 @@ Parent: [Canopy Studio](../../docs/STUDIO_MANIFEST.md) · Product: [Boske](../bo
 
 ## Grove ecosystem
 
-Shared **Grove** naming for Community + Labs OSS (forest / portability metaphor):
-
 | Project | Folder | Brand | Status |
 |---------|--------|-------|--------|
-| **Grove Port** | [`grove-port/`](./grove-port/) | Community | **Active** — workspace export standard + adapters |
-| **Boske Pulse** | [`../boske-pulse/`](../boske-pulse/) | Community | Private → **MIT OSS** when config sanitized |
-| Grove Guard | *(planned)* | Community | MCP / agent policy gateway |
-| Grove Index | *(planned)* | Community | RAG index lifecycle |
-| **Grove Fit** | [`../boske-labs/`](../boske-labs/) | Labs | Hardware → model tier fit |
-| **Grove Pack** | Labs | Labs | Assistant pack **spec** (content stays paid) |
-| Grove Trust | Labs | Labs | Model provenance verify |
+| **Grove Port** | [`grove-port/`](./grove-port/) | Community | **Shipped** |
+| **Online converter** | boske.dev/move | Community | **Shipped** |
+| **Boske Pulse** | [`../boske-pulse/`](../boske-pulse/) | Community | **Done** |
+| **Grove Fit** | [`../boske-labs/`](../boske-labs/) | Labs | In progress (separate) |
+| **Grove Guard** | [`grove-port/docs/work/active/2026-06-19-grove-guard/`](./grove-port/docs/work/active/2026-06-19-grove-guard/) | Community | **Next — P1** |
+| **Grove Pack** | [`grove-port/docs/work/active/2026-06-19-grove-pack/`](./grove-port/docs/work/active/2026-06-19-grove-pack/) | Labs | Draft plan |
+| **Grove Index** | [`grove-port/docs/work/active/2026-06-19-grove-index/`](./grove-port/docs/work/active/2026-06-19-grove-index/) | Community | Draft plan |
+| **Grove Trust** | [`grove-port/docs/work/active/2026-06-19-grove-trust/`](./grove-port/docs/work/active/2026-06-19-grove-trust/) | Labs | Draft plan |
 
 Full map: [`grove-port/docs/ecosystem/grove-family.md`](./grove-port/docs/ecosystem/grove-family.md)
 

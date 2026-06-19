@@ -80,16 +80,17 @@ Work folder: [`docs/work/active/2026-06-18-online-converter/`](./docs/work/activ
 
 ## Grove ecosystem (sibling projects)
 
-Grove Port is the hub. Other **Grove** OSS ideas (Labs vs Community):
+Grove Port is **shipped**. Active backlog for other **Grove** OSS:
 
 | Project | Brand | Status |
 |---------|-------|--------|
-| **Grove Port** | Community | **This repo — active** |
-| Grove Guard | Community | Planned — MCP/agent policy gateway |
-| Grove Fit | Labs | Planned — hardware / model tier fit |
-| Grove Pack | Labs (spec) | Planned — assistant pack manifest |
-| Grove Index | Community/Labs | Planned — RAG index lifecycle |
-| Grove Trust | Labs | Planned — model provenance verify |
+| **Grove Port** | Community | **Shipped** (this repo) |
+| **Grove Guard** | Community | **Next — P1** — [`work folder`](./docs/work/active/2026-06-19-grove-guard/) |
+| **Grove Pack** | Labs | Draft plan — assistant pack spec |
+| **Grove Index** | Community | Draft plan — RAG index lifecycle |
+| **Grove Trust** | Labs | Draft plan — model provenance |
+
+Elsewhere: Grove Fit (in progress), Boske Pulse (done), online converter (shipped).
 
 Full write-up: [`docs/ecosystem/grove-family.md`](./docs/ecosystem/grove-family.md).
 
