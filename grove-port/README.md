@@ -82,18 +82,23 @@ Work folder: [`docs/work/active/2026-06-18-online-converter/`](./docs/work/activ
 
 Grove Port is **in progress** (this repo). New Grove OSS backlog:
 
-| Project | Brand | Status |
-|---------|-------|--------|
-| **Grove Port** | Community | **In progress** (this repo) |
-| **Online converter** | Community | **In progress** — pairs with Port |
-| **Grove Guard** | Community | Draft plan — [`work folder`](./docs/work/active/2026-06-19-grove-guard/) |
-| **Grove Pack** | Labs | Draft plan — assistant pack spec |
-| **Grove Index** | Community | Draft plan — RAG index lifecycle |
-| **Grove Trust** | Labs | Draft plan — model provenance |
+| Project | Brand | Real-life hook |
+|---------|-------|----------------|
+| **Grove Port** | Community | **In progress** — move workspace as a file |
+| **Online converter** | Community | **In progress** — boske.dev/move |
+| **Grove Sign** | Community | One signature stack (extract now) |
+| **Grove Guard** | Community | MCP firewall — agent emailed wrong person |
+| **Grove Vault** | Community | Keys never in the prompt |
+| **Grove Bridge** | Community | Leave Boske without trap (OUT adapters) |
+| **Grove Pack** | Labs | Same assistant mode in every app |
+| **Grove Index** | Community | Bot quoted stale pricing |
+| **Grove Trust** | Labs | Verify GGUF before load |
 
-Elsewhere: Grove Fit (in progress), Boske Pulse (done — reference only).
+Elsewhere: Grove Fit (in progress), Boske Pulse (done).
 
-Full write-up: [`docs/ecosystem/grove-family.md`](./docs/ecosystem/grove-family.md).
+**Use cases:** [`docs/ecosystem/use-cases.md`](./docs/ecosystem/use-cases.md) · **Extracts:** [`docs/ecosystem/boske-extracts.md`](./docs/ecosystem/boske-extracts.md)
+
+Full map: [`docs/ecosystem/grove-family.md`](./docs/ecosystem/grove-family.md)
 
 ---
 

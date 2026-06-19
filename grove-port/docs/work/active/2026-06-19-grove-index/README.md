@@ -15,34 +15,63 @@ Open library for **RAG index lifecycle** — know when your knowledge base is st
 
 ---
 
-## Why
+## The smart insight
 
-| Audience | Pain | Index fix |
-|----------|------|-----------|
-| Self-host RAG users | “Embed once” tutorials; docs change silently | Stale detection + incremental rebuild |
-| Boske Sources users | Full re-index takes hours | Manifest-driven delta embed |
-| Ops | No visibility into index health | `grove-index report` |
+RAG tutorials say “embed your docs once.” Production fails when docs **change silently**.  
+**Grove Index** = git for embeddings — manifest + diff, any vector backend.
+
+---
+
+## Real-life use cases
+
+### 1. “The bot quoted last year’s pricing”
+
+Sales wiki updated; 40k chunks stale. Customer-facing bot cites removed SKU.  
+**Index:** `grove-index diff` → 23 stale docs → re-embed only those chunks (not 4-hour full rebuild).
+
+### 2. Friday demo health check
+
+Ops runs `grove-index report` before investor demo: “94% fresh, 6% stale > 30d.”
+
+### 3. Self-host NAS + Boske Local
+
+Nightly cron: diff manifest vs filesystem. Telegram alert from Boske Pulse when stale > 10%.
+
+### 4. Cloud team sync
+
+Boske Sources writes manifest; EU Cloud incremental sync uses same manifest across devices (paid).
+
+→ Full scenarios: [`../../ecosystem/use-cases.md`](../../ecosystem/use-cases.md) § Grove Index
+
+---
+
+## What already exists in Boske
+
+| Asset | Status |
+|-------|--------|
+| Boske Sources embed pipeline | Export sample needed to lock manifest |
+| File watcher / content hashes | Likely pattern to mirror |
+| pgvector storage | Stays in product — Index is manifest only |
+
+→ [`../../ecosystem/boske-extracts.md`](../../ecosystem/boske-extracts.md)
+
+**Validation gate:** One real Sources export before coding.
 
 ---
 
 ## Brand & license
 
-- **Boske Community** (lean Community if self-host docs focus)
-- OSS: MIT `@grove-port/index` or `grove-index` package
+- **Boske Community**
+- OSS: MIT `@grove-port/index`
 - **Paid hook:** Boske Sources — team permissions, EU sync, cross-device incremental index
-
----
-
-## Dependencies
-
-- Design-first — no Boske extraction yet
-- Informed by Boske Sources / RAG pipeline when pain justifies
 
 ---
 
 ## Links
 
-- Ecosystem: [`../../ecosystem/grove-family.md`](../../ecosystem/grove-family.md) § Grove Index
+- Plan: [`plan.md`](./plan.md)
+- Use cases: [`../../ecosystem/use-cases.md`](../../ecosystem/use-cases.md)
+- Pairs with: Stack A Search (fresh web sources)
 
 ---
 

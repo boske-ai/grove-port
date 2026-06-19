@@ -28,13 +28,19 @@ archive/
 |---------|--------|
 | Boske Pulse | Operator HUD — `boske-pulse/` |
 
-## Active — new Grove projects
+## Active — Grove projects (draft plans)
 
-| Folder | Status | Priority |
-|--------|--------|----------|
-| [`2026-06-19-grove-guard`](./active/2026-06-19-grove-guard/) | **draft — review plan** | P1 |
-| [`2026-06-19-grove-pack`](./active/2026-06-19-grove-pack/) | **draft — review plan** | P2 |
-| [`2026-06-19-grove-index`](./active/2026-06-19-grove-index/) | **draft — review plan** | P3 |
-| [`2026-06-19-grove-trust`](./active/2026-06-19-grove-trust/) | **draft — review plan** | P4 |
+| Folder | Real-life hook | Priority |
+|--------|----------------|----------|
+| [`2026-06-19-grove-sign`](./active/2026-06-19-grove-sign/) | One signature stack (extract now) | P1 |
+| [`2026-06-19-grove-guard`](./active/2026-06-19-grove-guard/) | Agent emailed wrong person | P1 |
+| [`2026-06-19-grove-vault`](./active/2026-06-19-grove-vault/) | Keys never in prompt | P2 |
+| [`2026-06-19-grove-pack`](./active/2026-06-19-grove-pack/) | Same mode in 3 apps | P2 |
+| [`2026-06-19-grove-bridge`](./active/2026-06-19-grove-bridge/) | Prove not a trap (OUT adapters) | P2 |
+| [`2026-06-19-grove-index`](./active/2026-06-19-grove-index/) | Stale RAG / wrong pricing | P3 |
+| [`2026-06-19-grove-trust`](./active/2026-06-19-grove-trust/) | Unsigned GGUF | P4 |
+| [`2026-06-19-stack-a-search`](./active/2026-06-19-stack-a-search/) | Private web for RAG | Opportunistic |
+
+**Ecosystem docs:** [`../ecosystem/use-cases.md`](../ecosystem/use-cases.md) · [`../ecosystem/boske-extracts.md`](../ecosystem/boske-extracts.md)
 
 When shipped, `git mv` to `archive/` and note PR or release tag in README.

@@ -26,6 +26,24 @@ Code and docs that Grove Port depends on but does **not** duplicate.
 | Locked decisions | `apps/boske-community/docs/decisions.md` |
 | Labs index | `apps/boske-labs/README.md` |
 | Pulse OSS plan | `apps/boske-pulse/MANIFEST.md` |
+| **Use cases (all Grove projects)** | `grove-port/docs/ecosystem/use-cases.md` |
+| **Boske extract map** | `grove-port/docs/ecosystem/boske-extracts.md` |
+
+---
+
+## Boske assets by Grove project
+
+| Grove project | Boske extract | Path |
+|---------------|---------------|------|
+| Port, Sign | Export schema + signing | `export-v1.ts`, `verify-export.js` |
+| Pack | Labs pack shape | `config/labs/`, skills-labs-v1 |
+| Index | Sources pipeline | Boske Sources (export sample TBD) |
+| Trust | Model verify + signing | Desktop model manager, Grove Sign |
+| Guard, Vault | MCP patterns | Enterprise Work inbox MCP |
+| Fit | Hardware fit | `apps/desktop/hardware-fit.js` |
+| Stack A Search | SearXNG stack | `infra/docker/searxng/` |
+
+Full map: [`docs/ecosystem/boske-extracts.md`](./docs/ecosystem/boske-extracts.md)
 
 ---
 

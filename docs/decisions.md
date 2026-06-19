@@ -83,11 +83,12 @@ First remote: **`boske-ai/grove-port`** — **private until launch**, then publi
 
 **New Grove projects (after Port P0):**
 
-1. Grove Guard — MCP policy gateway
-2. Grove Pack spec — assistant pack format (Labs)
-3. Grove Index — RAG index lifecycle
-4. Grove Trust — model provenance (Labs)
-5. Stack A Search runbook (infra doc, optional)
+1. Grove Sign — extract ed25519 (unblocks Trust)
+2. Grove Guard + Grove Vault — MCP safety
+3. Grove Pack + Grove Bridge — capability + bidirectional trust
+4. Grove Index — RAG stale detection
+5. Grove Trust — model provenance
+6. Stack A Search — SearXNG extract (optional)
 
 ---
 

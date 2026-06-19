@@ -137,7 +137,39 @@ tools: [file-search, workspace-dock]
 
 ---
 
-## 5. Stack A Search (related, not Grove-branded)
+## 5. Grove Bridge (Community) — OUT adapters
+
+**One-liner:** Grove Port → Open WebUI / AMP / LibreChat — prove Boske is not a trap.
+
+**Real-life hook:** CTO trial with weekly export; GDPR officer needs vendor-neutral + legacy format; sales answers “what if we leave?”
+
+**OSS:** MIT `grove-bridge convert --to openwebui`.
+
+**Paid hook:** Enterprise assisted migration (product).
+
+**Depends on:** Grove Port IN adapters (reverse mapping).
+
+**Work folder:** [`docs/work/active/2026-06-19-grove-bridge/`](../work/active/2026-06-19-grove-bridge/)
+
+---
+
+## 6. Grove Sign (Community) — shared crypto
+
+**One-liner:** One ed25519 stack for Port, Trust, Pack — extract from `export-v1` today.
+
+**Work folder:** [`docs/work/active/2026-06-19-grove-sign/`](../work/active/2026-06-19-grove-sign/)
+
+---
+
+## 7. Grove Vault (Community) — MCP credentials
+
+**One-liner:** API keys never in the agent — `vault://` broker; Guard adds policy on top.
+
+**Work folder:** [`docs/work/active/2026-06-19-grove-vault/`](../work/active/2026-06-19-grove-vault/)
+
+---
+
+## 8. Stack A Search (related, not Grove-branded)
 
 **One-liner:** Self-host SearXNG + scrape stack runbook.
 
@@ -147,19 +179,30 @@ tools: [file-search, workspace-dock]
 
 **Paid hook:** Boske Cloud includes managed search.
 
-**Status:** Backlog — no work folder yet (infra doc extract).
+**Status:** Work folder ready — extract from Boske `infra/docker/searxng/`.
+
+**Work folder:** [`docs/work/active/2026-06-19-stack-a-search/`](../work/active/2026-06-19-stack-a-search/)
+
+---
+
+## Real-life use cases (all projects)
+
+See [`use-cases.md`](./use-cases.md) and [`boske-extracts.md`](./boske-extracts.md).
 
 ---
 
 ## Priority matrix (remaining)
 
-| Project | Stars potential | Boske funnel | Build cost | Start when |
-|---------|-----------------|--------------|------------|------------|
-| **Grove Guard** | Very high | ★★★★ | High | **Now** — P1 |
-| Grove Pack spec | Low | ★★★ | Low | P2 — parallel with Guard |
-| Grove Index | Medium | ★★★ | Medium | P3 — after RAG export sample |
-| Grove Trust | Low | ★★ | Medium | P4 — Enterprise pull |
-| Stack A Search | Low | ★★ | Low | Opportunistic infra doc |
+| Project | Stars potential | Boske funnel | Build cost | Real-life hook | Start when |
+|---------|-----------------|--------------|------------|----------------|------------|
+| **Grove Guard** | Very high | ★★★★ | High | Agent emailed wrong person | **P1** |
+| **Grove Sign** | Medium | ★★ | Low | One verify story | **P1** (parallel, extract) |
+| **Grove Pack** | Low | ★★★ | Low | Same mode in 3 apps | **P2** |
+| **Grove Bridge** | Medium | ★★★★ | Medium | Not a trap / trial eval | **P2** (after Port IN) |
+| **Grove Vault** | Medium | ★★★ | Medium | Keys in prompt | **P2** (before Guard v2) |
+| **Grove Index** | Medium | ★★★ | Medium | Stale pricing in RAG | **P3** |
+| **Grove Trust** | Low | ★★ | Medium | Unsigned GGUF | **P4** |
+| **Stack A Search** | Low | ★★ | Low | Private web for RAG | Opportunistic |
 
 ---
 
@@ -170,11 +213,16 @@ canopystudio/apps/
 ├── boske/                      # Product (proprietary monorepo)
 ├── boske-community/            # Community OSS umbrella
 │   ├── grove-port/             # In progress
-│   └── grove-guard/            # Next
+│   ├── grove-guard/            # P1
+│   ├── grove-bridge/           # P2
+│   ├── grove-vault/            # P2
+│   ├── grove-sign/             # P1 extract
+│   └── grove-index/            # P3
 ├── boske-labs/
 │   ├── grove-fit/              # In progress
-│   ├── grove-pack/             # Planned
-│   └── grove-trust/            # Planned
+│   ├── grove-pack/             # P2
+│   └── grove-trust/            # P4
+├── stack-a-search/             # Infra (not Grove-branded)
 └── boske-pulse/                # Done
 ```
 
@@ -183,7 +231,11 @@ canopystudio/apps/
 | Grove Guard | `boske-community/grove-guard/` | `boske-ai/grove-guard` |
 | Grove Pack spec | `boske-labs/grove-pack/` | `boske-ai/grove-pack` |
 | Grove Index | `boske-community/grove-index/` | `boske-ai/grove-index` |
+| Grove Bridge | `boske-community/grove-bridge/` | `boske-ai/grove-bridge` |
+| Grove Sign | `boske-community/grove-sign/` | `boske-ai/grove-sign` |
+| Grove Vault | `boske-community/grove-vault/` | `boske-ai/grove-vault` |
 | Grove Trust | `boske-labs/grove-trust/` | `boske-ai/grove-trust` |
+| Stack A Search | `boske-community/stack-a-search/` | `boske-ai/stack-a-search` |
 
 ---
 
@@ -202,8 +254,12 @@ canopystudio/apps/
 
 ## Next actions
 
-1. Review and approve Grove Guard plan → execute.
-2. Grove Pack spec in parallel with Boske skills-labs-v1 owner.
-3. Grove Index — timebox design; validate with one Boske Sources export.
-4. Grove Trust when Enterprise sales needs registry story.
-5. Stack A Search — extract infra runbook when bandwidth allows.
+1. **Grove Sign** — extract from `export-v1` (unblocks Trust + Port verify).
+2. **Grove Guard** + **Grove Vault** — approve plans; Vault can ship narrower v1 first.
+3. **Grove Pack** — sync with skills-labs-v1 owner; validate YAML shape.
+4. **Grove Bridge** — after Port ChatGPT IN adapter (OUT = trust mirror).
+5. **Grove Index** — one Boske Sources export sample before coding.
+6. **Stack A Search** — half-day extract from `infra/docker/searxng/`.
+7. **Grove Trust** — when Enterprise needs registry story.
+
+Detail: [`use-cases.md`](./use-cases.md) · [`boske-extracts.md`](./boske-extracts.md)

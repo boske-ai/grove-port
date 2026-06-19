@@ -13,21 +13,54 @@ A **local-first security gate** between AI agents and MCP tools — deny-by-defa
 Agent ──► Grove Guard ──► allowed tools only
               │
               ├── policy.yaml (read email yes, send email no)
-              ├── credential isolation
+              ├── credential isolation (see Grove Vault)
               └── immutable audit log
 ```
 
 ---
 
-## Why
+## The smart insight (Grove Port pattern)
 
-| Audience | Pain | Guard fix |
-|----------|------|-----------|
-| Self-hosters | Agents run with full MCP access, no policy layer | Local gateway + policy file |
-| SMB / EU teams | Shadow IT fear after OpenClaw-class incidents | Audit log + deny-by-default |
-| Boske Enterprise | Need org tool catalog + compliance | Paid policy console + SIEM export |
+**Grove Port** solved “data trapped in vendors” with export **files**.  
+**Grove Guard** solves “agents trapped with god-mode tools” with a policy **file** in the middle — like a firewall, not a suggestion in the system prompt.
 
-**Comparable:** Lunar MCPX, Microsoft Agent Governance Toolkit — mostly enterprise/K8s. Grove Guard targets **SMB + self-host + Boske desktop**.
+---
+
+## Real-life use cases
+
+### 1. “The agent emailed my draft to the client list”
+
+Freelancer runs Claude + MCP email. Prompt ambiguity → `send_email` fires.  
+**Guard:** `email-send: deny` in policy. Block logged. Agent gets clear error; human sends manually.
+
+### 2. “Legal wants a log of what AI accessed”
+
+EU agency, 12 seats. Boss asks for monthly AI tool audit for insurance.  
+**Guard:** `grove-guard audit --since 30d` → JSONL export. No SaaS required for OSS path.
+
+### 3. “We’ll adopt AI when email is read-only”
+
+SMB IT blocks Copilot until MCP is constrained.  
+**Guard:** Ship `examples/work-inbox-readonly/policy.yaml`. Boske Enterprise adds org console later.
+
+### 4. Post–OpenClaw-class incident
+
+Team heard about agent tool abuse; wants deny-by-default before connecting Notion + Slack MCP.  
+**Guard:** Default deny; explicit allow per tool. Comparable to Lunar MCPX but for homelab + desktop.
+
+→ Full scenarios: [`../../ecosystem/use-cases.md`](../../ecosystem/use-cases.md) § Grove Guard
+
+---
+
+## What already exists in Boske
+
+| Asset | Status |
+|-------|--------|
+| Enterprise Work inbox MCP patterns | Cherry-pick deny rules + tool catalog |
+| Audit event shapes | Inform JSONL schema |
+| MCP stdio proxy process | **Net-new OSS** |
+
+→ [`../../ecosystem/boske-extracts.md`](../../ecosystem/boske-extracts.md)
 
 ---
 
@@ -41,15 +74,17 @@ Agent ──► Grove Guard ──► allowed tools only
 
 ## Dependencies
 
-- Boske MCP security patterns cherry-picked from product (Enterprise “Work inbox MCP” pre-wired)
-- Grove Port v1 in progress (context only — no format dependency)
+- **Grove Vault** (optional v1) — credential isolation can ship before full Guard
+- Boske MCP security patterns cherry-picked from product
+- Grove Port in progress (no format dependency)
 
 ---
 
 ## Links
 
-- Ecosystem: [`../../ecosystem/grove-family.md`](../../ecosystem/grove-family.md) § Grove Guard
-- Architecture: [`../../architecture/three-layers.md`](../../architecture/three-layers.md)
+- Plan: [`plan.md`](./plan.md)
+- Ecosystem: [`../../ecosystem/grove-family.md`](../../ecosystem/grove-family.md)
+- Use cases: [`../../ecosystem/use-cases.md`](../../ecosystem/use-cases.md)
 
 ---
 

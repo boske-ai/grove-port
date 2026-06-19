@@ -13,38 +13,62 @@ Verify model files before load — checksum, provenance manifest, org allowlist.
 grove-trust verify model.gguf --manifest signed.json
 ```
 
-- Policy: block load if signature missing (enterprise mode)
+---
+
+## The smart insight
+
+**Grove Port** signs workspace exports so you trust **exit**.  
+**Grove Trust** signs model files so you trust **entry** — verify before `llama.cpp` loads, like `npm audit` for GGUF.
 
 ---
 
-## Why
+## Real-life use cases
 
-| Audience | Pain | Trust fix |
-|----------|------|-----------|
-| Regulated buyers | GGUF supply chain scares procurement | Signed manifest + verify CLI |
-| EU AI Act readiness | Documentation / attestation gaps | Open manifest spec |
-| Enterprise IT | No approved model registry for local AI | Allowlist policy file |
+### 1. Hospital procurement
+
+IT requires signed manifest for any on-prem model. USB delivery → air-gapped `grove-trust verify` → load or reject.
+
+### 2. “Did someone swap the download?”
+
+Developer pulled GGUF from mirror. Checksum mismatch → Trust blocks load in Boske desktop (optional hook).
+
+### 3. Enterprise allowlist
+
+`policy.yaml`: only publishers `boske-labs`, `internal-security`. Unsigned community models blocked in enterprise mode.
+
+### 4. EU AI Act documentation
+
+Not legal advice — but auditable “we verified checksum + signature at load time” log export for Enterprise.
+
+→ Full scenarios: [`../../ecosystem/use-cases.md`](../../ecosystem/use-cases.md) § Grove Trust
+
+---
+
+## What already exists in Boske
+
+| Asset | Status |
+|-------|--------|
+| `export-v1` ed25519 signing | Reuse via **Grove Sign** |
+| Desktop model download checks | Inform verify hook |
+| HF `boske-labs/*` | Example signed manifests |
+
+→ [`../../ecosystem/boske-extracts.md`](../../ecosystem/boske-extracts.md)
 
 ---
 
 ## Brand & license
 
-- **Boske Labs** (research + compliance credibility)
+- **Boske Labs**
 - OSS: MIT CLI + manifest spec
-- **Paid hook:** Boske Enterprise approved model registry + audit export
-
----
-
-## Dependencies
-
-- Research track — not v1 launch blocker
-- Informed by llama.cpp attestation discussions
+- **Paid hook:** Enterprise approved model registry + audit export
 
 ---
 
 ## Links
 
-- Ecosystem: [`../../ecosystem/grove-family.md`](../../ecosystem/grove-family.md) § Grove Trust
+- Plan: [`plan.md`](./plan.md)
+- Depends on: [`../2026-06-19-grove-sign/`](../2026-06-19-grove-sign/) (shared crypto)
+- Use cases: [`../../ecosystem/use-cases.md`](../../ecosystem/use-cases.md)
 
 ---
 

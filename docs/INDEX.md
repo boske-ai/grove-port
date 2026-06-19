@@ -136,14 +136,20 @@ Plan: [`../grove-port/docs/work/active/2026-06-18-online-converter/`](../grove-p
 |---------|-------|--------|--------|
 | **Boske Pulse** | Community | `../boske-pulse/` | **Done** |
 
-### Active backlog
+### Active backlog (new Grove projects)
 
-| Project | Brand | Folder | Status |
-|---------|-------|--------|--------|
-| **Grove Guard** | Community | `grove-guard/` (planned) | **P1 — work folder ready** |
-| **Grove Pack spec** | Labs | `../boske-labs/grove-pack/` | P2 — draft plan |
-| **Grove Index** | Community | `grove-index/` (planned) | P3 — draft plan |
-| **Grove Trust** | Labs | `../boske-labs/grove-trust/` | P4 — draft plan |
+| Project | Brand | Real-life hook | Work folder |
+|---------|-------|----------------|-------------|
+| **Grove Sign** | Community | One verify story | [`grove-port/docs/work/active/2026-06-19-grove-sign/`](./grove-port/docs/work/active/2026-06-19-grove-sign/) |
+| **Grove Guard** | Community | MCP firewall | [`grove-port/docs/work/active/2026-06-19-grove-guard/`](./grove-port/docs/work/active/2026-06-19-grove-guard/) |
+| **Grove Vault** | Community | Keys out of agent | [`grove-port/docs/work/active/2026-06-19-grove-vault/`](./grove-port/docs/work/active/2026-06-19-grove-vault/) |
+| **Grove Pack** | Labs | Portable assistant modes | [`grove-port/docs/work/active/2026-06-19-grove-pack/`](./grove-port/docs/work/active/2026-06-19-grove-pack/) |
+| **Grove Bridge** | Community | Leave without trap | [`grove-port/docs/work/active/2026-06-19-grove-bridge/`](./grove-port/docs/work/active/2026-06-19-grove-bridge/) |
+| **Grove Index** | Community | Stale RAG detection | [`grove-port/docs/work/active/2026-06-19-grove-index/`](./grove-port/docs/work/active/2026-06-19-grove-index/) |
+| **Grove Trust** | Labs | Verify GGUF before load | [`grove-port/docs/work/active/2026-06-19-grove-trust/`](./grove-port/docs/work/active/2026-06-19-grove-trust/) |
+| **Stack A Search** | Community | Private web search | [`grove-port/docs/work/active/2026-06-19-stack-a-search/`](./grove-port/docs/work/active/2026-06-19-stack-a-search/) |
+
+**Ecosystem:** [`grove-port/docs/ecosystem/use-cases.md`](./grove-port/docs/ecosystem/use-cases.md) · [`boske-extracts.md`](./grove-port/docs/ecosystem/boske-extracts.md)
 
 Detail: [`../grove-port/docs/ecosystem/grove-family.md`](../grove-port/docs/ecosystem/grove-family.md)
 
@@ -186,13 +192,14 @@ Studio doc: [`../../docs/ARCHITECTURE.md`](../../docs/ARCHITECTURE.md)
 
 **Next (new Grove projects):**
 
-1. **Grove Guard** — MCP policy gateway ([work folder](../grove-port/docs/work/active/2026-06-19-grove-guard/))
-2. **Grove Pack spec** — assistant pack format (Labs)
-3. **Grove Index** — RAG index lifecycle
-4. **Grove Trust** — model provenance (Labs)
-5. Stack A Search runbook (optional infra doc)
+1. **Grove Sign** — extract ed25519 from export-v1 (unblocks Trust)
+2. **Grove Guard** + **Grove Vault** — MCP safety
+3. **Grove Pack** + **Grove Bridge** — capability + bidirectional trust
+4. **Grove Index** — after Sources export sample
+5. **Grove Trust** — Enterprise registry pull
+6. **Stack A Search** — SearXNG extract (opportunistic)
 
-Backlog: [`../grove-port/TODO.md`](../grove-port/TODO.md)
+Use cases: [`../grove-port/docs/ecosystem/use-cases.md`](../grove-port/docs/ecosystem/use-cases.md)
 
 ---
 

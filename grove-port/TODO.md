@@ -34,10 +34,16 @@ Last updated: 2026-06-19
 
 | Status | Project | Work folder |
 |--------|---------|-------------|
+| ⬜ | **Grove Sign** — shared ed25519 (extract first) | [`2026-06-19-grove-sign`](./docs/work/active/2026-06-19-grove-sign/) |
 | ⬜ | **Grove Guard** — MCP policy gateway | [`2026-06-19-grove-guard`](./docs/work/active/2026-06-19-grove-guard/) |
+| ⬜ | **Grove Vault** — MCP credential broker | [`2026-06-19-grove-vault`](./docs/work/active/2026-06-19-grove-vault/) |
 | ⬜ | **Grove Pack** — assistant pack spec | [`2026-06-19-grove-pack`](./docs/work/active/2026-06-19-grove-pack/) |
+| ⬜ | **Grove Bridge** — OUT adapters (not a trap) | [`2026-06-19-grove-bridge`](./docs/work/active/2026-06-19-grove-bridge/) |
 | ⬜ | **Grove Index** — RAG index lifecycle | [`2026-06-19-grove-index`](./docs/work/active/2026-06-19-grove-index/) |
 | ⬜ | **Grove Trust** — model provenance | [`2026-06-19-grove-trust`](./docs/work/active/2026-06-19-grove-trust/) |
+| ⬜ | **Stack A Search** — SearXNG self-host kit | [`2026-06-19-stack-a-search`](./docs/work/active/2026-06-19-stack-a-search/) |
+
+**Use cases:** [`docs/ecosystem/use-cases.md`](./docs/ecosystem/use-cases.md) · **Extracts:** [`docs/ecosystem/boske-extracts.md`](./docs/ecosystem/boske-extracts.md)
 
 ---
 
