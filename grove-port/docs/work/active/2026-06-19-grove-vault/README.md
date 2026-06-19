@@ -78,6 +78,7 @@ Enterprise: Guard allows `vault://github/*`; denies raw `ghp_` in tool args.
 
 - Plan: [`plan.md`](./plan.md)
 - **Opaque handles (technical):** [`opaque-handles.md`](./opaque-handles.md)
+- **Competitor research:** [`../../ecosystem/agent-credential-landscape.md`](../../ecosystem/agent-credential-landscape.md)
 - Pairs with: Grove Guard
 - Use cases: [`../../ecosystem/use-cases.md`](../../ecosystem/use-cases.md)
 
