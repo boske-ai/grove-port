@@ -161,9 +161,11 @@ tools: [file-search, workspace-dock]
 
 ---
 
-## 7. Grove Vault (Community) — MCP credentials
+## 7. Grove Vault (Community) — opaque credential handles
 
-**One-liner:** API keys never in the agent — `vault://` broker; Guard adds policy on top.
+**One-liner:** Keys the agent can use but never know — `vault://github`, not `ghp_…`.
+
+**Your scenario:** Agent runs deploy / `gh` / API calls; you never paste secrets into chat; agent sees only a handle; Vault injects the real value at execution time. **Technically yes** — see [`opaque-handles.md`](../work/active/2026-06-19-grove-vault/opaque-handles.md).
 
 **Work folder:** [`docs/work/active/2026-06-19-grove-vault/`](../work/active/2026-06-19-grove-vault/)
 
@@ -199,7 +201,7 @@ See [`use-cases.md`](./use-cases.md) and [`boske-extracts.md`](./boske-extracts.
 | **Grove Sign** | Medium | ★★ | Low | One verify story | **P1** (parallel, extract) |
 | **Grove Pack** | Low | ★★★ | Low | Same mode in 3 apps | **P2** |
 | **Grove Bridge** | Medium | ★★★★ | Medium | Not a trap / trial eval | **P2** (after Port IN) |
-| **Grove Vault** | Medium | ★★★ | Medium | Keys in prompt | **P2** (before Guard v2) |
+| **Grove Vault** | Medium | ★★★ | Medium | Agent runs command, never knows key | **P1** |
 | **Grove Index** | Medium | ★★★ | Medium | Stale pricing in RAG | **P3** |
 | **Grove Trust** | Low | ★★ | Medium | Unsigned GGUF | **P4** |
 | **Stack A Search** | Low | ★★ | Low | Private web for RAG | Opportunistic |

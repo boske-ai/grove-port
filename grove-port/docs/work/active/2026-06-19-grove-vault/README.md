@@ -9,11 +9,13 @@
 
 Local credential broker so **agents never see raw API keys** — scoped MCP tokens per tool/session.
 
-```
-Agent ──► vault://github (scoped) ──► Grove Vault ──► real token in Keychain
-```
+**Core feature: [opaque handles](./opaque-handles.md)** — the agent runs commands that need secrets, but only sees `vault://github` (or `{{vault:github}}`), never the real `ghp_…` key. You don't paste keys into chat. Vault injects the real value at execution time.
 
-Grove Guard adds policy + audit on top; Vault ships **standalone** for faster adoption.
+```
+Agent sees:     vault://github/repo-read   (or vlt_7kQ2m9)
+Vault stores:   real token in Keychain
+Runtime:        inject at MCP proxy / child process edge
+```
 
 ---
 
@@ -22,21 +24,34 @@ Grove Guard adds policy + audit on top; Vault ships **standalone** for faster ad
 Full MCP firewall (Guard) is a big ask. Most incidents start with **keys in config files and prompts**.  
 Vault = the SSL of MCP — isolate secrets first; policy layer second.
 
+**Your scenario:** "I want the agent to run the command, but neither of us should know the real key."  
+→ **Technically yes** — via opaque handles, not encryption inside the agent context. See [`opaque-handles.md`](./opaque-handles.md).
+
 ---
 
 ## Real-life use cases
 
-### 1. “I won’t paste my GitHub PAT into Claude”
+### 1. "Run deploy curl without pasting the API key"
 
-User stores token in Vault with `repo:read` scope. MCP config uses `vault://github`. Agent never receives raw PAT.
+Ops stores `vault://deploy/staging` once. Agent config uses `{{vault:deploy/staging}}`. Command works; transcript shows handle only.
 
-### 2. Team key rotation
+### 2. "I won't paste my GitHub PAT into Claude"
 
-Admin rotates OpenAI key in Vault; agents unchanged — no YAML hunt across 8 machines.
+`grove-run --env github/repo-read -- gh pr merge 42` — child process has token; agent never did.
 
-### 3. Guard prerequisite
+### 3. "The agent should see a different kind of key"
 
-Enterprise deploys Vault → then Guard policy on which vault handles agents may call.
+Agent sees meaningless handle `vault://openai/prod` — not a fake `sk-…` it could leak. Wrong handles don't resolve.
+
+### 4. Team key rotation
+
+Admin rotates secret in Vault; agent configs unchanged.
+
+### 5. Guard prerequisite
+
+Enterprise: Guard allows `vault://github/*`; denies raw `ghp_` in tool args.
+
+→ Full scenarios: [`../../ecosystem/use-cases.md`](../../ecosystem/use-cases.md) § Grove Vault
 
 ---
 
@@ -62,8 +77,9 @@ Enterprise deploys Vault → then Guard policy on which vault handles agents may
 ## Links
 
 - Plan: [`plan.md`](./plan.md)
+- **Opaque handles (technical):** [`opaque-handles.md`](./opaque-handles.md)
 - Pairs with: Grove Guard
-- Use cases: [`../../ecosystem/use-cases.md`](../../ecosystem/use-cases.md) § Grove Vault
+- Use cases: [`../../ecosystem/use-cases.md`](../../ecosystem/use-cases.md)
 
 ---
 
@@ -71,3 +87,4 @@ Enterprise deploys Vault → then Guard policy on which vault handles agents may
 
 - Cloud secrets manager
 - Browser extension credential fill
+- Agent-side decryptable encryption (anti-pattern)

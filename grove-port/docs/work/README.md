@@ -34,7 +34,7 @@ archive/
 |--------|----------------|----------|
 | [`2026-06-19-grove-sign`](./active/2026-06-19-grove-sign/) | One signature stack (extract now) | P1 |
 | [`2026-06-19-grove-guard`](./active/2026-06-19-grove-guard/) | Agent emailed wrong person | P1 |
-| [`2026-06-19-grove-vault`](./active/2026-06-19-grove-vault/) | Keys never in prompt | P2 |
+| [`2026-06-19-grove-vault`](./active/2026-06-19-grove-vault/) | Agent runs command, never knows key | **P1** |
 | [`2026-06-19-grove-pack`](./active/2026-06-19-grove-pack/) | Same mode in 3 apps | P2 |
 | [`2026-06-19-grove-bridge`](./active/2026-06-19-grove-bridge/) | Prove not a trap (OUT adapters) | P2 |
 | [`2026-06-19-grove-index`](./active/2026-06-19-grove-index/) | Stale RAG / wrong pricing | P3 |

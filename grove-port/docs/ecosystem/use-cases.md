@@ -200,27 +200,53 @@ Export ed25519 signing; model download checks in desktop — unify via Grove Sig
 
 ---
 
-## 7. Grove Vault — keys never in the prompt (NEW)
+## 7. Grove Vault — keys the agent can use but never know
+
+### The scenario (opaque handles)
+
+You want the agent to **run a command** that needs `GITHUB_TOKEN` or an API key — but:
+
+- **You** should not paste the real key into chat or a visible config
+- **The agent** should not see the real key in its context or memory
+- **The command** should still run correctly with the real credential at runtime
+
+**Technically possible? Yes** — with **opaque handles**, not “encrypt the key so the agent can decrypt it.”
+
+```
+You store once:     grove-vault set github/repo-read --stdin
+Agent sees:         vault://github/repo-read   (or {{vault:github/repo-read}})
+Vault injects:      real ghp_… only at MCP proxy / child process edge
+Transcript shows:   handle only — never plaintext
+```
+
+The agent sees a **different thing** (a meaningless handle), not a disguised real key. Wrong handles don't resolve.
+
+→ Technical spec: [`opaque-handles.md`](../work/active/2026-06-19-grove-vault/opaque-handles.md)
 
 ### Personas
 
 | Who | Story |
 |-----|--------|
-| **Paranoid self-hoster** | Won’t paste GitHub token into agent config; wants scoped MCP tokens. |
-| **Small team** | Rotate API keys without reconfiguring every agent YAML. |
+| **Developer** | "Deploy to staging via curl" — agent runs it; neither human nor model knows `X-Deploy-Key`. |
+| **Paranoid self-hoster** | Won't paste GitHub token into agent config; uses `grove-run --env github -- gh pr merge`. |
+| **Small team** | Admin owns secrets; developers' agents use handles they can't read. |
 
 ### Real-life flow
 
 ```
-1. grove-vault set github --scope repo:read
-2. MCP config points at vault socket; agent sees vault://github only
-3. Grove Guard optional layer adds policy on top
+1. Human (once): grove-vault set deploy/staging --stdin
+2. MCP yaml (safe to show agent):
+     headers:
+       X-Deploy-Key: "{{vault:deploy/staging}}"
+3. Agent invokes tool → Vault resolves at wire edge
+4. Audit: "resolve deploy/staging" — value never logged
 ```
 
-### Why it’s smart
+### Why it's smart
 
-- Lower adoption bar than full Guard — **ship Vault first**, Guard adds policy + audit.
-- Splits scope creep risk documented in Guard plan.
+- **Not obfuscation** — the secret never enters the agent boundary (GitHub Actions / HashiCorp Vault pattern, local-first).
+- Lower adoption bar than full Guard — ship Vault first; Guard adds "which handles may resolve."
+- Pairs with Guard: block raw `ghp_` / `sk-` in tool args; only `vault://` allowed.
 
 → [`work/active/2026-06-19-grove-vault/`](../work/active/2026-06-19-grove-vault/)
 
@@ -252,7 +278,7 @@ Export ed25519 signing; model download checks in desktop — unify via Grove Sig
 | Grove Bridge | Not a trap | ★★★★ | After Port adapters | **3** |
 | Grove Sign | One verify story | ★★ | Yes | **2** (foundation) |
 | Grove Index | Stale pricing answer | ★★★ | Needs sample | **4** |
-| Grove Vault | Keys in prompt | ★★★ | Partial | **3** (before Guard v2) |
+| Grove Vault | Agent runs command, never knows key | ★★★ | Partial | **P1** (opaque handles) |
 | Grove Trust | Unsigned GGUF | ★★ | Partial | **5** |
 | Stack A Search | Private web RAG | ★★ | Yes | Opportunistic |
 
@@ -268,7 +294,7 @@ Export ed25519 signing; model download checks in desktop — unify via Grove Sig
 | Grove Index | Know when your RAG knowledge is lying. |
 | Grove Trust | Verify models before you load them. |
 | Grove Bridge | Leave Boske anytime — same open format out. |
-| Grove Vault | API keys never touch the agent. |
+| Grove Vault | Keys the agent can use but never know. |
 
 ---
 

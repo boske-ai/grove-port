@@ -22,7 +22,7 @@ Parent: [Canopy Studio](../../docs/STUDIO_MANIFEST.md) · Product: [Boske](../bo
 | **Boske Pulse** | [`../boske-pulse/`](../boske-pulse/) | Community | **Done** (reference only) |
 | **Grove Sign** | [`grove-port/docs/work/active/2026-06-19-grove-sign/`](./grove-port/docs/work/active/2026-06-19-grove-sign/) | Community | P1 — extract from export-v1 |
 | **Grove Guard** | [`grove-port/docs/work/active/2026-06-19-grove-guard/`](./grove-port/docs/work/active/2026-06-19-grove-guard/) | Community | P1 — MCP firewall |
-| **Grove Vault** | [`grove-port/docs/work/active/2026-06-19-grove-vault/`](./grove-port/docs/work/active/2026-06-19-grove-vault/) | Community | P2 — keys out of agent |
+| **Grove Vault** | [`grove-port/docs/work/active/2026-06-19-grove-vault/`](./grove-port/docs/work/active/2026-06-19-grove-vault/) | Community | **P1** — opaque handles |
 | **Grove Pack** | [`grove-port/docs/work/active/2026-06-19-grove-pack/`](./grove-port/docs/work/active/2026-06-19-grove-pack/) | Labs | P2 — portable modes |
 | **Grove Bridge** | [`grove-port/docs/work/active/2026-06-19-grove-bridge/`](./grove-port/docs/work/active/2026-06-19-grove-bridge/) | Community | P2 — not a trap |
 | **Grove Index** | [`grove-port/docs/work/active/2026-06-19-grove-index/`](./grove-port/docs/work/active/2026-06-19-grove-index/) | Community | P3 — stale RAG |
