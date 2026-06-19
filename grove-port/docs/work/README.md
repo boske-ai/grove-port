@@ -41,6 +41,6 @@ archive/
 | [`2026-06-19-grove-trust`](./active/2026-06-19-grove-trust/) | Unsigned GGUF | P4 |
 | [`2026-06-19-stack-a-search`](./active/2026-06-19-stack-a-search/) | Private web for RAG | Opportunistic |
 
-**Ecosystem docs:** [`../ecosystem/use-cases.md`](../ecosystem/use-cases.md) · [`../ecosystem/boske-extracts.md`](../ecosystem/boske-extracts.md) · [`../ecosystem/agent-credential-landscape.md`](../ecosystem/agent-credential-landscape.md)
+**Ecosystem docs:** [`vault-and-guard-plain.md`](../ecosystem/vault-and-guard-plain.md) · [`use-cases.md`](../ecosystem/use-cases.md) · [`agent-credential-landscape.md`](../ecosystem/agent-credential-landscape.md)
 
 When shipped, `git mv` to `archive/` and note PR or release tag in README.

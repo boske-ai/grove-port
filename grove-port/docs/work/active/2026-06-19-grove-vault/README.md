@@ -1,5 +1,8 @@
 # Grove Vault — MCP credential broker
 
+**Plain English:** [`plain.md`](./plain.md) · [`../../ecosystem/vault-and-guard-plain.md`](../../ecosystem/vault-and-guard-plain.md)  
+**Native Mac + Linux:** [`native-platforms.md`](./native-platforms.md)
+
 **Status:** **draft — review `plan.md`**  
 **Started:** 2026-06-19
 

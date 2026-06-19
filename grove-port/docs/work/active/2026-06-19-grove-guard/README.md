@@ -1,5 +1,7 @@
 # Grove Guard — MCP policy gateway
 
+**Plain English:** [`plain.md`](./plain.md) · [`../../ecosystem/vault-and-guard-plain.md`](../../ecosystem/vault-and-guard-plain.md)
+
 **Status:** **draft — review `plan.md`**  
 **Started:** 2026-06-19
 
