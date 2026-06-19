@@ -30,20 +30,19 @@ Last updated: 2026-06-19
 
 ---
 
-## P2 — New Grove projects
+## P2 — Grove Vault (**active focus**)
 
-| Status | Project | Work folder |
-|--------|---------|-------------|
-| ⬜ | **Grove Sign** — shared ed25519 (extract first) | [`2026-06-19-grove-sign`](./docs/work/active/2026-06-19-grove-sign/) |
-| ⬜ | **Grove Guard** — MCP policy gateway | [`2026-06-19-grove-guard`](./docs/work/active/2026-06-19-grove-guard/) |
-| ⬜ | **Grove Vault** — MCP credential broker | [`2026-06-19-grove-vault`](./docs/work/active/2026-06-19-grove-vault/) |
-| ⬜ | **Grove Pack** — assistant pack spec | [`2026-06-19-grove-pack`](./docs/work/active/2026-06-19-grove-pack/) |
-| ⬜ | **Grove Bridge** — OUT adapters (not a trap) | [`2026-06-19-grove-bridge`](./docs/work/active/2026-06-19-grove-bridge/) |
-| ⬜ | **Grove Index** — RAG index lifecycle | [`2026-06-19-grove-index`](./docs/work/active/2026-06-19-grove-index/) |
-| ⬜ | **Grove Trust** — model provenance | [`2026-06-19-grove-trust`](./docs/work/active/2026-06-19-grove-trust/) |
-| ⬜ | **Stack A Search** — SearXNG self-host kit | [`2026-06-19-stack-a-search`](./docs/work/active/2026-06-19-stack-a-search/) |
+| Status | Item | Work folder |
+|--------|------|-------------|
+| ⬜ | Handle spec v1 | [`spec/vault-handles-v1.md`](./spec/vault-handles-v1.md) |
+| ⬜ | `packages/vault` — Mac Keychain + Linux backends | [`2026-06-19-grove-vault`](./docs/work/active/2026-06-19-grove-vault/) |
+| ⬜ | CLI `grove-vault` + `grove-run` | vault |
+| ⬜ | Boske Settings → Vault UI | Boske monorepo |
+| ⬜ | MCP `{{vault:name}}` substitution | Boske monorepo |
 
-**Use cases:** [`docs/ecosystem/use-cases.md`](./docs/ecosystem/use-cases.md) · **Extracts:** [`docs/ecosystem/boske-extracts.md`](./docs/ecosystem/boske-extracts.md)
+**Paused (draft plans only):** Guard, Pack, Bridge, Index, Trust, Sign, Stack A — see [`docs/work/active/`](./docs/work/active/)
+
+**Docs:** [`docs/ecosystem/competitive-reality-check.md`](./docs/ecosystem/competitive-reality-check.md)
 
 ---
 

@@ -20,16 +20,8 @@ Parent: [Canopy Studio](../../docs/STUDIO_MANIFEST.md) · Product: [Boske](../bo
 | **Online converter** | [`grove-port/docs/work/active/2026-06-18-online-converter/`](./grove-port/docs/work/active/2026-06-18-online-converter/) | Community | **In progress** |
 | **Grove Fit** | [`../boske-labs/`](../boske-labs/) | Labs | In progress (separate) |
 | **Boske Pulse** | [`../boske-pulse/`](../boske-pulse/) | Community | **Done** (reference only) |
-| **Grove Sign** | [`grove-port/docs/work/active/2026-06-19-grove-sign/`](./grove-port/docs/work/active/2026-06-19-grove-sign/) | Community | P1 — extract from export-v1 |
-| **Grove Guard** | [`grove-port/docs/work/active/2026-06-19-grove-guard/`](./grove-port/docs/work/active/2026-06-19-grove-guard/) | Community | P1 — MCP firewall |
-| **Grove Vault** | [`grove-port/docs/work/active/2026-06-19-grove-vault/`](./grove-port/docs/work/active/2026-06-19-grove-vault/) | Community | **P1** — opaque handles |
-| **Grove Pack** | [`grove-port/docs/work/active/2026-06-19-grove-pack/`](./grove-port/docs/work/active/2026-06-19-grove-pack/) | Labs | P2 — portable modes |
-| **Grove Bridge** | [`grove-port/docs/work/active/2026-06-19-grove-bridge/`](./grove-port/docs/work/active/2026-06-19-grove-bridge/) | Community | P2 — not a trap |
-| **Grove Index** | [`grove-port/docs/work/active/2026-06-19-grove-index/`](./grove-port/docs/work/active/2026-06-19-grove-index/) | Community | P3 — stale RAG |
-| **Grove Trust** | [`grove-port/docs/work/active/2026-06-19-grove-trust/`](./grove-port/docs/work/active/2026-06-19-grove-trust/) | Labs | P4 — verify GGUF |
-| **Stack A Search** | [`grove-port/docs/work/active/2026-06-19-stack-a-search/`](./grove-port/docs/work/active/2026-06-19-stack-a-search/) | Community | Infra — private web |
-
-**Use cases:** [`grove-port/docs/ecosystem/use-cases.md`](./grove-port/docs/ecosystem/use-cases.md)
+| **Grove Vault** | [`grove-port/docs/work/active/2026-06-19-grove-vault/`](./grove-port/docs/work/active/2026-06-19-grove-vault/) | Community | **Active focus** — native Mac/Linux |
+| Grove Guard, Pack, … | draft work folders | — | Paused |
 
 Full map: [`grove-port/docs/ecosystem/grove-family.md`](./grove-port/docs/ecosystem/grove-family.md)
 

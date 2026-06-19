@@ -6,7 +6,7 @@ Grove Port is the **hub** (in progress). Other **Grove** projects share naming a
 
 | Brand | Grove projects (active backlog) |
 |-------|----------------------------------|
-| **Boske Community** | Guard, Index |
+| **Boske Community** | **Vault** (focus), Guard, Index |
 | **Boske Labs** | Pack spec, Trust |
 
 ---
@@ -29,39 +29,14 @@ Port architecture: [README.md](../../README.md), [core-and-adapters.md](../archi
 
 ---
 
-## 1. Grove Guard ⭐ (next — Community)
+## 7. Grove Vault (Community) — **active focus**
 
-**One-liner:** Security gate between AI agents and tools (MCP) — deny-by-default, full audit log.
+**One-liner:** Keys the agent can use but never know — native in Boske (Mac + Linux).
 
-**Problem:** MCP usage exploded; enterprises fear shadow IT. Self-hosters run agents with no policy layer. OpenClaw-class incidents showed agents can abuse tools if unchecked.
+**Work folder:** [`docs/work/active/2026-06-19-grove-vault/`](../work/active/2026-06-19-grove-vault/)  
+**Spec:** [`spec/vault-handles-v1.md`](../../spec/vault-handles-v1.md)
 
-**What it is:**
-
-```
-Agent ──► Grove Guard ──► allowed tools only
-              │
-              ├── policy.yaml (read email yes, send email no)
-              ├── credential isolation
-              └── immutable audit log
-```
-
-**Runs:** fully local — no SaaS required for OSS core.
-
-**Comparable:** Lunar MCPX, Microsoft Agent Governance Toolkit, OpenZiti MCP gateway — mostly enterprise/K8s. Grove Guard targets **SMB + self-host + Boske desktop**.
-
-**Brand:** Boske Community (trust + plugins).
-
-**OSS:** MIT gateway + local audit viewer.
-
-**Paid hook:** Boske Enterprise — org policy console, SIEM export, EU AI Act report templates, team tool catalog.
-
-**Boske tie-in:** Enterprise “Work inbox MCP” ships with Guard patterns pre-wired.
-
-**Work folder:** [`docs/work/active/2026-06-19-grove-guard/`](../work/active/2026-06-19-grove-guard/)
-
----
-
-## 2. Grove Pack (spec only — Labs)
+Other Grove projects (Guard, Pack, …) — paused, draft plans kept.
 
 **One-liner:** Open **format** for assistant packs (Writing coach, Research, Meeting notes) — not the curated content.
 

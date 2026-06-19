@@ -1,94 +1,137 @@
-# Grove Vault — MCP credential broker
+# Grove Vault — focus track
 
-**Plain English:** [`plain.md`](./plain.md) · [`../../ecosystem/vault-and-guard-plain.md`](../../ecosystem/vault-and-guard-plain.md)  
-**Native Mac + Linux:** [`native-platforms.md`](./native-platforms.md)
-
-**Status:** **draft — review `plan.md`**  
+**Status:** **active focus** — primary Grove project after Port/Fit (parallel)  
 **Started:** 2026-06-19
 
 ---
 
-## What
+## One sentence
 
-Local credential broker so **agents never see raw API keys** — scoped MCP tokens per tool/session.
+**Keys the agent can use but never know** — built into Boske on Mac and Linux.
 
-**Core feature: [opaque handles](./opaque-handles.md)** — the agent runs commands that need secrets, but only sees `vault://github` (or `{{vault:github}}`), never the real `ghp_…` key. You don't paste keys into chat. Vault injects the real value at execution time.
+---
+
+## Why Vault (not Guard) first
+
+| | Vault | Guard |
+|--|-------|-------|
+| Claude / ChatGPT already do it? | **Weak** — env vars, not true isolation | **Strong** — approvals, allow/deny |
+| OSS crowded? | Crowded but **no MIT native Boske integration** | Very crowded (MCPShield, MCPGate) |
+| Your SSH / server use case? | **Direct fit** | Secondary |
+| Boske differentiation? | **High** — safe inside the app | Medium — reuse OSS gateway later |
+
+→ [`../../ecosystem/competitive-reality-check.md`](../../ecosystem/competitive-reality-check.md)
+
+---
+
+## What we build
 
 ```
-Agent sees:     vault://github/repo-read   (or vlt_7kQ2m9)
-Vault stores:   real token in Keychain
-Runtime:        inject at MCP proxy / child process edge
+┌─────────────────────────────────────┐
+│  Boske desktop (Mac + Linux)        │
+│  Settings → Vault                   │
+│  MCP config: {{vault:github}}       │
+└──────────────┬──────────────────────┘
+               │
+┌──────────────▼──────────────────────┐
+│  grove-vault (MIT library + CLI)      │
+│  Mac: Keychain                        │
+│  Linux: libsecret / encrypted file    │
+└──────────────┬──────────────────────┘
+               │ inject at edge only
+┌──────────────▼──────────────────────┐
+│  Agent / LLM                         │
+│  sees: vault://server-prod only      │
+└─────────────────────────────────────┘
+```
+
+**Not building:** standalone MCP vault server users install manually (agentic-vault, mcpvault already exist).  
+**Building:** native Boske integration + MIT `grove-vault` library others can embed.
+
+---
+
+## v1 scope (MVP)
+
+| In v1 | Out of v1 |
+|-------|-----------|
+| Save/list/rotate secrets (human only) | Grove Guard policy layer |
+| `vault://name` handles | Cloud vault sync |
+| `{{vault:name}}` in MCP spawn | Windows |
+| `grove-run --env` for CLI | Intent capabilities (`cap://`) — v2 |
+| Mac Keychain + Linux backends | Team org vault (Enterprise) |
+| SSH key storage + wrapped `ssh` command | Full brokered HTTP MCP tool — v1.1 |
+| Boske Settings → Vault UI | |
+
+---
+
+## Real problems v1 solves
+
+1. **SSH server checks** — agent runs `systemctl status nginx`, never sees private key  
+2. **No `ghp_` in chat** — GitHub token in Vault, agent sees `vault://github`  
+3. **No plaintext `.env` for MCP** — config shows handles only  
+4. **Rotate once** — update Vault, configs unchanged  
+5. **Offline Boske Local** — secrets stay on machine  
+
+---
+
+## Docs in this folder
+
+| File | Purpose |
+|------|---------|
+| [`plain.md`](./plain.md) | Simple English |
+| [`native-platforms.md`](./native-platforms.md) | Mac Keychain + Linux |
+| [`opaque-handles.md`](./opaque-handles.md) | Technical spec |
+| [`plan.md`](./plan.md) | Phased build plan |
+| [`../../ecosystem/vault-and-guard-plain.md`](../../ecosystem/vault-and-guard-plain.md) | Vault + Guard (Guard deferred) |
+| [`../../ecosystem/competitive-reality-check.md`](../../ecosystem/competitive-reality-check.md) | Why Vault not Guard first |
+| [`../../ecosystem/agent-credential-landscape.md`](../../ecosystem/agent-credential-landscape.md) | Hermetic, Wardgate, etc. |
+
+---
+
+## Build phases (summary)
+
+| Phase | Deliverable | Owner |
+|-------|-------------|-------|
+| **0** | `spec/handles-v1.md` + handle wire format | Community repo |
+| **1** | `packages/vault` — Keychain + Linux backend | Community repo |
+| **2** | `grove-vault` CLI — set/list/rotate/test | Community repo |
+| **3** | `grove-run --env` + MCP `{{vault}}` substitution | Community repo |
+| **4** | Boske desktop — Settings → Vault + MCP picker | Boske monorepo |
+| **5** | SSH profile: store key + `server_exec` MCP tool | Boske + Community |
+
+---
+
+## Success = you can do this
+
+```bash
+# Once (you, not the agent)
+grove-vault set server/prod --file ~/.ssh/id_ed25519
+
+# Agent config (safe to show model)
+# identity: {{vault:server/prod}}
+
+# Agent asks: "check nginx on prod"
+grove-run --vault server/prod -- ssh deploy@prod "systemctl status nginx"
+
+# Agent sees output only. Transcript shows vault://server/prod.
 ```
 
 ---
 
-## The smart insight
+## Guard (later)
 
-Full MCP firewall (Guard) is a big ask. Most incidents start with **keys in config files and prompts**.  
-Vault = the SSL of MCP — isolate secrets first; policy layer second.
+Vault v1 includes **minimal** safety without full Guard:
 
-**Your scenario:** "I want the agent to run the command, but neither of us should know the real key."  
-→ **Technically yes** — via opaque handles, not encryption inside the agent context. See [`opaque-handles.md`](./opaque-handles.md).
+- Human-only `grove-vault set` (never via agent chat)
+- `list` never prints values
+- Log `resolve <handle>` not value
+- Optional: block raw `ghp_` / `sk-` in MCP args (thin rule, not full Guard)
 
----
-
-## Real-life use cases
-
-### 1. "Run deploy curl without pasting the API key"
-
-Ops stores `vault://deploy/staging` once. Agent config uses `{{vault:deploy/staging}}`. Command works; transcript shows handle only.
-
-### 2. "I won't paste my GitHub PAT into Claude"
-
-`grove-run --env github/repo-read -- gh pr merge 42` — child process has token; agent never did.
-
-### 3. "The agent should see a different kind of key"
-
-Agent sees meaningless handle `vault://openai/prod` — not a fake `sk-…` it could leak. Wrong handles don't resolve.
-
-### 4. Team key rotation
-
-Admin rotates secret in Vault; agent configs unchanged.
-
-### 5. Guard prerequisite
-
-Enterprise: Guard allows `vault://github/*`; denies raw `ghp_` in tool args.
-
-→ Full scenarios: [`../../ecosystem/use-cases.md`](../../ecosystem/use-cases.md) § Grove Vault
-
----
-
-## What already exists in Boske
-
-| Asset | Status |
-|-------|--------|
-| Enterprise MCP credential injection | Pattern to cherry-pick |
-| Desktop Keychain usage | macOS reference |
-
-→ [`../../ecosystem/boske-extracts.md`](../../ecosystem/boske-extracts.md)
-
----
-
-## Brand & license
-
-- **Boske Community**
-- OSS: MIT local broker + CLI
-- **Paid hook:** Org-wide rotation, audit (Enterprise)
+Full Grove Guard → after Vault ships in Boske.
 
 ---
 
 ## Links
 
-- Plan: [`plan.md`](./plan.md)
-- **Opaque handles (technical):** [`opaque-handles.md`](./opaque-handles.md)
-- **Competitor research:** [`../../ecosystem/agent-credential-landscape.md`](../../ecosystem/agent-credential-landscape.md)
-- Pairs with: Grove Guard
-- Use cases: [`../../ecosystem/use-cases.md`](../../ecosystem/use-cases.md)
-
----
-
-## Out of scope (v1)
-
-- Cloud secrets manager
-- Browser extension credential fill
-- Agent-side decryptable encryption (anti-pattern)
+- Ecosystem: [`../../ecosystem/grove-family.md`](../../ecosystem/grove-family.md)
+- Boske extract map: [`../../ecosystem/boske-extracts.md`](../../ecosystem/boske-extracts.md)

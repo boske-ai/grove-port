@@ -28,19 +28,18 @@ archive/
 |---------|--------|
 | Boske Pulse | Operator HUD — `boske-pulse/` |
 
-## Active — Grove projects (draft plans)
+## Active — Grove Vault (focus)
 
-| Folder | Real-life hook | Priority |
-|--------|----------------|----------|
-| [`2026-06-19-grove-sign`](./active/2026-06-19-grove-sign/) | One signature stack (extract now) | P1 |
-| [`2026-06-19-grove-guard`](./active/2026-06-19-grove-guard/) | Agent emailed wrong person | P1 |
-| [`2026-06-19-grove-vault`](./active/2026-06-19-grove-vault/) | Agent runs command, never knows key | **P1** |
-| [`2026-06-19-grove-pack`](./active/2026-06-19-grove-pack/) | Same mode in 3 apps | P2 |
-| [`2026-06-19-grove-bridge`](./active/2026-06-19-grove-bridge/) | Prove not a trap (OUT adapters) | P2 |
-| [`2026-06-19-grove-index`](./active/2026-06-19-grove-index/) | Stale RAG / wrong pricing | P3 |
-| [`2026-06-19-grove-trust`](./active/2026-06-19-grove-trust/) | Unsigned GGUF | P4 |
-| [`2026-06-19-stack-a-search`](./active/2026-06-19-stack-a-search/) | Private web for RAG | Opportunistic |
+| Folder | Status |
+|--------|--------|
+| [`2026-06-19-grove-vault`](./active/2026-06-19-grove-vault/) | **active focus** — native Mac/Linux, MIT |
 
-**Ecosystem docs:** [`vault-and-guard-plain.md`](../ecosystem/vault-and-guard-plain.md) · [`use-cases.md`](../ecosystem/use-cases.md) · [`agent-credential-landscape.md`](../ecosystem/agent-credential-landscape.md)
+**Spec:** [`../spec/vault-handles-v1.md`](../spec/vault-handles-v1.md)
+
+## Other Grove projects (paused)
+
+Guard, Pack, Bridge, Index, Trust, Sign, Stack A — draft plans remain; **Vault first**.
+
+**Docs:** [`vault-and-guard-plain.md`](../ecosystem/vault-and-guard-plain.md) · [`competitive-reality-check.md`](../ecosystem/competitive-reality-check.md)
 
 When shipped, `git mv` to `archive/` and note PR or release tag in README.

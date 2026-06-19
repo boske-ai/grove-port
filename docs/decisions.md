@@ -81,14 +81,13 @@ First remote: **`boske-ai/grove-port`** — **private until launch**, then publi
 
 **Done (reference only):** Boske Pulse.
 
-**New Grove projects (after Port P0):**
+## D12 — Grove Vault focus (2026-06-19)
 
-1. Grove Sign — extract ed25519 (unblocks Trust)
-2. Grove Guard + Grove Vault — MCP safety
-3. Grove Pack + Grove Bridge — capability + bidirectional trust
-4. Grove Index — RAG stale detection
-5. Grove Trust — model provenance
-6. Stack A Search — SearXNG extract (optional)
+**Active Grove track:** Grove Vault — native secret safe in Boske (Mac + Linux).
+
+Grove Guard and other Grove siblings remain drafted; not parallel priority until Vault v1 ships in Boske.
+
+Spec: `grove-port/spec/vault-handles-v1.md` · Work: `docs/work/active/2026-06-19-grove-vault/`
 
 ---
 

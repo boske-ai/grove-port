@@ -190,16 +190,11 @@ Studio doc: [`../../docs/ARCHITECTURE.md`](../../docs/ARCHITECTURE.md)
 
 **Done (reference):** Boske Pulse.
 
-**Next (new Grove projects):**
+**Active focus:** **Grove Vault** — native secret safe ([`vault-handles-v1.md`](../grove-port/spec/vault-handles-v1.md), [work folder](../grove-port/docs/work/active/2026-06-19-grove-vault/))
 
-1. **Grove Sign** — extract ed25519 from export-v1 (unblocks Trust)
-2. **Grove Guard** + **Grove Vault** — MCP safety
-3. **Grove Pack** + **Grove Bridge** — capability + bidirectional trust
-4. **Grove Index** — after Sources export sample
-5. **Grove Trust** — Enterprise registry pull
-6. **Stack A Search** — SearXNG extract (opportunistic)
+**Paused:** Guard, Pack, Bridge, and other Grove drafts
 
-Use cases: [`../grove-port/docs/ecosystem/use-cases.md`](../grove-port/docs/ecosystem/use-cases.md)
+Use cases: [`../grove-port/docs/ecosystem/vault-and-guard-plain.md`](../grove-port/docs/ecosystem/vault-and-guard-plain.md)
 
 ---
 
