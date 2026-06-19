@@ -14,22 +14,27 @@ archive/
   …              ← shipped or superseded
 ```
 
-## Shipped elsewhere (not in active backlog)
+## In progress (tracked elsewhere or here)
 
 | Project | Notes |
 |---------|--------|
-| Grove Port foundation | Spec, schema, CLI, ChatGPT adapter — [`archive/2026-06-18-grove-port-foundation/`](./archive/2026-06-18-grove-port-foundation/) |
-| Online converter | boske.dev/move — [`archive/2026-06-18-online-converter/`](./archive/2026-06-18-online-converter/) |
-| Boske Pulse | Operator HUD — `boske-pulse/` (done) |
-| Grove Fit | Hardware fit — `boske-labs/grove-fit/` (in progress) |
+| Grove Port foundation | [`active/2026-06-18-grove-port-foundation/`](./active/2026-06-18-grove-port-foundation/) |
+| Online converter | Pairs with Port — [`active/2026-06-18-online-converter/`](./active/2026-06-18-online-converter/) |
+| Grove Fit | Hardware fit — `boske-labs/grove-fit/` (separate repo) |
 
-## Active
+## Done (reference only)
+
+| Project | Notes |
+|---------|--------|
+| Boske Pulse | Operator HUD — `boske-pulse/` |
+
+## Active — new Grove projects
 
 | Folder | Status | Priority |
 |--------|--------|----------|
-| [`2026-06-19-grove-guard`](./active/2026-06-19-grove-guard/) | **draft — review plan** | P1 — highest impact |
-| [`2026-06-19-grove-pack`](./active/2026-06-19-grove-pack/) | **draft — review plan** | P2 — low cost, Labs alignment |
+| [`2026-06-19-grove-guard`](./active/2026-06-19-grove-guard/) | **draft — review plan** | P1 |
+| [`2026-06-19-grove-pack`](./active/2026-06-19-grove-pack/) | **draft — review plan** | P2 |
 | [`2026-06-19-grove-index`](./active/2026-06-19-grove-index/) | **draft — review plan** | P3 |
-| [`2026-06-19-grove-trust`](./active/2026-06-19-grove-trust/) | **draft — review plan** | P4 — research track |
+| [`2026-06-19-grove-trust`](./active/2026-06-19-grove-trust/) | **draft — review plan** | P4 |
 
 When shipped, `git mv` to `archive/` and note PR or release tag in README.

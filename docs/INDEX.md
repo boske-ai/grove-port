@@ -122,14 +122,19 @@ Plan: [`../grove-port/docs/work/active/2026-06-18-online-converter/`](../grove-p
 
 ## 9. Grove ecosystem
 
-### Shipped or in progress elsewhere
+### In progress
 
 | Project | Brand | Folder | Status |
 |---------|-------|--------|--------|
-| **Grove Port** | Community | `grove-port/` | **Shipped** |
-| **Online converter** | Community | boske.dev/move | **Shipped** |
-| **Boske Pulse** | Community | `../boske-pulse/` | **Done** |
+| **Grove Port** | Community | `grove-port/` | **In progress** |
+| **Online converter** | Community | boske.dev/move | **In progress** (pairs with Port) |
 | **Grove Fit** | Labs | `../boske-labs/grove-fit/` | In progress |
+
+### Done (reference only)
+
+| Project | Brand | Folder | Status |
+|---------|-------|--------|--------|
+| **Boske Pulse** | Community | `../boske-pulse/` | **Done** |
 
 ### Active backlog
 
@@ -175,9 +180,11 @@ Studio doc: [`../../docs/ARCHITECTURE.md`](../../docs/ARCHITECTURE.md)
 
 ## 12. Build order (updated 2026-06-19)
 
-**Done:** Grove Port, online converter, Boske Pulse, Grove Fit (in progress separately).
+**In progress:** Grove Port, online converter, Grove Fit.
 
-**Next:**
+**Done (reference):** Boske Pulse.
+
+**Next (new Grove projects):**
 
 1. **Grove Guard** — MCP policy gateway ([work folder](../grove-port/docs/work/active/2026-06-19-grove-guard/))
 2. **Grove Pack spec** — assistant pack format (Labs)

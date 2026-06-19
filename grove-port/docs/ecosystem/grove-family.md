@@ -1,6 +1,6 @@
 # Grove family — what's next
 
-Grove Port is the **hub** (shipped). Other **Grove** projects share naming and values (local-first, privacy, EU-friendly) and ship on their own timeline.
+Grove Port is the **hub** (in progress). Other **Grove** projects share naming and values (local-first, privacy, EU-friendly) and ship on their own timeline.
 
 **Brand split:**
 
@@ -11,14 +11,19 @@ Grove Port is the **hub** (shipped). Other **Grove** projects share naming and v
 
 ---
 
-## Shipped or in progress elsewhere
+## In progress
 
 | Project | Where | Status |
 |---------|-------|--------|
-| **Grove Port** | `grove-port/` | Shipped — spec, CLI, adapters |
-| **Online converter** | boske.dev/move | Shipped — pairs with Port |
-| **Boske Pulse** | `boske-pulse/` | Done — Community MIT when public |
+| **Grove Port** | `grove-port/` | In progress — spec, CLI, adapters |
+| **Online converter** | boske.dev/move | In progress — pairs with Port |
 | **Grove Fit** | `boske-labs/grove-fit/` | In progress — hardware fit extract |
+
+## Done (reference only)
+
+| Project | Where | Status |
+|---------|-------|--------|
+| **Boske Pulse** | `boske-pulse/` | Done — Community MIT when public |
 
 Port architecture: [README.md](../../README.md), [core-and-adapters.md](../architecture/core-and-adapters.md).
 
@@ -164,7 +169,7 @@ tools: [file-search, workspace-dock]
 canopystudio/apps/
 ├── boske/                      # Product (proprietary monorepo)
 ├── boske-community/            # Community OSS umbrella
-│   ├── grove-port/             # Shipped
+│   ├── grove-port/             # In progress
 │   └── grove-guard/            # Next
 ├── boske-labs/
 │   ├── grove-fit/              # In progress

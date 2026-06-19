@@ -2,77 +2,69 @@
 
 Last updated: 2026-06-19
 
-**Active work:** [`docs/work/active/`](./docs/work/active/) — Grove Guard, Pack, Index, Trust
-
-Port foundation + online converter: [`docs/work/archive/`](./docs/work/archive/)
+**Active work:** [`docs/work/active/`](./docs/work/active/)
 
 ---
 
-## Shipped (Port track)
+## P0 — Foundation (in progress)
+
+| Status | Item | Work folder |
+|--------|------|-------------|
+| ⬜ | Finalize v1 spec markdown (align with Boske `export-v1.ts`) | [`2026-06-18-grove-port-foundation`](./docs/work/active/2026-06-18-grove-port-foundation/) |
+| ⬜ | Extract `packages/schema` from `@boske/data-provider` | foundation |
+| ⬜ | CLI: `grove-port verify`, `grove-port inspect` | foundation |
+| ⬜ | Wire compatibility test vs Boske ExportService output | foundation |
+| ⬜ | IN adapter: **ChatGPT** (`conversations.json`) | foundation |
+
+---
+
+## P1 — Migration funnel (in progress)
+
+| Status | Item | Work folder |
+|--------|------|-------------|
+| ⬜ | **Online converter** on boske.dev | [`2026-06-18-online-converter`](./docs/work/active/2026-06-18-online-converter/) |
+| ⬜ | IN adapter: **Claude** export | TBD |
+| ⬜ | IN adapter: **Mistral Le Chat** export | TBD |
+| ⬜ | IN adapter: **Open WebUI** JSON export | TBD |
+| ⬜ | Boske import: “Import Grove Port” + preview counts | Boske monorepo (ADR 0009) |
+
+---
+
+## P2 — New Grove projects
+
+| Status | Project | Work folder |
+|--------|---------|-------------|
+| ⬜ | **Grove Guard** — MCP policy gateway | [`2026-06-19-grove-guard`](./docs/work/active/2026-06-19-grove-guard/) |
+| ⬜ | **Grove Pack** — assistant pack spec | [`2026-06-19-grove-pack`](./docs/work/active/2026-06-19-grove-pack/) |
+| ⬜ | **Grove Index** — RAG index lifecycle | [`2026-06-19-grove-index`](./docs/work/active/2026-06-19-grove-index/) |
+| ⬜ | **Grove Trust** — model provenance | [`2026-06-19-grove-trust`](./docs/work/active/2026-06-19-grove-trust/) |
+
+---
+
+## P3 — Adapters + outreach
+
+| Status | Item | Notes |
+|--------|------|-------|
+| ⬜ | IN adapter: LibreChat JSON | Chat-only; files manual today |
+| ⬜ | IN adapter: Open WebUI SQLite (`webui.db`) | Harder; knowledge base |
+| ⬜ | OUT adapter: Open WebUI (optional) | Community contribution |
+| ⬜ | Publish `github.com/boske-ai/grove-port` | After schema + ChatGPT adapter |
+| ⬜ | boske.dev landing: “Move your AI workspace to Boske” | Links converter + docs |
+
+---
+
+## Done
 
 | Date | Item |
 |------|------|
 | 2026-06-18 | Repo scaffold + docs + work folders |
 | 2026-06-18 | Published [`github.com/boske-ai/grove-port`](https://github.com/boske-ai/grove-port) (**private**) |
-| 2026-06-19 | Grove Port foundation — spec, schema, CLI, ChatGPT adapter |
-| 2026-06-19 | Online converter — boske.dev/move |
 
 ---
 
-## P1 — Grove Guard (Community)
+## Elsewhere (reference only)
 
-| Status | Item | Work folder |
-|--------|------|-------------|
-| ⬜ | Policy schema + deny-by-default gateway | [`2026-06-19-grove-guard`](./docs/work/active/2026-06-19-grove-guard/) |
-| ⬜ | Audit log + CLI | guard |
-| ⬜ | Boske MCP integration spike | guard + Boske monorepo |
-
----
-
-## P2 — Grove Pack spec (Labs)
-
-| Status | Item | Work folder |
-|--------|------|-------------|
-| ⬜ | Pack manifest spec + JSON Schema | [`2026-06-19-grove-pack`](./docs/work/active/2026-06-19-grove-pack/) |
-| ⬜ | `grove-pack validate` CLI | pack |
-| ⬜ | Example community pack | pack |
-
----
-
-## P3 — Grove Index (Community)
-
-| Status | Item | Work folder |
-|--------|------|-------------|
-| ⬜ | Index manifest spec | [`2026-06-19-grove-index`](./docs/work/active/2026-06-19-grove-index/) |
-| ⬜ | `diff` / `report` library + CLI | index |
-| ⬜ | Boske Sources export mapping | Boske monorepo |
-
----
-
-## P4 — Grove Trust (Labs)
-
-| Status | Item | Work folder |
-|--------|------|-------------|
-| ⬜ | Signed manifest spec | [`2026-06-19-grove-trust`](./docs/work/active/2026-06-19-grove-trust/) |
-| ⬜ | `grove-trust verify` / `sign` CLI | trust |
-| ⬜ | Threat model doc | trust |
-
----
-
-## P5 — Infra (optional)
-
-| Status | Item | Notes |
-|--------|------|-------|
-| ⬜ | Stack A Search runbook extract | `infra/docker/searxng/` in Boske monorepo |
-| ⬜ | boske.dev Community landing | Links Guard + Labs projects |
-
----
-
-## Elsewhere (not this backlog)
-
-| Project | Owner |
-|---------|-------|
-| Grove Fit | `boske-labs/grove-fit/` — in progress |
-| Boske Pulse | `boske-pulse/` — done |
-| Boske import UX | Boske monorepo (ADR 0009) |
-| Additional IN adapters (Claude, Mistral, …) | Port maintenance in shipped track |
+| Project | Owner | Status |
+|---------|-------|--------|
+| Boske Pulse | `boske-pulse/` | Done |
+| Grove Fit | `boske-labs/grove-fit/` | In progress |

@@ -77,9 +77,11 @@ First remote: **`boske-ai/grove-port`** — **private until launch**, then publi
 
 ## D11 — Build priority (updated 2026-06-19)
 
-**Shipped / in progress elsewhere:** Grove Port, online converter, Boske Pulse, Grove Fit.
+**In progress:** Grove Port, online converter, Grove Fit.
 
-**Active Community/Labs backlog:**
+**Done (reference only):** Boske Pulse.
+
+**New Grove projects (after Port P0):**
 
 1. Grove Guard — MCP policy gateway
 2. Grove Pack spec — assistant pack format (Labs)

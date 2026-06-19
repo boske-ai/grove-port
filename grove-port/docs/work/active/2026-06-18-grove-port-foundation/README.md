@@ -1,7 +1,7 @@
 # Grove Port — foundation (spec, schema, CLI, first adapter)
 
-**Status:** **shipped** — executed elsewhere (Boske monorepo + `grove-port` packages)  
-**Started:** 2026-06-18 · **Archived:** 2026-06-19
+**Status:** **in progress** — execute `plan.md`  
+**Started:** 2026-06-18
 
 ---
 

@@ -80,17 +80,18 @@ Work folder: [`docs/work/active/2026-06-18-online-converter/`](./docs/work/activ
 
 ## Grove ecosystem (sibling projects)
 
-Grove Port is **shipped**. Active backlog for other **Grove** OSS:
+Grove Port is **in progress** (this repo). New Grove OSS backlog:
 
 | Project | Brand | Status |
 |---------|-------|--------|
-| **Grove Port** | Community | **Shipped** (this repo) |
-| **Grove Guard** | Community | **Next — P1** — [`work folder`](./docs/work/active/2026-06-19-grove-guard/) |
+| **Grove Port** | Community | **In progress** (this repo) |
+| **Online converter** | Community | **In progress** — pairs with Port |
+| **Grove Guard** | Community | Draft plan — [`work folder`](./docs/work/active/2026-06-19-grove-guard/) |
 | **Grove Pack** | Labs | Draft plan — assistant pack spec |
 | **Grove Index** | Community | Draft plan — RAG index lifecycle |
 | **Grove Trust** | Labs | Draft plan — model provenance |
 
-Elsewhere: Grove Fit (in progress), Boske Pulse (done), online converter (shipped).
+Elsewhere: Grove Fit (in progress), Boske Pulse (done — reference only).
 
 Full write-up: [`docs/ecosystem/grove-family.md`](./docs/ecosystem/grove-family.md).
 

@@ -42,7 +42,7 @@ Agent ──► Grove Guard ──► allowed tools only
 ## Dependencies
 
 - Boske MCP security patterns cherry-picked from product (Enterprise “Work inbox MCP” pre-wired)
-- Grove Port v1 shipped (context only — no format dependency)
+- Grove Port v1 in progress (context only — no format dependency)
 
 ---
 

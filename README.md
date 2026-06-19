@@ -16,11 +16,11 @@ Parent: [Canopy Studio](../../docs/STUDIO_MANIFEST.md) · Product: [Boske](../bo
 
 | Project | Folder | Brand | Status |
 |---------|--------|-------|--------|
-| **Grove Port** | [`grove-port/`](./grove-port/) | Community | **Shipped** |
-| **Online converter** | boske.dev/move | Community | **Shipped** |
-| **Boske Pulse** | [`../boske-pulse/`](../boske-pulse/) | Community | **Done** |
+| **Grove Port** | [`grove-port/`](./grove-port/) | Community | **In progress** |
+| **Online converter** | [`grove-port/docs/work/active/2026-06-18-online-converter/`](./grove-port/docs/work/active/2026-06-18-online-converter/) | Community | **In progress** |
 | **Grove Fit** | [`../boske-labs/`](../boske-labs/) | Labs | In progress (separate) |
-| **Grove Guard** | [`grove-port/docs/work/active/2026-06-19-grove-guard/`](./grove-port/docs/work/active/2026-06-19-grove-guard/) | Community | **Next — P1** |
+| **Boske Pulse** | [`../boske-pulse/`](../boske-pulse/) | Community | **Done** (reference only) |
+| **Grove Guard** | [`grove-port/docs/work/active/2026-06-19-grove-guard/`](./grove-port/docs/work/active/2026-06-19-grove-guard/) | Community | Draft — next new project |
 | **Grove Pack** | [`grove-port/docs/work/active/2026-06-19-grove-pack/`](./grove-port/docs/work/active/2026-06-19-grove-pack/) | Labs | Draft plan |
 | **Grove Index** | [`grove-port/docs/work/active/2026-06-19-grove-index/`](./grove-port/docs/work/active/2026-06-19-grove-index/) | Community | Draft plan |
 | **Grove Trust** | [`grove-port/docs/work/active/2026-06-19-grove-trust/`](./grove-port/docs/work/active/2026-06-19-grove-trust/) | Labs | Draft plan |
