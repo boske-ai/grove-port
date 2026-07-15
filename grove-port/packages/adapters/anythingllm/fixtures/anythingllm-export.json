@@ -1,0 +1,19 @@
+[
+  {
+    "id": 1,
+    "username": "admin",
+    "workspace_name": "Default",
+    "prompt": "What is Grove Port?",
+    "response": "Grove Port is an open standard for portable AI workspaces.",
+    "sent_at": 1719052800000
+  },
+  {
+    "id": 2,
+    "username": "admin",
+    "workspace_name": "Default",
+    "prompt": "How do I import it into Boske?",
+    "response": "Download the .grove-port file and import it from Boske Settings.",
+    "sent_at": 1719052860000,
+    "thread_id": "thread-default-1"
+  }
+]

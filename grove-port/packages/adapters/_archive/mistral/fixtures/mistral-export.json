@@ -1,0 +1,41 @@
+[
+  {
+    "id": "msg-assistant-1",
+    "chatId": "chat-123",
+    "role": "assistant",
+    "content": "Hi there!",
+    "contentChunks": [{ "type": "text", "text": "Hi there!" }],
+    "createdAt": "2025-09-19T16:18:25.000Z",
+    "files": []
+  },
+  {
+    "id": "msg-user-1",
+    "chatId": "chat-123",
+    "role": "user",
+    "content": "Hello from Mistral Vibe",
+    "contentChunks": [{ "type": "text", "text": "Hello from Mistral Vibe" }],
+    "createdAt": "2025-09-19T16:18:19.236Z",
+    "files": []
+  },
+  {
+    "id": "msg-user-2",
+    "chatId": "chat-456",
+    "role": "user",
+    "content": "Second conversation starter",
+    "contentChunks": null,
+    "createdAt": "2025-09-20T10:00:00.000Z",
+    "files": [{ "type": "image", "name": "diagram.png" }]
+  },
+  {
+    "id": "msg-assistant-2",
+    "chatId": "chat-456",
+    "role": "assistant",
+    "content": "Acknowledged.",
+    "contentChunks": [
+      { "type": "text", "text": "Acknowledged." },
+      { "type": "reference", "referenceIds": ["ref-1"] }
+    ],
+    "createdAt": "2025-09-20T10:00:05.000Z",
+    "files": []
+  }
+]

@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Convert ChatGPT, Claude, or Open WebUI exports to Grove Port — entirely in your browser."
+    />
+    <title>Grove Port Converter · Move to Boske</title>
+    <link rel="stylesheet" href="/src/style.css" />
+  </head>
+  <body>
+    <div class="ambient" aria-hidden="true"></div>
+
+    <main class="page">
+      <header class="hero">
+        <p class="eyebrow">Grove Port · Boske Community</p>
+        <h1>Move your AI history to Boske</h1>
+        <p class="lede">
+          Drop a vendor export below. Conversion runs entirely in your browser — your file never
+          leaves this device.
+        </p>
+
+        <ul class="platforms" aria-label="Supported sources">
+          <li>ChatGPT</li>
+          <li>Claude</li>
+          <li>Open WebUI</li>
+        </ul>
+      </header>
+
+      <ul class="trust" aria-label="Privacy guarantees">
+        <li><span class="trust-icon" aria-hidden="true">🔒</span>Client-side only</li>
+        <li><span class="trust-icon" aria-hidden="true">🚫</span>No server upload</li>
+        <li><span class="trust-icon" aria-hidden="true">📦</span>Open Grove Port spec</li>
+      </ul>
+
+      <div class="layout">
+        <section class="panel workspace" aria-labelledby="converter-heading">
+          <div class="panel-head">
+            <h2 id="converter-heading">Convert export</h2>
+            <p class="panel-sub">Upload → preview counts → download <code>.grove-port</code></p>
+          </div>
+
+          <ol class="steps" aria-label="Progress">
+            <li class="step is-active" id="step-upload">
+              <span class="step-num">1</span>
+              <span class="step-label">Upload</span>
+            </li>
+            <li class="step" id="step-review">
+              <span class="step-num">2</span>
+              <span class="step-label">Preview</span>
+            </li>
+            <li class="step" id="step-download">
+              <span class="step-num">3</span>
+              <span class="step-label">Download</span>
+            </li>
+          </ol>
+
+          <div id="dropzone" class="dropzone" tabindex="0" role="button" aria-label="Upload export file">
+            <input
+              id="file"
+              type="file"
+              accept=".json,.zip,application/json,application/zip"
+              hidden
+            />
+            <div class="dropzone-inner">
+              <span class="dropzone-icon" aria-hidden="true">↑</span>
+              <p class="dropzone-title">Drop your export here</p>
+              <p class="dropzone-sub">or tap to browse · <code>.json</code> or <code>.zip</code></p>
+            </div>
+          </div>
+
+          <div id="file-summary" class="file-summary hidden" aria-live="polite">
+            <div class="file-meta">
+              <span class="file-icon" aria-hidden="true">📄</span>
+              <div class="file-copy">
+                <p id="file-name" class="file-name"></p>
+                <p id="file-size" class="file-size"></p>
+              </div>
+            </div>
+            <button id="clear-file" type="button" class="ghost">Remove</button>
+          </div>
+
+          <section class="platform-section" aria-labelledby="platform-heading">
+            <div class="platform-head">
+              <div>
+                <h3 id="platform-heading">Source platform</h3>
+                <p id="platform-status" class="platform-status">Auto-detect on upload, or pick a platform now</p>
+              </div>
+              <span id="platform-badge" class="platform-badge hidden" aria-live="polite"></span>
+            </div>
+
+            <div
+              id="platform-picker"
+              class="platform-picker"
+              role="radiogroup"
+              aria-labelledby="platform-heading"
+            ></div>
+
+            <p id="platform-reason" class="platform-reason hidden"></p>
+
+            <select id="adapter" class="visually-hidden" aria-hidden="true" tabindex="-1"></select>
+          </section>
+
+          <label class="field field-email">
+            <span>Email <span class="optional">optional</span></span>
+            <input id="email" type="email" placeholder="you@example.com" autocomplete="email" />
+            <span class="hint">Stored in the package manifest only.</span>
+          </label>
+
+          <div id="stats-grid" class="stats-grid hidden" aria-live="polite"></div>
+
+          <div class="actions">
+            <button id="preview" type="button" class="secondary" disabled>Preview counts</button>
+            <button id="convert" type="button" class="primary" disabled>Download .grove-port</button>
+          </div>
+
+          <div id="status" class="status" role="status" aria-live="polite"></div>
+          <pre id="preview-output" class="preview hidden"></pre>
+        </section>
+
+        <aside class="guide" aria-labelledby="guide-heading">
+          <div class="guide-head">
+            <h2 id="guide-heading">Boske import guide</h2>
+            <p class="guide-sub">What transfers, what does not, and what to watch for.</p>
+          </div>
+
+          <div id="guide-content" class="guide-content"></div>
+
+          <details class="guide-fallback">
+            <summary>Supported formats</summary>
+            <ul>
+              <li>ChatGPT Settings export (.json or .zip with attachments)</li>
+              <li>Claude export (.json or .zip)</li>
+              <li>Open WebUI JSON export (not SQLite DB)</li>
+            </ul>
+          </details>
+        </aside>
+      </div>
+
+      <footer class="footer">
+        <a href="https://github.com/boske-ai/grove-port">Open spec on GitHub</a>
+        <span aria-hidden="true">·</span>
+        <span>Verify offline with <code>grove-port verify</code></span>
+      </footer>
+    </main>
+
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>

@@ -1,0 +1,24 @@
+{
+  "topic": "Planning a migration",
+  "model": "gpt-4o",
+  "sessionId": "lobe-session-001",
+  "meta": {
+    "tags": ["migration"],
+    "avatar": "🤖"
+  },
+  "config": {
+    "model": "gpt-4o"
+  },
+  "messages": [
+    {
+      "role": "user",
+      "content": "How do I export chats from LobeChat?",
+      "createdAt": 1719052800000
+    },
+    {
+      "role": "assistant",
+      "content": "Use the share menu and export as JSON.",
+      "createdAt": 1719052860000
+    }
+  ]
+}

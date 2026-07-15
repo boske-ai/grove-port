@@ -1,0 +1,27 @@
+{
+  "name": "@grove-port/adapter-openwebui",
+  "version": "1.0.0",
+  "description": "Open WebUI JSON export → Grove Port v1 IN adapter",
+  "license": "MIT",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./browser": {
+      "types": "./dist/browser.d.ts",
+      "import": "./dist/browser.js"
+    }
+  },
+  "files": ["dist"],
+  "scripts": {
+    "build": "tsc -p tsconfig.json"
+  },
+  "dependencies": {
+    "@grove-port/core": "workspace:*",
+    "@grove-port/schema": "workspace:*"
+  }
+}

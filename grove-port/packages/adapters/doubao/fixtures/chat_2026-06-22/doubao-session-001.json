@@ -1,0 +1,16 @@
+{
+  "session_id": "doubao-session-001",
+  "title": "Planning a migration",
+  "messages": [
+    {
+      "role": "user",
+      "content": "如何导出豆包聊天记录？",
+      "timestamp": "2026-06-22T09:00:00.000Z"
+    },
+    {
+      "role": "assistant",
+      "content": "选择对话后点击批量导出，下载 ZIP 文件。",
+      "timestamp": "2026-06-22T09:01:00.000Z"
+    }
+  ]
+}

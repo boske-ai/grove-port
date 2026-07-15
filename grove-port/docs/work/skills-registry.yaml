@@ -1,0 +1,46 @@
+# Work folder skills registry
+# Used by @grove-port-implementation to resolve folder → skill name → plan file.
+# Add a row when creating any new active work folder that may touch code.
+
+folders:
+  2026-07-15-move-landing-open-repo-boske-import:
+    skill: move-funnel
+    plan: plan.md
+    status: approved
+    invoke: "@grove-port-implementation @move-funnel"
+
+  2026-06-22-global-in-adapters:
+    skill: global-in-adapters
+    plan: plan.md
+    status: approved
+    invoke: "@grove-port-implementation @global-in-adapters"
+
+  2026-06-18-online-converter:
+    skill: _default-work-folder
+    plan: plan.md
+    status: pivoted
+    invoke: "@grove-port-implementation @move-funnel"
+
+  2026-06-21-p2-adapters:
+    skill: _default-work-folder
+    plan: plan.md
+    status: archived
+    invoke: "@grove-port-implementation"
+
+  2026-06-18-grove-port-foundation:
+    skill: _default-work-folder
+    plan: plan.md
+    status: archived
+    invoke: "@grove-port-implementation"
+
+  2026-06-18-p1-adapters:
+    skill: _default-work-folder
+    plan: plan.md
+    status: archived
+    invoke: "@grove-port-implementation"
+
+# Convention for folders not listed yet:
+# 1. Create docs/work/active/<yyyy-mm-dd>-<slug>/.agents/skills/<slug>/SKILL.md
+# 2. Add entry above
+# 3. Link skill invoke from folder README.md
+# Template: docs/work/_templates/work-folder/

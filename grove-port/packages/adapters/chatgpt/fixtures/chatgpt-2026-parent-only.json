@@ -1,0 +1,38 @@
+[
+  {
+    "title": "2026 parent-only graph",
+    "create_time": 1714585031.148505,
+    "update_time": 1714585060.879308,
+    "mapping": {
+      "client-created-root": {
+        "id": "client-created-root",
+        "message": null,
+        "parent": null
+      },
+      "user-msg-1": {
+        "id": "user-msg-1",
+        "parent": "client-created-root",
+        "message": {
+          "id": "user-msg-1",
+          "author": { "role": "user", "name": null, "metadata": {} },
+          "create_time": 1714585031.150442,
+          "update_time": null,
+          "content": { "content_type": "text", "parts": ["hello from 2026 export"] },
+          "metadata": {}
+        }
+      },
+      "assistant-msg-1": {
+        "id": "assistant-msg-1",
+        "parent": "user-msg-1",
+        "message": {
+          "id": "assistant-msg-1",
+          "author": { "role": "assistant", "name": null, "metadata": {} },
+          "create_time": 1714585031.757056,
+          "update_time": null,
+          "content": { "content_type": "text", "parts": ["Hi there!"] },
+          "metadata": { "model_slug": "gpt-4o" }
+        }
+      }
+    }
+  }
+]

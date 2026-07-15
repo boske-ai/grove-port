@@ -1,0 +1,33 @@
+{
+  "conversationId": "conv-librechat-001",
+  "endpoint": "openAI",
+  "model": "gpt-4",
+  "title": "Planning a team migration",
+  "exportAt": "Mon Jun 21 2026 10:00:00 GMT+0000",
+  "branches": false,
+  "recursive": false,
+  "messages": [
+    {
+      "messageId": "msg-001",
+      "parentMessageId": null,
+      "conversationId": "conv-librechat-001",
+      "text": "How do I export my ChatGPT history into Boske?",
+      "sender": "User",
+      "isCreatedByUser": true,
+      "createdAt": "2026-06-21T09:00:00.000Z",
+      "endpoint": "openAI",
+      "model": "gpt-4"
+    },
+    {
+      "messageId": "msg-002",
+      "parentMessageId": "msg-001",
+      "conversationId": "conv-librechat-001",
+      "text": "Convert your export to Grove Port, then import it into Boske.",
+      "sender": "GPT-4",
+      "isCreatedByUser": false,
+      "createdAt": "2026-06-21T09:01:00.000Z",
+      "endpoint": "openAI",
+      "model": "gpt-4"
+    }
+  ]
+}

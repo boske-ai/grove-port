@@ -1,0 +1,24 @@
+{
+  "name": "grove-port",
+  "private": true,
+  "description": "Open standard for portable AI workspaces",
+  "license": "MIT",
+  "workspaces": [
+    "packages/*",
+    "packages/adapters/*",
+    "apps/*"
+  ],
+  "scripts": {
+    "build": "bun run --filter @grove-port/schema build && bun run --filter @grove-port/core build && bun run --filter @grove-port/adapter-chatgpt build && bun run --filter @grove-port/adapter-claude build && bun run --filter @grove-port/adapter-openwebui build && bun run --filter @grove-port/adapter-librechat build && bun run --filter @grove-port/adapter-gemini build && bun run --filter @grove-port/adapter-doubao build && bun run --filter @grove-port/adapter-deepseek build && bun run --filter @grove-port/adapter-lobechat build && bun run --filter @grove-port/adapter-anythingllm build && bun run --filter @grove-port/convert-browser build && bun run --filter @grove-port/cli build",
+    "build:web": "bun run build && bun run --filter @grove-port/converter-web build",
+    "build:web:boske": "bun run build:web && node scripts/sync-converter-to-boske-website.mjs",
+    "test": "bun test",
+    "schema:emit": "bun run --filter @grove-port/schema emit-json-schema",
+    "grove-port": "bun run --filter @grove-port/cli start"
+  },
+  "devDependencies": {
+    "@types/bun": "latest",
+    "@types/node": "^22.15.0",
+    "typescript": "^5.9.3"
+  }
+}
