@@ -1,0 +1,22 @@
+[
+  {
+    "header": "Gemini Apps",
+    "title": "Prompted Gemini",
+    "titleUrl": "https://gemini.google.com/app/c/gemini-conv-001",
+    "time": "2026-06-21T09:00:00.000Z",
+    "details": [
+      { "name": "Prompt", "value": "What is Grove Port?" },
+      { "name": "Response", "value": "Grove Port is an open standard for portable AI workspaces." }
+    ]
+  },
+  {
+    "header": "Gemini Apps",
+    "title": "Prompted Gemini",
+    "titleUrl": "https://gemini.google.com/app/c/gemini-conv-001",
+    "time": "2026-06-21T09:05:00.000Z",
+    "details": [
+      { "name": "Prompt", "value": "How do I import it into Boske?" },
+      { "name": "Response", "value": "Download the .grove-port file and import it from Boske Settings." }
+    ]
+  }
+]

@@ -1,0 +1,541 @@
+[
+  {
+    "title": "Rolling averages in pandas",
+    "create_time": 1780000000,
+    "update_time": 1780000010,
+    "mapping": {
+      "conv-example-0001-root": {
+        "id": "conv-example-0001-root",
+        "message": null,
+        "parent": null,
+        "children": [
+          "conv-example-0001-n0"
+        ]
+      },
+      "conv-example-0001-n0": {
+        "id": "conv-example-0001-n0",
+        "message": {
+          "id": "conv-example-0001-m0",
+          "author": {
+            "role": "user",
+            "name": null,
+            "metadata": {}
+          },
+          "create_time": 1780000000,
+          "update_time": 1780000000,
+          "content": {
+            "content_type": "text",
+            "parts": [
+              "How do I compute a rolling average in pandas?"
+            ]
+          },
+          "status": "finished_successfully",
+          "metadata": {}
+        },
+        "parent": "conv-example-0001-root",
+        "children": [
+          "conv-example-0001-n1"
+        ]
+      },
+      "conv-example-0001-n1": {
+        "id": "conv-example-0001-n1",
+        "message": {
+          "id": "conv-example-0001-m1",
+          "author": {
+            "role": "assistant",
+            "name": null,
+            "metadata": {}
+          },
+          "create_time": 1780000001,
+          "update_time": 1780000001,
+          "content": {
+            "content_type": "text",
+            "parts": [
+              "Use `Series.rolling(window).mean()`."
+            ]
+          },
+          "status": "finished_successfully",
+          "metadata": {
+            "model_slug": "gpt-4"
+          }
+        },
+        "parent": "conv-example-0001-n0",
+        "children": [
+          "conv-example-0001-n2"
+        ]
+      },
+      "conv-example-0001-n2": {
+        "id": "conv-example-0001-n2",
+        "message": {
+          "id": "conv-example-0001-m2",
+          "author": {
+            "role": "user",
+            "name": null,
+            "metadata": {}
+          },
+          "create_time": 1780000002,
+          "update_time": 1780000002,
+          "content": {
+            "content_type": "text",
+            "parts": [
+              "Show me an example with a 7-day window."
+            ]
+          },
+          "status": "finished_successfully",
+          "metadata": {}
+        },
+        "parent": "conv-example-0001-n1",
+        "children": [
+          "conv-example-0001-n3"
+        ]
+      },
+      "conv-example-0001-n3": {
+        "id": "conv-example-0001-n3",
+        "message": {
+          "id": "conv-example-0001-m3",
+          "author": {
+            "role": "assistant",
+            "name": null,
+            "metadata": {}
+          },
+          "create_time": 1780000003,
+          "update_time": 1780000003,
+          "content": {
+            "content_type": "code",
+            "language": "python",
+            "text": "df['avg'] = df['value'].rolling(7).mean()"
+          },
+          "status": "finished_successfully",
+          "metadata": {
+            "model_slug": "gpt-4"
+          }
+        },
+        "parent": "conv-example-0001-n2",
+        "children": [
+          "conv-example-0001-n4"
+        ]
+      },
+      "conv-example-0001-n4": {
+        "id": "conv-example-0001-n4",
+        "message": {
+          "id": "conv-example-0001-m4",
+          "author": {
+            "role": "user",
+            "name": null,
+            "metadata": {}
+          },
+          "create_time": 1780000004,
+          "update_time": 1780000004,
+          "content": {
+            "content_type": "text",
+            "parts": [
+              "What happens at the start of the series?"
+            ]
+          },
+          "status": "finished_successfully",
+          "metadata": {}
+        },
+        "parent": "conv-example-0001-n3",
+        "children": [
+          "conv-example-0001-n5"
+        ]
+      },
+      "conv-example-0001-n5": {
+        "id": "conv-example-0001-n5",
+        "message": {
+          "id": "conv-example-0001-m5",
+          "author": {
+            "role": "assistant",
+            "name": null,
+            "metadata": {}
+          },
+          "create_time": 1780000005,
+          "update_time": 1780000005,
+          "content": {
+            "content_type": "text",
+            "parts": [
+              "The first `window - 1` rows are NaN unless you pass `min_periods`."
+            ]
+          },
+          "status": "finished_successfully",
+          "metadata": {
+            "model_slug": "gpt-4"
+          }
+        },
+        "parent": "conv-example-0001-n4",
+        "children": [
+          "conv-example-0001-n6"
+        ]
+      },
+      "conv-example-0001-n6": {
+        "id": "conv-example-0001-n6",
+        "message": {
+          "id": "conv-example-0001-m6",
+          "author": {
+            "role": "user",
+            "name": null,
+            "metadata": {}
+          },
+          "create_time": 1780000006,
+          "update_time": 1780000006,
+          "content": {
+            "content_type": "text",
+            "parts": [
+              "Can you run it?"
+            ]
+          },
+          "status": "finished_successfully",
+          "metadata": {}
+        },
+        "parent": "conv-example-0001-n5",
+        "children": [
+          "conv-example-0001-n7"
+        ]
+      },
+      "conv-example-0001-n7": {
+        "id": "conv-example-0001-n7",
+        "message": {
+          "id": "conv-example-0001-m7",
+          "author": {
+            "role": "tool",
+            "name": null,
+            "metadata": {}
+          },
+          "create_time": 1780000007,
+          "update_time": 1780000007,
+          "content": {
+            "content_type": "execution_output",
+            "text": "0    NaN\n1    NaN\n6    3.5\nName: avg, dtype: float64"
+          },
+          "status": "finished_successfully",
+          "metadata": {}
+        },
+        "parent": "conv-example-0001-n6",
+        "children": [
+          "conv-example-0001-n8"
+        ]
+      },
+      "conv-example-0001-n8": {
+        "id": "conv-example-0001-n8",
+        "message": {
+          "id": "conv-example-0001-m8",
+          "author": {
+            "role": "assistant",
+            "name": null,
+            "metadata": {}
+          },
+          "create_time": 1780000008,
+          "update_time": 1780000008,
+          "content": {
+            "content_type": "text",
+            "parts": [
+              "The first six rows are NaN, as expected."
+            ]
+          },
+          "status": "finished_successfully",
+          "metadata": {
+            "model_slug": "gpt-4"
+          }
+        },
+        "parent": "conv-example-0001-n7",
+        "children": [
+          "conv-example-0001-n9"
+        ]
+      },
+      "conv-example-0001-n9": {
+        "id": "conv-example-0001-n9",
+        "message": {
+          "id": "conv-example-0001-m9",
+          "author": {
+            "role": "user",
+            "name": null,
+            "metadata": {}
+          },
+          "create_time": 1780000009,
+          "update_time": 1780000009,
+          "content": {
+            "content_type": "text",
+            "parts": [
+              "Thanks!"
+            ]
+          },
+          "status": "finished_successfully",
+          "metadata": {}
+        },
+        "parent": "conv-example-0001-n8",
+        "children": []
+      }
+    },
+    "moderation_results": [],
+    "current_node": "conv-example-0001-n9",
+    "plugin_ids": null,
+    "conversation_id": "conv-example-0001",
+    "conversation_template_id": null,
+    "gizmo_id": null,
+    "is_archived": false,
+    "safe_urls": [],
+    "default_model_slug": "gpt-4",
+    "id": "conv-example-0001"
+  },
+  {
+    "title": "Tarball vs ZIP",
+    "create_time": 1780000000,
+    "update_time": 1780000009,
+    "mapping": {
+      "conv-example-0002-root": {
+        "id": "conv-example-0002-root",
+        "message": null,
+        "parent": null,
+        "children": [
+          "conv-example-0002-n0"
+        ]
+      },
+      "conv-example-0002-n0": {
+        "id": "conv-example-0002-n0",
+        "message": {
+          "id": "conv-example-0002-m0",
+          "author": {
+            "role": "user",
+            "name": null,
+            "metadata": {}
+          },
+          "create_time": 1780000000,
+          "update_time": 1780000000,
+          "content": {
+            "content_type": "text",
+            "parts": [
+              "Summarize the difference between a tarball and a ZIP archive."
+            ]
+          },
+          "status": "finished_successfully",
+          "metadata": {}
+        },
+        "parent": "conv-example-0002-root",
+        "children": [
+          "conv-example-0002-n1"
+        ]
+      },
+      "conv-example-0002-n1": {
+        "id": "conv-example-0002-n1",
+        "message": {
+          "id": "conv-example-0002-m1",
+          "author": {
+            "role": "assistant",
+            "name": null,
+            "metadata": {}
+          },
+          "create_time": 1780000001,
+          "update_time": 1780000001,
+          "content": {
+            "content_type": "text",
+            "parts": [
+              "A tarball concatenates files then compresses the whole stream; a ZIP compresses each entry separately."
+            ]
+          },
+          "status": "finished_successfully",
+          "metadata": {
+            "model_slug": "gpt-4"
+          }
+        },
+        "parent": "conv-example-0002-n0",
+        "children": [
+          "conv-example-0002-n2"
+        ]
+      },
+      "conv-example-0002-n2": {
+        "id": "conv-example-0002-n2",
+        "message": {
+          "id": "conv-example-0002-m2",
+          "author": {
+            "role": "user",
+            "name": null,
+            "metadata": {}
+          },
+          "create_time": 1780000002,
+          "update_time": 1780000002,
+          "content": {
+            "content_type": "multimodal_text",
+            "parts": [
+              "Here is the diagram I mentioned.",
+              {
+                "content_type": "image_asset_pointer",
+                "asset_pointer": "file-service://file-EXAMPLE0001",
+                "size_bytes": 1024,
+                "width": 64,
+                "height": 64
+              }
+            ]
+          },
+          "status": "finished_successfully",
+          "metadata": {}
+        },
+        "parent": "conv-example-0002-n1",
+        "children": [
+          "conv-example-0002-n3"
+        ]
+      },
+      "conv-example-0002-n3": {
+        "id": "conv-example-0002-n3",
+        "message": {
+          "id": "conv-example-0002-m3",
+          "author": {
+            "role": "assistant",
+            "name": null,
+            "metadata": {}
+          },
+          "create_time": 1780000003,
+          "update_time": 1780000003,
+          "content": {
+            "content_type": "text",
+            "parts": [
+              "The diagram matches the per-entry model on the right."
+            ]
+          },
+          "status": "finished_successfully",
+          "metadata": {
+            "model_slug": "gpt-4"
+          }
+        },
+        "parent": "conv-example-0002-n2",
+        "children": [
+          "conv-example-0002-n4"
+        ]
+      },
+      "conv-example-0002-n4": {
+        "id": "conv-example-0002-n4",
+        "message": {
+          "id": "conv-example-0002-m4",
+          "author": {
+            "role": "user",
+            "name": null,
+            "metadata": {}
+          },
+          "create_time": 1780000004,
+          "update_time": 1780000004,
+          "content": {
+            "content_type": "text",
+            "parts": [
+              "Which one supports random access?"
+            ]
+          },
+          "status": "finished_successfully",
+          "metadata": {}
+        },
+        "parent": "conv-example-0002-n3",
+        "children": [
+          "conv-example-0002-n5"
+        ]
+      },
+      "conv-example-0002-n5": {
+        "id": "conv-example-0002-n5",
+        "message": {
+          "id": "conv-example-0002-m5",
+          "author": {
+            "role": "assistant",
+            "name": null,
+            "metadata": {}
+          },
+          "create_time": 1780000005,
+          "update_time": 1780000005,
+          "content": {
+            "content_type": "text",
+            "parts": [
+              "ZIP does \u2014 its central directory lists every entry offset."
+            ]
+          },
+          "status": "finished_successfully",
+          "metadata": {
+            "model_slug": "gpt-4"
+          }
+        },
+        "parent": "conv-example-0002-n4",
+        "children": [
+          "conv-example-0002-n6"
+        ]
+      },
+      "conv-example-0002-n6": {
+        "id": "conv-example-0002-n6",
+        "message": {
+          "id": "conv-example-0002-m6",
+          "author": {
+            "role": "user",
+            "name": null,
+            "metadata": {}
+          },
+          "create_time": 1780000006,
+          "update_time": 1780000006,
+          "content": {
+            "content_type": "text",
+            "parts": [
+              "And which compresses better?"
+            ]
+          },
+          "status": "finished_successfully",
+          "metadata": {}
+        },
+        "parent": "conv-example-0002-n5",
+        "children": [
+          "conv-example-0002-n7"
+        ]
+      },
+      "conv-example-0002-n7": {
+        "id": "conv-example-0002-n7",
+        "message": {
+          "id": "conv-example-0002-m7",
+          "author": {
+            "role": "tool",
+            "name": null,
+            "metadata": {}
+          },
+          "create_time": 1780000007,
+          "update_time": 1780000007,
+          "content": {
+            "content_type": "tether_browsing_display",
+            "result": "Comparative benchmarks show solid-stream formats typically achieve higher ratios on many small similar files."
+          },
+          "status": "finished_successfully",
+          "metadata": {}
+        },
+        "parent": "conv-example-0002-n6",
+        "children": [
+          "conv-example-0002-n8"
+        ]
+      },
+      "conv-example-0002-n8": {
+        "id": "conv-example-0002-n8",
+        "message": {
+          "id": "conv-example-0002-m8",
+          "author": {
+            "role": "assistant",
+            "name": null,
+            "metadata": {}
+          },
+          "create_time": 1780000008,
+          "update_time": 1780000008,
+          "content": {
+            "content_type": "text",
+            "parts": [
+              "Solid streams like tar.gz usually win on many small similar files."
+            ]
+          },
+          "status": "finished_successfully",
+          "metadata": {
+            "model_slug": "gpt-4"
+          }
+        },
+        "parent": "conv-example-0002-n7",
+        "children": []
+      }
+    },
+    "moderation_results": [],
+    "current_node": "conv-example-0002-n8",
+    "plugin_ids": null,
+    "conversation_id": "conv-example-0002",
+    "conversation_template_id": null,
+    "gizmo_id": null,
+    "is_archived": false,
+    "safe_urls": [],
+    "default_model_slug": "gpt-4",
+    "id": "conv-example-0002"
+  }
+]

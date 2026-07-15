@@ -1,0 +1,25 @@
+name: grove-port
+
+on:
+  push:
+    paths:
+      - 'grove-port/**'
+  pull_request:
+    paths:
+      - 'grove-port/**'
+
+defaults:
+  run:
+    working-directory: grove-port
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+      - run: bun install
+      - run: bun run build
+      - run: bun test

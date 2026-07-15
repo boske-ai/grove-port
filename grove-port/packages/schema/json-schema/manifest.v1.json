@@ -1,0 +1,173 @@
+{
+  "$ref": "#/definitions/GrovePortManifestV1",
+  "definitions": {
+    "GrovePortManifestV1": {
+      "type": "object",
+      "properties": {
+        "version": {
+          "type": "string",
+          "const": "v1"
+        },
+        "label": {
+          "type": "string",
+          "maxLength": 200
+        },
+        "created_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "source": {
+          "type": "object",
+          "properties": {
+            "app_version": {
+              "type": "string",
+              "minLength": 1
+            },
+            "deployment": {
+              "type": "string",
+              "enum": [
+                "electron-local",
+                "electron-hybrid",
+                "web-saas",
+                "private-cloud",
+                "on-premise"
+              ]
+            },
+            "tier": {
+              "type": "string",
+              "enum": [
+                "free",
+                "trial",
+                "local",
+                "cloud",
+                "enterprise",
+                "developer",
+                "admin"
+              ]
+            },
+            "instance_id": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "adapter": {
+              "type": "string",
+              "minLength": 1
+            },
+            "adapter_version": {
+              "type": "string",
+              "minLength": 1
+            },
+            "source_format": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "required": [
+            "app_version",
+            "deployment",
+            "tier",
+            "instance_id"
+          ],
+          "additionalProperties": false
+        },
+        "user_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "user_email": {
+          "type": "string",
+          "format": "email"
+        },
+        "counts": {
+          "type": "object",
+          "properties": {
+            "conversations": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "messages": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "files": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "presets": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "agents": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "memories": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "tool_calls": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "transcript_sessions": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "workspace_items": {
+              "type": "integer",
+              "minimum": 0,
+              "default": 0
+            },
+            "shares": {
+              "type": "integer",
+              "minimum": 0
+            }
+          },
+          "required": [
+            "conversations",
+            "messages",
+            "files",
+            "presets",
+            "agents",
+            "memories",
+            "tool_calls",
+            "transcript_sessions",
+            "shares"
+          ],
+          "additionalProperties": false
+        },
+        "checksums": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$"
+          },
+          "propertyNames": {
+            "minLength": 1
+          }
+        },
+        "signature_alg": {
+          "type": "string",
+          "const": "ed25519"
+        },
+        "signature_public_key": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "version",
+        "created_at",
+        "source",
+        "user_id",
+        "user_email",
+        "counts",
+        "checksums",
+        "signature_alg",
+        "signature_public_key"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "$schema": "http://json-schema.org/draft-07/schema#"
+}

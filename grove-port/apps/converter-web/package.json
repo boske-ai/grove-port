@@ -1,0 +1,19 @@
+{
+  "name": "@grove-port/converter-web",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Browser Grove Port converter — boske.dev/move prototype",
+  "license": "MIT",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@grove-port/convert-browser": "workspace:*"
+  },
+  "devDependencies": {
+    "vite": "^6.3.5"
+  }
+}

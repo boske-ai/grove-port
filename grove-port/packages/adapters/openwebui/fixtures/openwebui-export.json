@@ -1,0 +1,66 @@
+[
+  {
+    "chat": {
+      "title": "My Conversation",
+      "models": ["llama3.2"],
+      "history": {
+        "currentId": "message-id-2",
+        "messages": {
+          "message-id-1": {
+            "id": "message-id-1",
+            "parentId": null,
+            "childrenIds": ["message-id-2"],
+            "role": "user",
+            "content": "Hello, how are you?",
+            "timestamp": 1700000000
+          },
+          "message-id-2": {
+            "id": "message-id-2",
+            "parentId": "message-id-1",
+            "childrenIds": [],
+            "role": "assistant",
+            "content": "I'm doing well, thank you!",
+            "model": "llama3.2",
+            "done": true,
+            "timestamp": 1700000005
+          }
+        }
+      }
+    },
+    "created_at": 1700000000,
+    "updated_at": 1700000005
+  },
+  {
+    "title": "Forked chat",
+    "models": ["gpt-4"],
+    "history": {
+      "currentId": "assistant-b",
+      "messages": {
+        "user-1": {
+          "id": "user-1",
+          "parentId": null,
+          "childrenIds": ["assistant-a", "assistant-b"],
+          "role": "user",
+          "content": "Question",
+          "timestamp": 1700000100
+        },
+        "assistant-a": {
+          "id": "assistant-a",
+          "parentId": "user-1",
+          "childrenIds": [],
+          "role": "assistant",
+          "content": "First answer",
+          "timestamp": 1700000101
+        },
+        "assistant-b": {
+          "id": "assistant-b",
+          "parentId": "user-1",
+          "childrenIds": [],
+          "role": "assistant",
+          "content": "Regenerated answer",
+          "timestamp": 1700000102
+        }
+      }
+    }
+  }
+]

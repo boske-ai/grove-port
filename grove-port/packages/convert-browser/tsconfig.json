@@ -1,0 +1,21 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "outDir": "./dist",
+    "rootDir": "./src",
+    "composite": true,
+    "lib": ["ES2022", "DOM"]
+  },
+  "include": ["src/**/*.ts"],
+  "references": [
+    { "path": "../adapters/anythingllm" },
+    { "path": "../adapters/chatgpt" },
+    { "path": "../adapters/claude" },
+    { "path": "../adapters/deepseek" },
+    { "path": "../adapters/doubao" },
+    { "path": "../adapters/gemini" },
+    { "path": "../adapters/librechat" },
+    { "path": "../adapters/lobechat" },
+    { "path": "../adapters/openwebui" }
+  ]
+}

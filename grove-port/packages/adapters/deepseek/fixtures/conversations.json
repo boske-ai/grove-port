@@ -1,0 +1,78 @@
+[
+  {
+    "id": "deepseek-conv-001",
+    "title": "Planning a migration",
+    "mapping": {
+      "root-node": {
+        "id": "root-node",
+        "parent": null,
+        "children": ["req-1"],
+        "fragment": {
+          "type": "REQUEST",
+          "content": "",
+          "create_time": 1719052800
+        }
+      },
+      "req-1": {
+        "id": "req-1",
+        "parent": "root-node",
+        "children": ["think-1", "resp-1"],
+        "fragment": {
+          "type": "REQUEST",
+          "content": "How do I export my DeepSeek chats?",
+          "create_time": 1719052800
+        }
+      },
+      "think-1": {
+        "id": "think-1",
+        "parent": "req-1",
+        "children": [],
+        "fragment": {
+          "type": "THINK",
+          "content": "User wants export instructions.",
+          "create_time": 1719052801
+        }
+      },
+      "resp-1": {
+        "id": "resp-1",
+        "parent": "req-1",
+        "children": ["req-2", "resp-alt"],
+        "fragment": {
+          "type": "RESPONSE",
+          "content": "Open Settings → Privacy and export your data as ZIP.",
+          "create_time": 1719052860
+        }
+      },
+      "resp-alt": {
+        "id": "resp-alt",
+        "parent": "resp-1",
+        "children": [],
+        "fragment": {
+          "type": "RESPONSE",
+          "content": "Alternate branch response.",
+          "create_time": 1719052850
+        }
+      },
+      "req-2": {
+        "id": "req-2",
+        "parent": "resp-1",
+        "children": ["resp-2"],
+        "fragment": {
+          "type": "REQUEST",
+          "content": "What format does the export use?",
+          "create_time": 1719052920
+        }
+      },
+      "resp-2": {
+        "id": "resp-2",
+        "parent": "req-2",
+        "children": [],
+        "fragment": {
+          "type": "RESPONSE",
+          "content": "A conversations.json file with a mapping graph of fragments.",
+          "create_time": 1719052980
+        }
+      }
+    }
+  }
+]

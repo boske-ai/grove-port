@@ -1,0 +1,30 @@
+node_modules/
+dist/
+*.tsbuildinfo
+*.grove-port
+*.boske-export
+.DS_Store
+.env
+.env.*
+!.env.example
+
+# Converter uploads (never commit user data)
+uploads/
+tmp/
+
+# IDE
+.idea/
+.vscode/
+
+# Cursor — track agent config, ignore everything else under .cursor/
+.cursor/*
+!.cursor/skills/
+!.cursor/skills/**
+!.cursor/agents/
+!.cursor/agents/**
+!.cursor/README.md
+
+# Cross-tool mirror
+!.agents/
+!.agents/skills/
+!.agents/skills/**

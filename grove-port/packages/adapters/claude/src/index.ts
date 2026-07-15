@@ -1,0 +1,26 @@
+export {
+  ADAPTER_ID,
+  ADAPTER_VERSION,
+  NO_PARENT,
+  SOURCE_FORMAT,
+  type ClaudeConversation,
+  type ClaudeMessage,
+  type GroveConversationRecord,
+  type GroveMessageRecord,
+} from './types.js';
+export {
+  buildClaudeGrovePortBundle,
+  convertClaudeExport,
+  convertClaudeExportToBytes,
+  formatMessageText,
+  loadClaudeConversations,
+  loadClaudeExport,
+  loadClaudeExportFromBytes,
+  previewClaudeExport,
+  selectActiveLineage,
+  type ClaudeExportBuildResult,
+  type ClaudeExportStats,
+  type ConvertClaudeBytesResult,
+  type ConvertClaudeOptions,
+  type ConvertClaudeResult,
+} from './convert.js';

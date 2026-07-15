@@ -1,0 +1,67 @@
+[
+  {
+    "uuid": "aabbccdd-1111-2222-3333-eeff00112233",
+    "name": "Example Conversation Title",
+    "created_at": "2025-01-15T10:30:00.000000Z",
+    "updated_at": "2025-01-15T11:00:00.000000Z",
+    "model": "claude-3-5-sonnet-20241022",
+    "chat_messages": [
+      {
+        "uuid": "msg-uuid-0001",
+        "sender": "human",
+        "created_at": "2025-01-15T10:30:00.000000Z",
+        "updated_at": "2025-01-15T10:30:00.000000Z",
+        "text": "User message text goes here.",
+        "content": [{ "type": "text", "text": "User message text goes here." }],
+        "attachments": [],
+        "files": []
+      },
+      {
+        "uuid": "msg-uuid-0002",
+        "sender": "assistant",
+        "created_at": "2025-01-15T10:30:05.000000Z",
+        "updated_at": "2025-01-15T10:30:05.000000Z",
+        "text": "Assistant response text.",
+        "content": [
+          { "type": "thinking", "thinking": "Internal reasoning block." },
+          { "type": "text", "text": "Assistant response text goes here." }
+        ],
+        "attachments": [],
+        "files": []
+      }
+    ]
+  },
+  {
+    "uuid": "fork-conv-001",
+    "name": "Forked thread",
+    "created_at": "2025-02-01T09:00:00.000000Z",
+    "updated_at": "2025-02-01T09:05:00.000000Z",
+    "current_leaf_message_uuid": "assistant-b",
+    "chat_messages": [
+      {
+        "uuid": "user-1",
+        "sender": "human",
+        "created_at": "2025-02-01T09:00:00.000000Z",
+        "text": "Question",
+        "content": [{ "type": "text", "text": "Question" }],
+        "parent_message_uuid": null
+      },
+      {
+        "uuid": "assistant-a",
+        "sender": "assistant",
+        "created_at": "2025-02-01T09:01:00.000000Z",
+        "text": "First answer",
+        "content": [{ "type": "text", "text": "First answer" }],
+        "parent_message_uuid": "user-1"
+      },
+      {
+        "uuid": "assistant-b",
+        "sender": "assistant",
+        "created_at": "2025-02-01T09:02:00.000000Z",
+        "text": "Regenerated answer",
+        "content": [{ "type": "text", "text": "Regenerated answer" }],
+        "parent_message_uuid": "user-1"
+      }
+    ]
+  }
+]

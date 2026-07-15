@@ -1,0 +1,101 @@
+[
+  {
+    "title": "Widget benchmarks",
+    "create_time": 1780000000,
+    "update_time": 1780000001,
+    "mapping": {
+      "cite-root": {
+        "id": "cite-root",
+        "message": null,
+        "parent": null,
+        "children": [
+          "cite-n0"
+        ]
+      },
+      "cite-n0": {
+        "id": "cite-n0",
+        "message": {
+          "id": "cite-m0",
+          "author": {
+            "role": "tool",
+            "name": null,
+            "metadata": {}
+          },
+          "create_time": 1780000000,
+          "update_time": 1780000000,
+          "content": {
+            "content_type": "tether_browsing_display",
+            "result": "Example Corp benchmark page and Example Labs latency report."
+          },
+          "status": "finished_successfully",
+          "metadata": {}
+        },
+        "parent": "cite-root",
+        "children": [
+          "cite-n1"
+        ]
+      },
+      "cite-n1": {
+        "id": "cite-n1",
+        "message": {
+          "id": "cite-m1",
+          "author": {
+            "role": "assistant",
+            "name": null,
+            "metadata": {}
+          },
+          "create_time": 1780000001,
+          "update_time": 1780000001,
+          "content": {
+            "content_type": "text",
+            "parts": [
+              "Widget throughput improved through 2026.[cite-1] Latency dropped in the same period.[cite-2]"
+            ]
+          },
+          "status": "finished_successfully",
+          "metadata": {
+            "model_slug": "gpt-4",
+            "citations": [
+              {
+                "start_ix": 40,
+                "end_ix": 48,
+                "citation_format_type": "tether_og",
+                "metadata": {
+                  "type": "webpage",
+                  "title": "Example Corp \u2014 Widget Benchmarks",
+                  "url": "https://example.com/widgets",
+                  "text": "Throughput rose 18% year over year."
+                }
+              },
+              {
+                "start_ix": 84,
+                "end_ix": 92,
+                "citation_format_type": "tether_og",
+                "metadata": {
+                  "type": "webpage",
+                  "title": "Example Labs \u2014 Latency Report",
+                  "url": "https://example.com/latency",
+                  "text": "Median latency fell to 42ms."
+                }
+              }
+            ]
+          }
+        },
+        "parent": "cite-n0",
+        "children": []
+      }
+    },
+    "moderation_results": [],
+    "current_node": "cite-n1",
+    "plugin_ids": null,
+    "conversation_id": "conv-example-cite",
+    "conversation_template_id": null,
+    "gizmo_id": null,
+    "is_archived": false,
+    "safe_urls": [
+      "https://example.com/widgets"
+    ],
+    "default_model_slug": "gpt-4",
+    "id": "conv-example-cite"
+  }
+]

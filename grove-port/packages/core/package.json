@@ -1,0 +1,33 @@
+{
+  "name": "@grove-port/core",
+  "version": "0.1.0",
+  "description": "Grove Port envelope verify, unpack, and inspect helpers",
+  "license": "MIT",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./browser": {
+      "types": "./dist/browser.d.ts",
+      "import": "./dist/browser.js"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.json"
+  },
+  "dependencies": {
+    "@grove-port/schema": "workspace:*",
+    "fflate": "^0.8.2",
+    "tar": "^7.4.3"
+  },
+  "devDependencies": {
+    "@types/tar": "^6.1.13"
+  }
+}

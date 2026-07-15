@@ -1,0 +1,31 @@
+{
+  "name": "@grove-port/convert-browser",
+  "version": "0.1.0",
+  "description": "Browser-side Grove Port conversion from vendor export files",
+  "license": "MIT",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "files": ["dist"],
+  "scripts": {
+    "build": "tsc -p tsconfig.json"
+  },
+  "dependencies": {
+    "@grove-port/adapter-anythingllm": "workspace:*",
+    "@grove-port/adapter-chatgpt": "workspace:*",
+    "@grove-port/adapter-claude": "workspace:*",
+    "@grove-port/adapter-deepseek": "workspace:*",
+    "@grove-port/adapter-doubao": "workspace:*",
+    "@grove-port/adapter-gemini": "workspace:*",
+    "@grove-port/adapter-librechat": "workspace:*",
+    "@grove-port/adapter-lobechat": "workspace:*",
+    "@grove-port/adapter-openwebui": "workspace:*",
+    "fflate": "^0.8.2"
+  }
+}
