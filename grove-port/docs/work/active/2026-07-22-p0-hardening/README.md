@@ -1,10 +1,11 @@
 # P0 hardening — verify confine, archive budgets, browser tar
 
-**Status:** Approved — implementation complete (awaiting PR)  
+**Status:** ✅ Merged  
 
 **Started:** 2026-07-22  
 **Approved:** 2026-07-22  
-**Phases:** R ✅ · X ✅ · E Waves 1–4 + 1b/1c/2b/3b ✅ · V ✅ (129 tests)  
+**Merged:** 2026-07-22 · [PR #1](https://github.com/boske-ai/grove-port/pull/1)  
+**Phases:** R ✅ · X ✅ · E Waves 1–4 + 1b/1c/2b/3b ✅ · V ✅ (129 tests) · PR ✅  
 
 **Invoke:** `@grove-port-implementation` · `@p0-hardening`
 
