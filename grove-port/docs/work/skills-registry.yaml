@@ -3,6 +3,12 @@
 # Add a row when creating any new active work folder that may touch code.
 
 folders:
+  2026-07-22-p0-hardening:
+    skill: p0-hardening
+    plan: plan.md
+    status: approved
+    invoke: "@grove-port-implementation @p0-hardening"
+
   2026-07-15-move-landing-open-repo-boske-import:
     skill: move-funnel
     plan: plan.md

@@ -1,4 +1,5 @@
-import { strFromU8, unzipSync } from 'fflate';
+import { unzipSyncWithBudgets } from '@grove-port/core/browser';
+import { strFromU8 } from 'fflate';
 
 export type DetectedAdapterName =
   | 'chatgpt'
@@ -496,7 +497,7 @@ function detectFromJsonl(bytes: Uint8Array, fileName: string): DetectExportResul
 }
 
 function detectFromZip(bytes: Uint8Array, fileName: string): DetectExportResult {
-  const entries = unzipSync(bytes);
+  const entries = unzipSyncWithBudgets(bytes);
   const entryNames = Object.keys(entries);
   assertNotMistralZip(entryNames);
 

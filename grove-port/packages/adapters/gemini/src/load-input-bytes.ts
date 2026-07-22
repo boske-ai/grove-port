@@ -1,4 +1,5 @@
-import { strFromU8, unzipSync } from 'fflate';
+import { unzipSyncWithBudgets } from '@grove-port/core/browser';
+import { strFromU8 } from 'fflate';
 import {
   extractConversationIdFromTitleUrl,
   formatConversationMessage,
@@ -228,7 +229,7 @@ export function loadGeminiExportFromBytes(
     throw new Error('Gemini input must be a Google Takeout .zip archive');
   }
 
-  const entries = unzipSync(archiveBytes);
+  const entries = unzipSyncWithBudgets(archiveBytes);
   const entryNames = Object.keys(entries);
 
   if (detectGemsOnlyExport(entryNames)) {

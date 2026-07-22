@@ -12,3 +12,8 @@ export {
   type PackEnvelopeBytesResult,
 } from './pack-bytes.js';
 export { createTarGzip, type TarEntry } from './tar-gzip.js';
+export {
+  DEFAULT_ZIP_BUDGET_LIMITS,
+  unzipSyncWithBudgets,
+  type ZipBudgetLimits,
+} from './zip-budgets.js';

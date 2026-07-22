@@ -52,6 +52,26 @@ function defaultReadme(manifest: ExportManifestV1): string {
   ].join('\n');
 }
 
+/**
+ * Browser-safe basename + sanitize — aligns with Node `pack.ts` (`path.basename`)
+ * and verify allowlist (no `/`, `\`, NUL, `.`, `..`).
+ */
+function sanitizeStorageName(storageName: string): string {
+  if (storageName.includes('\0')) {
+    throw new Error(`unsafe attachment storage_name: contains NUL: '${storageName}'`);
+  }
+  const normalized = storageName.replace(/\\/g, '/');
+  const segments = normalized.split('/');
+  const base = segments[segments.length - 1] ?? '';
+  if (base.length === 0 || base === '.' || base === '..') {
+    throw new Error(`unsafe attachment storage_name: empty or reserved basename: '${storageName}'`);
+  }
+  if (base.includes('/') || base.includes('\\')) {
+    throw new Error(`unsafe attachment storage_name: must be a safe basename: '${storageName}'`);
+  }
+  return base;
+}
+
 /** Browser-safe envelope packer — returns gzip tar bytes (`.grove-port` wire format). */
 export async function packEnvelopeBytes({
   manifest,
@@ -71,15 +91,16 @@ export async function packEnvelopeBytes({
   const tarEntries: TarEntry[] = [];
 
   for (const attachment of attachments) {
+    const fileName = sanitizeStorageName(attachment.storage_name);
     const digest = await sha256HexBytes(attachment.bytes);
     if (attachment.sha256 !== digest) {
       throw new Error(
         `attachment checksum mismatch for ${attachment.storage_name}: expected ${attachment.sha256}, got ${digest}`,
       );
     }
-    checksums[`attachments/${attachment.storage_name}`] = digest;
+    checksums[`attachments/${fileName}`] = digest;
     tarEntries.push({
-      path: `${envelopeRoot}/attachments/${attachment.storage_name}`,
+      path: `${envelopeRoot}/attachments/${fileName}`,
       data: attachment.bytes,
     });
   }
