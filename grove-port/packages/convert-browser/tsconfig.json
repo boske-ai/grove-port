@@ -16,6 +16,7 @@
     { "path": "../adapters/gemini" },
     { "path": "../adapters/librechat" },
     { "path": "../adapters/lobechat" },
-    { "path": "../adapters/openwebui" }
+    { "path": "../adapters/openwebui" },
+    { "path": "../core" }
   ]
 }

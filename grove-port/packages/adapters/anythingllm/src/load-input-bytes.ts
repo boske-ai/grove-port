@@ -1,4 +1,5 @@
-import { strFromU8, unzipSync } from 'fflate';
+import { unzipSyncWithBudgets } from '@grove-port/core/browser';
+import { strFromU8 } from 'fflate';
 import type { AnythingLlmChatLog, AnythingLlmConversation } from './types.js';
 import { conversationKeyForLog, conversationTitle } from './format-message.js';
 
@@ -116,7 +117,7 @@ export function loadAnythingLlmExportFromBytes(
   }
 
   if (lowerPath.endsWith('.zip')) {
-    const entries = unzipSync(bytes);
+    const entries = unzipSyncWithBudgets(bytes);
     const jsonlEntry = Object.entries(entries).find(([name]) => name.toLowerCase().endsWith('.jsonl'));
     if (jsonlEntry) {
       const [entryName, entryBytes] = jsonlEntry;

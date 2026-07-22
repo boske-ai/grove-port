@@ -26,6 +26,7 @@
     "@grove-port/adapter-librechat": "workspace:*",
     "@grove-port/adapter-lobechat": "workspace:*",
     "@grove-port/adapter-openwebui": "workspace:*",
+    "@grove-port/core": "workspace:*",
     "fflate": "^0.8.2"
   }
 }

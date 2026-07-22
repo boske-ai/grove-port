@@ -1,4 +1,5 @@
-import { strFromU8, unzipSync } from 'fflate';
+import { unzipSyncWithBudgets } from '@grove-port/core/browser';
+import { strFromU8 } from 'fflate';
 import type { ClaudeConversation, ClaudeExportUser } from './types.js';
 
 export interface ClaudeExportBundle {
@@ -50,7 +51,7 @@ export function loadClaudeExportFromBytes(
   const lowerPath = fileName.toLowerCase();
 
   if (lowerPath.endsWith('.zip')) {
-    const entries = unzipSync(archiveOrJsonBytes);
+    const entries = unzipSyncWithBudgets(archiveOrJsonBytes);
     const conversationsEntry = Object.entries(entries).find(([name]) =>
       name.endsWith('conversations.json'),
     );

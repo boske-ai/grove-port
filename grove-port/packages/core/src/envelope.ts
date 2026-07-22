@@ -2,7 +2,6 @@ import { existsSync } from 'node:fs';
 import { mkdir, mkdtemp, readFile, readdir, rm } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import path from 'node:path';
-import { extract } from 'tar';
 import {
   DATA_COLLECTION_KEYS,
   ENVELOPE_ROOT_NAMES,
@@ -18,6 +17,17 @@ import {
   type ExportManifestV1,
 } from '@grove-port/schema';
 import { sha256HexFile, verifyManifestSignature } from './crypto.js';
+import {
+  ALLOWED_ENVELOPE_TOP_LEVEL,
+  assertPathSafeForHash,
+  resolveChecksumPath,
+} from './path-safe.js';
+import {
+  DEFAULT_TAR_EXTRACT_BUDGETS,
+  assertDataJsonWithinBudget,
+  extractTarWithBudgets,
+  type TarExtractBudgets,
+} from './tar-budgets.js';
 
 export interface UnpackAndVerifyResult {
   manifest: ExportManifestV1;
@@ -56,6 +66,15 @@ function resolveEnvelopeRoot(extractDir: string): { root: string; rootName: Enve
   );
 }
 
+async function assertEnvelopeTopLevelAllowlist(root: string): Promise<void> {
+  const entries = await readdir(root);
+  for (const name of entries) {
+    if (!ALLOWED_ENVELOPE_TOP_LEVEL.has(name)) {
+      throw new Error(`unexpected top-level member '${name}' under envelope root`);
+    }
+  }
+}
+
 function countDataCollections(data: ExportDataV1): InspectSummary['actual_counts'] {
   const counts = {} as InspectSummary['actual_counts'];
 
@@ -71,21 +90,27 @@ function countDataCollections(data: ExportDataV1): InspectSummary['actual_counts
 export async function unpackAndVerifyEnvelope({
   tarballPath,
   extractDir,
+  budgets = DEFAULT_TAR_EXTRACT_BUDGETS,
 }: {
   tarballPath: string;
   extractDir: string;
+  /** Optional overrides for tests; production uses {@link DEFAULT_TAR_EXTRACT_BUDGETS}. */
+  budgets?: TarExtractBudgets;
 }): Promise<UnpackAndVerifyResult> {
   await mkdir(extractDir, { recursive: true });
-  await extract({ file: tarballPath, cwd: extractDir });
+  await extractTarWithBudgets({ file: tarballPath, cwd: extractDir, budgets });
 
   const { root, rootName } = resolveEnvelopeRoot(extractDir);
+  await assertEnvelopeTopLevelAllowlist(root);
 
-  const manifestRaw = JSON.parse(
-    await readFile(path.join(root, EXPORT_MANIFEST_FILENAME), 'utf8'),
-  ) as unknown;
+  const manifestPath = path.join(root, EXPORT_MANIFEST_FILENAME);
+  await assertPathSafeForHash(root, manifestPath, EXPORT_MANIFEST_FILENAME);
+  const manifestRaw = JSON.parse(await readFile(manifestPath, 'utf8')) as unknown;
   const manifest = ExportManifestV1Schema.parse(manifestRaw);
 
-  const signatureBase64 = (await readFile(path.join(root, EXPORT_SIGNATURE_FILENAME), 'utf8')).trim();
+  const signaturePath = path.join(root, EXPORT_SIGNATURE_FILENAME);
+  await assertPathSafeForHash(root, signaturePath, EXPORT_SIGNATURE_FILENAME);
+  const signatureBase64 = (await readFile(signaturePath, 'utf8')).trim();
   const signatureValid = verifyManifestSignature(
     manifest,
     signatureBase64,
@@ -96,11 +121,16 @@ export async function unpackAndVerifyEnvelope({
     throw new Error('envelope signature is INVALID — manifest has been tampered with');
   }
 
+  if (!(EXPORT_DATA_FILENAME in manifest.checksums)) {
+    throw new Error(`manifest.checksums must include '${EXPORT_DATA_FILENAME}'`);
+  }
+
   for (const [relPath, expectedHash] of Object.entries(manifest.checksums)) {
-    const filePath = path.join(root, relPath);
+    const filePath = resolveChecksumPath(root, relPath);
     if (!existsSync(filePath)) {
       throw new Error(`envelope is missing declared file '${relPath}'`);
     }
+    await assertPathSafeForHash(root, filePath, relPath);
 
     const actualHash = await sha256HexFile(filePath);
     if (actualHash !== expectedHash) {
@@ -112,16 +142,22 @@ export async function unpackAndVerifyEnvelope({
 
   const attachmentsDir = path.join(root, EXPORT_ATTACHMENTS_DIR);
   if (existsSync(attachmentsDir)) {
+    await assertPathSafeForHash(root, attachmentsDir, EXPORT_ATTACHMENTS_DIR);
     const onDisk = await readdir(attachmentsDir);
     for (const name of onDisk) {
       const key = `${EXPORT_ATTACHMENTS_DIR}/${name}`;
+      const attachmentPath = path.join(attachmentsDir, name);
+      await assertPathSafeForHash(root, attachmentPath, key);
       if (!(key in manifest.checksums)) {
         throw new Error(`unexpected attachment '${key}' is not in manifest.checksums`);
       }
     }
   }
 
-  const dataRaw = JSON.parse(await readFile(path.join(root, EXPORT_DATA_FILENAME), 'utf8')) as unknown;
+  const dataPath = path.join(root, EXPORT_DATA_FILENAME);
+  await assertPathSafeForHash(root, dataPath, EXPORT_DATA_FILENAME);
+  await assertDataJsonWithinBudget(dataPath, budgets.maxDataJsonBytes);
+  const dataRaw = JSON.parse(await readFile(dataPath, 'utf8')) as unknown;
   const data = ExportDataV1Schema.parse(dataRaw);
 
   return { manifest, data, root, rootName };

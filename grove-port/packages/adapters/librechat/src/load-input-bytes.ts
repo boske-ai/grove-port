@@ -1,4 +1,5 @@
-import { strFromU8, unzipSync } from 'fflate';
+import { unzipSyncWithBudgets } from '@grove-port/core/browser';
+import { strFromU8 } from 'fflate';
 import type { LibreChatConversationExport } from './types.js';
 
 export interface LibreChatExportBundle {
@@ -43,7 +44,7 @@ export function loadLibreChatExportFromBytes(
   const lowerPath = fileName.toLowerCase();
 
   if (lowerPath.endsWith('.zip')) {
-    const entries = unzipSync(archiveOrJsonBytes);
+    const entries = unzipSyncWithBudgets(archiveOrJsonBytes);
     const jsonFiles = Object.entries(entries).filter(([name]) => name.toLowerCase().endsWith('.json'));
 
     if (jsonFiles.length === 0) {

@@ -7,3 +7,8 @@ export {
   type UnpackAndVerifyResult,
 } from './envelope.js';
 export { packEnvelope, type PackAttachmentInput, type PackEnvelopeInput, type PackEnvelopeResult } from './pack.js';
+export {
+  DEFAULT_ZIP_BUDGET_LIMITS,
+  unzipSyncWithBudgets,
+  type ZipBudgetLimits,
+} from './zip-budgets.js';

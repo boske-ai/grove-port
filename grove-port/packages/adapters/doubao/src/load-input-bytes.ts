@@ -1,4 +1,5 @@
-import { strFromU8, unzipSync } from 'fflate';
+import { unzipSyncWithBudgets } from '@grove-port/core/browser';
+import { strFromU8 } from 'fflate';
 import type { DoubaoConversationExport, DoubaoMetadata } from './types.js';
 import { formatMessageText } from './format-message.js';
 
@@ -129,7 +130,7 @@ export function loadDoubaoExportFromBytes(
     throw new Error('Doubao input must be a bulk export .zip archive');
   }
 
-  const entries = unzipSync(archiveBytes);
+  const entries = unzipSyncWithBudgets(archiveBytes);
   const hasMetadata = Object.keys(entries).some((name) => name.toLowerCase().endsWith('metadata.json'));
 
   const conversations = hasMetadata ? loadFromMetadata(entries) : loadFromChatFolders(entries);
