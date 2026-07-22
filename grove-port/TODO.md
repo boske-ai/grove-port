@@ -1,8 +1,8 @@
 # Grove Port — Backlog
 
-Last updated: 2026-07-15
+Last updated: 2026-07-22
 
-**Active work:** [`docs/work/active/`](./docs/work/active/)
+**Active work:** [`docs/work/active/`](./docs/work/active/) · P0 hardening draft: [`2026-07-22-p0-hardening`](./docs/work/active/2026-07-22-p0-hardening/)
 
 ---
 
@@ -29,7 +29,7 @@ Last updated: 2026-07-15
 | 🟡 | **`/port` landing** (no upload) + retire converter embed | [`2026-07-15-move-landing-open-repo-boske-import`](./docs/work/active/2026-07-15-move-landing-open-repo-boske-import/) |
 | ✅ | **Public open repo** [boske-ai/grove-port](https://github.com/boske-ai/grove-port) | same |
 | ✅ | **Boske import:** Wave 3 complete (multi-adapter UI + rollback + .grove-port download) | Boske monorepo |
-| ⬜ | **ZIP bomb budgets** in adapters/`unzipSync` (entry count, uncompressed bytes, ratio) | hardening |
+| ✅ | **ZIP bomb budgets** in adapters/`unzipSync` (entry count, uncompressed bytes, ratio) | [`2026-07-22-p0-hardening`](./docs/work/active/2026-07-22-p0-hardening/) |
 | 🗂️ | Online converter Phase 1 (embed) — **pivoted** | [`2026-06-18-online-converter`](./docs/work/active/2026-06-18-online-converter/) |
 
 ---

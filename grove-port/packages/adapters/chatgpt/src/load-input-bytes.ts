@@ -1,4 +1,5 @@
-import { strFromU8, unzipSync } from 'fflate';
+import { unzipSyncWithBudgets } from '@grove-port/core/browser';
+import { strFromU8 } from 'fflate';
 import type { ChatGptConversation } from './types.js';
 
 export interface ChatGptExportUser {
@@ -115,7 +116,7 @@ export function loadChatGptExportFromBytes(
   }
 
   if (lower.endsWith('.zip')) {
-    const entries = unzipSync(archiveOrJsonBytes);
+    const entries = unzipSyncWithBudgets(archiveOrJsonBytes);
     const entryNames = Object.keys(entries);
     const conversationEntryNames = resolveConversationEntryNames(entryNames);
 
