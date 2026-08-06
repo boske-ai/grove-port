@@ -24,11 +24,15 @@ export interface WorkerConvertResult {
 }
 
 export class ConverterWorkerClient {
-  private readonly worker: Worker;
+  private worker!: Worker;
   private nextId = 0;
-  private readonly pending = new Map<number, { resolve: (value: unknown) => void; reject: (error: Error) => void }>();
+  private pending = new Map<number, { resolve: (value: unknown) => void; reject: (error: Error) => void }>();
 
   constructor() {
+    this.spawn();
+  }
+
+  private spawn(): void {
     this.worker = new Worker(new URL('./converter-worker.ts', import.meta.url), { type: 'module' });
     this.worker.onmessage = (event: MessageEvent<WorkerResponse>) => {
       const message = event.data;
@@ -85,11 +89,25 @@ export class ConverterWorkerClient {
     return this.call<void>('clear');
   }
 
+  /**
+   * Rejecting the promises only detaches the caller — the worker keeps grinding
+   * on a large conversion. Tear it down and start a fresh one so a cancelled job
+   * actually stops burning CPU.
+   */
   cancelPending(): void {
-    for (const [, handlers] of this.pending) {
+    if (this.pending.size === 0) {
+      return;
+    }
+
+    const cancelled = this.pending;
+    this.pending = new Map();
+
+    this.worker.terminate();
+    this.spawn();
+
+    for (const [, handlers] of cancelled) {
       handlers.reject(new Error('Cancelled'));
     }
-    this.pending.clear();
   }
 
   terminate(): void {

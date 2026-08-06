@@ -1,8 +1,17 @@
 {
   "name": "@grove-port/core",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Grove Port envelope verify, unpack, and inspect helpers",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/boske-ai/grove-port.git",
+    "directory": "packages/core"
+  },
+  "homepage": "https://github.com/boske-ai/grove-port/tree/main/packages/core#readme",
+  "bugs": {
+    "url": "https://github.com/boske-ai/grove-port/issues"
+  },
   "type": "module",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",

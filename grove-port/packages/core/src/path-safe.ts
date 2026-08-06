@@ -57,7 +57,7 @@ export function resolveChecksumPath(root: string, checksumKey: string): string {
     throw new Error(`unsafe checksum key: absolute path: '${checksumKey}'`);
   }
 
-  if (checksumKey === EXPORT_DATA_FILENAME) {
+  if (checksumKey === EXPORT_DATA_FILENAME || checksumKey === EXPORT_README_FILENAME) {
     // allowed
   } else if (checksumKey.startsWith(`${EXPORT_ATTACHMENTS_DIR}/`)) {
     const basename = checksumKey.slice(EXPORT_ATTACHMENTS_DIR.length + 1);
@@ -70,7 +70,8 @@ export function resolveChecksumPath(root: string, checksumKey: string): string {
     }
   } else {
     throw new Error(
-      `unsafe checksum key: must be '${EXPORT_DATA_FILENAME}' or '${EXPORT_ATTACHMENTS_DIR}/<basename>': '${checksumKey}'`,
+      `unsafe checksum key: must be '${EXPORT_DATA_FILENAME}', '${EXPORT_README_FILENAME}', ` +
+        `or '${EXPORT_ATTACHMENTS_DIR}/<basename>': '${checksumKey}'`,
     );
   }
 
@@ -82,18 +83,33 @@ export function resolveChecksumPath(root: string, checksumKey: string): string {
   return resolved;
 }
 
+/** What a verified envelope member is expected to be on disk. */
+export type ExpectedMemberKind = 'file' | 'directory';
+
 /**
  * Fail closed before reading/hashing: reject symlinks and paths whose realpath
  * escapes the envelope root (e.g. `attachments/` itself is a symlink).
+ *
+ * `expect` additionally pins the member kind, so a directory declared as a
+ * checksummed file fails validation instead of surfacing a raw `EISDIR` from
+ * the hash stream.
  */
 export async function assertPathSafeForHash(
   root: string,
   resolved: string,
   label: string,
+  expect?: ExpectedMemberKind,
 ): Promise<void> {
   const st = await lstat(resolved);
   if (st.isSymbolicLink()) {
     throw new Error(`unsafe path: symlink not allowed: '${label}'`);
+  }
+
+  if (expect === 'file' && !st.isFile()) {
+    throw new Error(`unsafe path: expected a regular file: '${label}'`);
+  }
+  if (expect === 'directory' && !st.isDirectory()) {
+    throw new Error(`unsafe path: expected a directory: '${label}'`);
   }
 
   // realpath both sides so macOS /tmp → /private/tmp (etc.) does not false-reject.

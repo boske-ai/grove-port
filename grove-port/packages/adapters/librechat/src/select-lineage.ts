@@ -51,6 +51,12 @@ export function selectActiveLineage(messages: LibreChatMessage[]): SelectLineage
   let current: LibreChatMessage | undefined = leaf;
 
   while (current) {
+    // A cyclic `parentMessageId` chain would otherwise loop forever, growing
+    // `lineage` until the process dies of memory exhaustion.
+    if (lineageIds.has(current.messageId)) {
+      break;
+    }
+
     lineage.unshift(current);
     lineageIds.add(current.messageId);
     const parentId = current.parentMessageId;
@@ -88,11 +94,19 @@ export function flattenMessagesTree(
   };
 }
 
+/** Iterative so a deeply nested `messagesTree` cannot overflow the stack. */
 function countTreeNodes(node: LibreChatMessageTreeNode): number {
-  let count = 1;
-  for (const child of node.children ?? []) {
-    count += countTreeNodes(child);
+  let count = 0;
+  const stack: LibreChatMessageTreeNode[] = [node];
+
+  while (stack.length > 0) {
+    const current = stack.pop()!;
+    count += 1;
+    for (const child of current.children ?? []) {
+      stack.push(child);
+    }
   }
+
   return count;
 }
 

@@ -56,21 +56,60 @@ function fragmentTime(node: DeepSeekMappingNode): number {
   return 0;
 }
 
-function maxTimeInSubtree(
-  nodeId: string,
+/**
+ * Latest activity time within each node's subtree, for every node, in one pass.
+ *
+ * Iterative on purpose — see the ChatGPT adapter for the same rationale: the
+ * recursive version was O(n²) across sibling comparisons and overflowed the
+ * stack on long chains or a cyclic fragment graph.
+ */
+function computeSubtreeMaxTimes(
   mapping: DeepSeekMapping,
   childrenIndex: Map<string, string[]>,
-): number {
-  const node = mapping[nodeId];
-  if (!node) {
-    return 0;
+): Map<string, number> {
+  const maxima = new Map<string, number>();
+  const settled = new Set<string>();
+  const expanding = new Set<string>();
+
+  for (const rootId of Object.keys(mapping)) {
+    if (settled.has(rootId)) {
+      continue;
+    }
+
+    const stack: string[] = [rootId];
+    while (stack.length > 0) {
+      const nodeId = stack[stack.length - 1]!;
+      const node = mapping[nodeId];
+
+      if (!node || settled.has(nodeId)) {
+        stack.pop();
+        expanding.delete(nodeId);
+        continue;
+      }
+
+      if (!expanding.has(nodeId)) {
+        expanding.add(nodeId);
+        for (const childId of getNodeChildren(nodeId, node, childrenIndex)) {
+          if (!settled.has(childId) && !expanding.has(childId)) {
+            stack.push(childId);
+          }
+        }
+        continue;
+      }
+
+      let max = fragmentTime(node);
+      for (const childId of getNodeChildren(nodeId, node, childrenIndex)) {
+        max = Math.max(max, maxima.get(childId) ?? 0);
+      }
+
+      maxima.set(nodeId, max);
+      settled.add(nodeId);
+      expanding.delete(nodeId);
+      stack.pop();
+    }
   }
 
-  let max = fragmentTime(node);
-  for (const childId of getNodeChildren(nodeId, node, childrenIndex)) {
-    max = Math.max(max, maxTimeInSubtree(childId, mapping, childrenIndex));
-  }
-  return max;
+  return maxima;
 }
 
 function findRootNode(mapping: DeepSeekMapping): DeepSeekMappingNode | undefined {
@@ -131,6 +170,7 @@ export function flattenDeepSeekMapping(mapping: DeepSeekMapping): FlattenResult 
   }
 
   const childrenIndex = buildChildrenIndex(mapping);
+  const subtreeMaxTimes = computeSubtreeMaxTimes(mapping, childrenIndex);
   const orderedNodeIds: string[] = [];
   let hadFork = false;
   let currentId: string | null = root.id;
@@ -161,8 +201,8 @@ export function flattenDeepSeekMapping(mapping: DeepSeekMapping): FlattenResult 
     }
 
     const nextId: string = children.reduce((bestId: string, childId: string) => {
-      const bestScore = maxTimeInSubtree(bestId, mapping, childrenIndex);
-      const childScore = maxTimeInSubtree(childId, mapping, childrenIndex);
+      const bestScore = subtreeMaxTimes.get(bestId) ?? 0;
+      const childScore = subtreeMaxTimes.get(childId) ?? 0;
       return childScore > bestScore ? childId : bestId;
     }, children[0]!);
 

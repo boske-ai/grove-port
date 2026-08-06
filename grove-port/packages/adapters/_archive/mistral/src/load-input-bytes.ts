@@ -1,4 +1,5 @@
-import { strFromU8, unzipSync } from 'fflate';
+import { unzipSyncWithBudgets } from '@grove-port/core/browser';
+import { strFromU8 } from 'fflate';
 import type { MistralConversation, MistralMessage } from './types.js';
 
 export interface MistralExportBundle {
@@ -55,7 +56,9 @@ export function loadMistralExportFromBytes(
   const lowerPath = fileName.toLowerCase();
 
   if (lowerPath.endsWith('.zip')) {
-    const entries = unzipSync(archiveOrJsonBytes);
+    // Retired adapter (ADR 0001), kept as reference only — still routed through
+    // the budgeted helper so no unbudgeted inflate path exists in the tree.
+    const entries = unzipSyncWithBudgets(archiveOrJsonBytes);
     const chatFiles = Object.entries(entries).filter(([name]) =>
       /(^|\/)chat-[0-9a-f-]+\.json$/i.test(name),
     );

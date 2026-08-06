@@ -2,8 +2,17 @@
   "name": "@grove-port/converter-web",
   "version": "0.1.0",
   "private": true,
-  "description": "Browser Grove Port converter — boske.dev/move prototype",
+  "description": "Browser Grove Port converter \u2014 boske.dev/move prototype",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/boske-ai/grove-port.git",
+    "directory": "apps/converter-web"
+  },
+  "homepage": "https://github.com/boske-ai/grove-port/tree/main/apps/converter-web#readme",
+  "bugs": {
+    "url": "https://github.com/boske-ai/grove-port/issues"
+  },
   "type": "module",
   "scripts": {
     "dev": "vite",

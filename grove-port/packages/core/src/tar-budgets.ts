@@ -12,6 +12,8 @@ export const DEFAULT_TAR_EXTRACT_BUDGETS = {
   maxEntries: 20_000,
   maxTotalExtractedBytes: 512 * MIB,
   maxDataJsonBytes: 128 * MIB,
+  /** manifest.json is canonicalized and signed — keep it small enough to parse safely. */
+  maxManifestBytes: 4 * MIB,
 } as const;
 
 export type TarExtractBudgets = {
@@ -19,6 +21,7 @@ export type TarExtractBudgets = {
   readonly maxEntries: number;
   readonly maxTotalExtractedBytes: number;
   readonly maxDataJsonBytes: number;
+  readonly maxManifestBytes: number;
 };
 
 /**
@@ -83,6 +86,17 @@ export async function extractTarWithBudgets({
   // node-tar does not reliably reject the extract promise when `filter` throws;
   // capture and rethrow so budgets fail closed with a clear error.
   let refuseError: Error | undefined;
+  // Set once the pipeline exists, so the first refusal can tear it down instead
+  // of draining the rest of a hostile archive (a 512 MiB budget must not cost
+  // hundreds of GiB of gunzip before the error surfaces).
+  let stopPipeline: (() => void) | undefined;
+
+  const refuse = (err: unknown): void => {
+    if (!refuseError) {
+      refuseError = err instanceof Error ? err : new Error(String(err));
+    }
+    stopPipeline?.();
+  };
 
   const accountEntry = (
     entryPath: string,
@@ -119,7 +133,7 @@ export async function extractTarWithBudgets({
 
       return true;
     } catch (err) {
-      refuseError = err instanceof Error ? err : new Error(String(err));
+      refuse(err);
       return false;
     }
   };
@@ -137,8 +151,8 @@ export async function extractTarWithBudgets({
         assertNotLinkEntry(entry);
         assertTarEntryPathSafe(entry.path, cwd);
       } catch (err) {
-        refuseError = err instanceof Error ? err : new Error(String(err));
         entry.ignore = true;
+        refuse(err);
       }
     },
   });
@@ -159,19 +173,69 @@ export async function extractTarWithBudgets({
 
   try {
     await new Promise<void>((resolve, reject) => {
-      unpack.on('error', reject);
-      unpack.on('close', () => resolve());
-      createReadStream(file).on('error', reject).pipe(unpack);
+      const source = createReadStream(file);
+      let settled = false;
+
+      const settle = (err?: Error): void => {
+        if (settled) {
+          return;
+        }
+        settled = true;
+        if (err) {
+          reject(err);
+        } else {
+          resolve();
+        }
+      };
+
+      // Tear down on refusal: stop reading the archive and abort the parser, then
+      // settle explicitly. `abort()` does not reliably emit `close` once data is
+      // still buffered, so waiting on it would hang on exactly the large hostile
+      // archives this teardown exists to cut short.
+      stopPipeline = () => {
+        source.unpipe(unpack);
+        source.destroy();
+        try {
+          unpack.abort(refuseError ?? new Error('tar extract refused'));
+        } catch {
+          // abort() is best-effort — the refusal below is what callers see.
+        }
+        settle(refuseError ?? new Error('tar extract refused'));
+      };
+
+      unpack.on('error', settle);
+      unpack.on('close', () => settle());
+      source.on('error', settle).pipe(unpack);
+
+      // A refusal raised from `filter` during the first synchronous chunk can
+      // land before the pipeline was wired — settle it here.
+      if (refuseError) {
+        stopPipeline();
+      }
     });
   } catch (err) {
     if (refuseError) {
       throw refuseError;
     }
     throw err;
+  } finally {
+    stopPipeline = undefined;
   }
 
   if (refuseError) {
     throw refuseError;
+  }
+}
+
+/** Fail closed before `JSON.parse` of any envelope member. */
+export async function assertFileWithinBudget(
+  filePath: string,
+  maxBytes: number,
+  label: string,
+): Promise<void> {
+  const st = await stat(filePath);
+  if (st.size > maxBytes) {
+    throw new Error(`${label} exceeds max size (${st.size} > ${maxBytes} bytes)`);
   }
 }
 
@@ -180,10 +244,5 @@ export async function assertDataJsonWithinBudget(
   dataPath: string,
   maxBytes: number = DEFAULT_TAR_EXTRACT_BUDGETS.maxDataJsonBytes,
 ): Promise<void> {
-  const st = await stat(dataPath);
-  if (st.size > maxBytes) {
-    throw new Error(
-      `data.json exceeds max size (${st.size} > ${maxBytes} bytes)`,
-    );
-  }
+  await assertFileWithinBudget(dataPath, maxBytes, 'data.json');
 }

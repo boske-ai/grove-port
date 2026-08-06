@@ -47,7 +47,7 @@ optional: grove-port convert (CLI — large ZIPs, air-gapped, automation)
 | Chat exports are JSON-only; files must be re-uploaded | Attachments live **inside** the package |
 | Each tool uses its own DB | **Neutral JSON in the middle** — DB mapping stays in each product |
 | Switching tools means starting over | **Export file → import** — no permanent API coupling |
-| Users don't trust closed formats | Open spec + `verify` CLI |
+| Users don't trust closed formats | Open spec + `verify` CLI you can run offline |
 
 ---
 
@@ -63,6 +63,12 @@ my-workspace.grove-port   (tarball)
 ```
 
 Wire compatibility: public name **Grove Port v1**; on-disk layout still accepts `boske-export-v1` / `grove-port-v1` roots.
+
+### What `verify` proves
+
+`grove-port verify` checks that every checksum matches and that the Ed25519 signature validates over the manifest exactly as written. That proves the package is **unaltered since it was signed**.
+
+It does **not** prove who made it. A Grove Port manifest carries the public key that verifies it, so anyone can sign a package they authored. Treat a valid v1 signature as a tamper check, not as provenance — and treat the file the way you'd treat any download from its source. Details: [`SECURITY.md`](./SECURITY.md) · [spec](./spec/v1/README.md#signaturesig).
 
 ---
 
@@ -118,6 +124,14 @@ bun run grove-port -- convert --from chatgpt conversations.json -o out.grove-por
 | [Boske](https://boske.dev) | Product that imports Grove Port packages |
 
 Backlog: [`TODO.md`](./TODO.md)
+
+---
+
+## Contributing
+
+New IN adapters are the most useful thing you can add — see [`CONTRIBUTING.md`](./CONTRIBUTING.md).
+
+Found a security issue? **Don't open a public issue** — see [`SECURITY.md`](./SECURITY.md).
 
 ---
 

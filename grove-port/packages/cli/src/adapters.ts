@@ -72,7 +72,9 @@ const ADAPTERS = {
 export type ConvertAdapterName = keyof typeof ADAPTERS;
 
 export function isConvertAdapterName(value: string): value is ConvertAdapterName {
-  return value in ADAPTERS;
+  // `in` also matches inherited keys, so `--from constructor` used to pass this
+  // guard and then crash on `ADAPTERS[from].preview is not a function`.
+  return Object.hasOwn(ADAPTERS, value);
 }
 
 export async function previewAdapterExport(

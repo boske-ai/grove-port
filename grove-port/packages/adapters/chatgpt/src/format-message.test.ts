@@ -28,15 +28,21 @@ describe('formatMessageText', () => {
       await readFile(path.join(fixturesDir, 'chatgpt-citations.json'), 'utf8'),
     ) as Array<{ mapping: Record<string, { message?: ChatGptMessage }> }>;
 
-    const assistantMessage = jsonData[0]!.mapping['4b3aec6b-5146-4bad-ae8e-204fdb6accda']!
-      .message!;
+    // Look the node up by role rather than by a hardcoded id, so regenerating
+    // the fixture does not silently break this test.
+    const assistantMessage = Object.values(jsonData[0]!.mapping)
+      .map((node) => node.message)
+      .find((message) => message?.author.role === 'assistant' && message.metadata?.citations)!;
     const messageText = assistantMessage.content.parts?.[0] as string;
 
     const result = processAssistantMessage(assistantMessage, messageText);
 
     expect(result).toContain(
-      '([Signal Sciences - Crunchbase Company Profile & Funding](https://www.crunchbase.com/organization/signal-sciences))',
+      '([Example Corp — Widget Benchmarks](https://example.com/widgets))',
     );
-    expect(result).not.toContain('【3:0†source】');
+    expect(result).toContain('([Example Labs — Latency Report](https://example.com/latency))');
+    // Citation markers are replaced, not left behind.
+    expect(result).not.toContain('[cite-1]');
+    expect(result).not.toContain('[cite-2]');
   });
 });

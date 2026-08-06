@@ -1,4 +1,13 @@
-export { canonicalManifestUint8Array, stableStringify } from './canonical.js';
+export {
+  ADAPTER_INSTANCE_ID,
+  buildAdapterManifest,
+  emptyDataCollections,
+  type AdapterCounts,
+  type AdapterExportStats,
+  type AdapterManifest,
+  type BuildAdapterManifestInput,
+} from './adapter-manifest.js';
+export { canonicalManifestUint8Array, MAX_CANONICAL_DEPTH, stableStringify } from './canonical.js';
 export {
   generateEd25519KeyPair,
   sha256HexBytes,

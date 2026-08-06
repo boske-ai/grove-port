@@ -1,8 +1,17 @@
 {
   "name": "@grove-port/schema",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Grove Port v1 Zod schemas and JSON Schema exports",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/boske-ai/grove-port.git",
+    "directory": "packages/schema"
+  },
+  "homepage": "https://github.com/boske-ai/grove-port/tree/main/packages/schema#readme",
+  "bugs": {
+    "url": "https://github.com/boske-ai/grove-port/issues"
+  },
   "type": "module",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",

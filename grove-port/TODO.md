@@ -1,8 +1,8 @@
 # Grove Port — Backlog
 
-Last updated: 2026-07-22
+Last updated: 2026-08-06
 
-**Active work:** [`docs/work/active/`](./docs/work/active/) · P0 hardening draft: [`2026-07-22-p0-hardening`](./docs/work/active/2026-07-22-p0-hardening/)
+**Active work:** [`docs/work/active/`](./docs/work/active/) · Audit remediation: [`2026-08-06-audit-remediation`](./docs/work/active/2026-08-06-audit-remediation/)
 
 ---
 
@@ -15,6 +15,10 @@ Last updated: 2026-07-22
 | ✅ | CLI: `grove-port verify`, `grove-port inspect`, `convert --from chatgpt` | foundation |
 | ✅ | IN adapter: **ChatGPT** (`conversations.json` / export ZIP) | foundation |
 | ✅ | Wire compatibility test vs Boske ExportService output | foundation |
+| ✅ | **Signature over raw manifest bytes** — schema defaults no longer invalidate old packages; unknown keys no longer ride unsigned | [`2026-08-06-audit-remediation`](./docs/work/active/2026-08-06-audit-remediation/) |
+| ✅ | **Adapter hostile-input hardening** — cycle guards + linear fork resolution in all 5 graph walkers | same |
+| ✅ | **CI** — build · typecheck · test on every PR | same |
+| ✅ | **Spec corrected** — `signature.sig` section now matches the implementation; limits + trust model documented | same |
 
 ---
 
@@ -45,7 +49,8 @@ Last updated: 2026-07-22
 | ⬜ | Optional: AMP/PAM → Grove | Tier A — reuse converters |
 | ⬜ | OUT adapter: Open WebUI (optional) | Community contribution |
 | ✅ | boske.dev `/port` landing (no converter) | move-landing track A |
-| ⬜ | Optional: publish npm `@grove-port/*` | deferred |
+| ⬜ | Optional: publish npm `@grove-port/*` | deferred — metadata + versions now aligned at 0.2.0 |
+| ⬜ | **`verify --expect-key <base64>`** — trusted-key allowlist, so signatures can prove origin and not just integrity | audit-remediation non-goal; the only remaining trust gap |
 
 ## P2b — Global long tail
 
@@ -65,6 +70,8 @@ See tier tables in [`docs/architecture/core-and-adapters.md`](./docs/architectur
 
 | Date | Item |
 |------|------|
+| 2026-08-06 | Audit remediation — trust model, adapter DoS, O(n²) walks, CI, spec correction |
+| 2026-07-22 | P0 hardening — verify confine, archive budgets, browser tar ([PR #1](https://github.com/boske-ai/grove-port/pull/1)) |
 | 2026-06-18 | Repo scaffold + docs + work folders |
 | 2026-06-21 | Mistral adapter retired (ADR 0001) |
 | 2026-06-21 | LibreChat IN adapter |

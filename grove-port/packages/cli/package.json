@@ -1,8 +1,17 @@
 {
   "name": "@grove-port/cli",
-  "version": "0.1.0",
-  "description": "Grove Port offline CLI — verify, inspect, convert",
+  "version": "0.2.0",
+  "description": "Grove Port offline CLI \u2014 verify, inspect, convert",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/boske-ai/grove-port.git",
+    "directory": "packages/cli"
+  },
+  "homepage": "https://github.com/boske-ai/grove-port/tree/main/packages/cli#readme",
+  "bugs": {
+    "url": "https://github.com/boske-ai/grove-port/issues"
+  },
   "type": "module",
   "bin": {
     "grove-port": "./dist/cli.js"

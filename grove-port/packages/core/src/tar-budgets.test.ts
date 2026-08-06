@@ -34,6 +34,38 @@ function writeOctal(buf: Uint8Array, offset: number, value: number, length: numb
   buf[offset + length - 1] = 0;
 }
 
+/** ustar file header for a plain regular file entry (typeflag '0'). */
+function fileHeader(name: string, size: number): Uint8Array {
+  const header = new Uint8Array(512);
+  const enc = new TextEncoder();
+  header.set(enc.encode(name), 0);
+  writeOctal(header, 100, 0o644, 8);
+  writeOctal(header, 108, 0, 8);
+  writeOctal(header, 116, 0, 8);
+  writeOctal(header, 124, size, 12);
+  writeOctal(header, 136, Math.floor(Date.now() / 1000), 12);
+  header[156] = 0x30; // '0' regular file
+  header.set(enc.encode('ustar\0'), 257);
+  header.set(enc.encode('00'), 263);
+  header.fill(0x20, 148, 156);
+  let sum = 0;
+  for (let i = 0; i < 512; i += 1) sum += header[i]!;
+  writeOctal(header, 148, sum, 8);
+  header[155] = 0;
+  return header;
+}
+
+function concatChunks(chunks: Uint8Array[]): Uint8Array {
+  const total = chunks.reduce((n, c) => n + c.length, 0);
+  const out = new Uint8Array(total);
+  let offset = 0;
+  for (const chunk of chunks) {
+    out.set(chunk, offset);
+    offset += chunk.length;
+  }
+  return out;
+}
+
 /** Minimal gzip-tar with one hardlink entry (typeflag '1'). */
 async function craftHardlinkTar(staging: string): Promise<string> {
   const name = 'link.txt';
@@ -132,4 +164,40 @@ describe('extractTarWithBudgets', () => {
       extractTarWithBudgets({ file: tarballPath, cwd }),
     ).rejects.toThrow(/symlink|hardlink|link/i);
   });
+});
+
+describe('extractTarWithBudgets teardown', () => {
+  /**
+   * Regression: refusing mid-stream must settle the promise. An earlier fix
+   * aborted the parser and waited for `close`, which never fires while data is
+   * still buffered — so large hostile archives hung instead of erroring. The
+   * other budget tests missed it because their fixtures are small enough that
+   * `close` fires naturally.
+   */
+  test('rejects promptly on a large over-budget archive instead of hanging', async () => {
+    const KIB = 1024;
+    const payload = new Uint8Array(64 * KIB);
+    const chunks: Uint8Array[] = [];
+
+    // The budget below is blown on entry 2, leaving most of the archive unread.
+    // If teardown does not settle the promise, this test times out.
+    for (let index = 0; index < 1500; index += 1) {
+      chunks.push(fileHeader(`grove-port-v1/pad-${index}.bin`, payload.length));
+      chunks.push(payload);
+    }
+    chunks.push(new Uint8Array(1024));
+
+    const staging = await tempDir('grove-port-teardown-');
+    const archivePath = path.join(staging, 'big.grove-port');
+    await writeFile(archivePath, gzipSync(concatChunks(chunks)));
+    const cwd = path.join(staging, 'out');
+
+    await expect(
+      extractTarWithBudgets({
+        file: archivePath,
+        cwd,
+        budgets: { ...DEFAULT_TAR_EXTRACT_BUDGETS, maxTotalExtractedBytes: 96 * KIB },
+      }),
+    ).rejects.toThrow(/exceeds budget/);
+  }, 30_000);
 });

@@ -34,6 +34,21 @@ Reload Cursor after pulling agent config: **Developer: Reload Window**.
 
 - **Package manager:** bun
 - **Tests:** `bun test` (all packages) · `bun run build` (schema → core → adapters → CLI) · `bun run schema:emit` (regenerate JSON schema from TypeScript)
+- **Full check (what CI runs):** `bun run build && bunx tsc -p tsconfig.test.json --noEmit && bun test`
+
+---
+
+## Hostile input rules (non-negotiable)
+
+Every file this repo parses came from somewhere else. Treat all of it as attacker-controlled.
+
+- **Never call `unzipSync` directly** — use `unzipSyncWithBudgets` from `@grove-port/core/browser`.
+- **Bound every traversal.** Vendor exports reference nodes by id, so `JSON.parse` happily produces cycles: every walk needs a `visited` set, and recursion over user-controlled depth must be iterative. Pattern: [`packages/adapters/chatgpt/src/flatten-mapping.ts`](./packages/adapters/chatgpt/src/flatten-mapping.ts).
+- **Check size before parsing.** No unbounded `readFile` → `JSON.parse`.
+- **`textContent`, never `innerHTML`,** for anything derived from user data.
+- **Build adapter manifests with `buildAdapterManifest()`** — don't hand-roll the block; that duplication is what made one schema change a ten-file edit.
+- **Verify signatures over raw bytes,** never over a schema-normalized object.
+- **Ship a hostile-input test** with any new parser (`hostile-graph.test.ts` in each adapter).
 
 ---
 

@@ -1,8 +1,17 @@
 {
   "name": "@grove-port/convert-browser",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Browser-side Grove Port conversion from vendor export files",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/boske-ai/grove-port.git",
+    "directory": "packages/convert-browser"
+  },
+  "homepage": "https://github.com/boske-ai/grove-port/tree/main/packages/convert-browser#readme",
+  "bugs": {
+    "url": "https://github.com/boske-ai/grove-port/issues"
+  },
   "type": "module",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -12,7 +21,9 @@
       "import": "./dist/index.js"
     }
   },
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "build": "tsc -p tsconfig.json"
   },

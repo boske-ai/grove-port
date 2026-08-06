@@ -5,6 +5,7 @@ import { mkdtemp, rm } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import path from 'node:path';
 import { inspectEnvelope, unpackAndVerifyEnvelope } from '@grove-port/core';
+import { parseConvertArgs, type ConvertOptions } from './parse-args.js';
 import {
   convertAdapterExport,
   isConvertAdapterName,
@@ -20,67 +21,42 @@ Usage:
   grove-port convert --from <chatgpt|claude|openwebui|librechat|gemini|doubao|deepseek|lobechat|anythingllm> <input> [--preview] [-o <out.grove-port>] [--email user@example.com]
 
 Commands:
-  verify   Check signature and checksums (exit 0 on success)
+  verify   Check checksums and signature integrity (exit 0 on success)
   inspect  Print JSON summary of manifest + actual data.json counts
   convert  Run an IN adapter and write a signed .grove-port package
+
+Note on trust:
+  A Grove Port package carries the public key that verifies it, so 'verify'
+  proves the package is INTERNALLY CONSISTENT — unaltered since signing — not
+  that it came from any particular person or product. Treat a valid signature
+  as a tamper check, not as provenance.
+
+Limits (verify/inspect refuse anything larger):
+  archive 512 MiB · 20,000 tar entries · 512 MiB extracted · data.json 128 MiB
 `;
 
-interface ConvertOptions {
-  from: string;
-  inputPath: string;
-  outputPath?: string;
-  preview: boolean;
-  userEmail?: string;
-  label?: string;
-}
 
 function printUsage(): void {
   console.error(USAGE.trimEnd());
 }
 
-function parseConvertArgs(argv: string[]): ConvertOptions | null {
-  const fromIndex = argv.indexOf('--from');
-  const outputIndex = argv.indexOf('-o');
-  const preview = argv.includes('--preview');
-
-  if (fromIndex === -1) {
-    return null;
-  }
-
-  const from = argv[fromIndex + 1];
-  const inputPath = argv[fromIndex + 2];
-  const outputPath = outputIndex === -1 ? undefined : argv[outputIndex + 1];
-
-  if (!from || !inputPath) {
-    return null;
-  }
-
-  if (!preview && !outputPath) {
-    return null;
-  }
-
-  let userEmail: string | undefined;
-  let label: string | undefined;
-
-  for (let index = 0; index < argv.length; index += 1) {
-    if (argv[index] === '--email') {
-      userEmail = argv[index + 1];
-    }
-    if (argv[index] === '--label') {
-      label = argv[index + 1];
-    }
-  }
-
-  return { from, inputPath, outputPath, preview, userEmail, label };
-}
 
 async function runVerify(tarballPath: string): Promise<number> {
   const extractDir = await mkdtemp(path.join(tmpdir(), 'grove-port-verify-'));
 
   try {
-    const { manifest } = await unpackAndVerifyEnvelope({ tarballPath, extractDir });
+    const { manifest, unverifiedMembers } = await unpackAndVerifyEnvelope({
+      tarballPath,
+      extractDir,
+    });
 
-    console.log('OK — envelope is intact and signature is valid.');
+    console.log('OK — envelope is internally consistent.');
+    console.log('');
+    console.log('  Checksums match and the signature verifies against the key the');
+    console.log('  manifest carries. That proves the package has not been altered');
+    console.log('  since it was signed — it does NOT prove who produced it, because');
+    console.log('  the package supplies its own verification key. Trust the contents');
+    console.log('  only as much as you trust wherever you obtained this file.');
     console.log('');
     console.log(`Version:      ${manifest.version}`);
     console.log(`Created:      ${manifest.created_at}`);
@@ -92,10 +68,20 @@ async function runVerify(tarballPath: string): Promise<number> {
       console.log(`Adapter:      ${manifest.source.adapter} (${manifest.source.source_format ?? 'n/a'})`);
     }
     console.log(`Public key:   ${manifest.signature_public_key.slice(0, 32)}...`);
+    console.log('Signature:    valid (self-signed — key is not checked against any trust anchor)');
     console.log('');
     console.log('Counts:');
     for (const [key, value] of Object.entries(manifest.counts)) {
       console.log(`  ${key.padEnd(22)} ${value}`);
+    }
+
+    if (unverifiedMembers.length > 0) {
+      console.log('');
+      console.log('WARNING — these envelope members are not covered by any checksum:');
+      for (const member of unverifiedMembers) {
+        console.log(`  ${member}`);
+      }
+      console.log('  Their contents are NOT protected by the signature.');
     }
 
     return 0;
