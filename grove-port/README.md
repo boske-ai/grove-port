@@ -66,9 +66,21 @@ Wire compatibility: public name **Grove Port v1**; on-disk layout still accepts 
 
 ### What `verify` proves
 
-`grove-port verify` checks that every checksum matches and that the Ed25519 signature validates over the manifest exactly as written. That proves the package is **unaltered since it was signed**.
+```bash
+grove-port verify export.grove-port
+```
 
-It does **not** prove who made it. A Grove Port manifest carries the public key that verifies it, so anyone can sign a package they authored. Treat a valid v1 signature as a tamper check, not as provenance — and treat the file the way you'd treat any download from its source. Details: [`SECURITY.md`](./SECURITY.md) · [spec](./spec/v1/README.md#signaturesig).
+Checks that every checksum matches and that the Ed25519 signature validates over the manifest exactly as written — proving the package is **unaltered since it was signed**.
+
+It does **not** prove who made it. A Grove Port manifest carries the public key that verifies it, so anyone can sign a package they authored. To get proof of origin, pin the key:
+
+```bash
+grove-port verify export.grove-port --expect-key <base64-spki>
+```
+
+A package signed by any other key is rejected. You need that key out of band — from the instance that produced the export. Note this doesn't apply to packages from `convert`: those are signed with a throwaway key that is discarded immediately, so they're effectively unsigned and are only as trustworthy as the vendor export behind them.
+
+Details: [`SECURITY.md`](./SECURITY.md) · [spec](./spec/v1/README.md#signaturesig).
 
 ---
 

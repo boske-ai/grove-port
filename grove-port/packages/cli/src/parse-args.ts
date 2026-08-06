@@ -11,6 +11,55 @@ export interface ConvertOptions {
 
 const VALUE_FLAGS = new Set(['--from', '-o', '--output', '--email', '--label']);
 
+export interface VerifyOptions {
+  tarballPath: string;
+  /** Base64 SPKI keys trusted to have signed the package. Empty = self-signed check only. */
+  expectedPublicKeys: string[];
+}
+
+/**
+ * Parse `verify` / `inspect` arguments. `--expect-key` is repeatable so a caller
+ * can accept any of several signing keys (e.g. during a key rotation).
+ */
+export function parseVerifyArgs(argv: string[]): VerifyOptions | null {
+  const expectedPublicKeys: string[] = [];
+  const positionals: string[] = [];
+
+  for (let index = 0; index < argv.length; index += 1) {
+    const token = argv[index]!;
+
+    if (token === '--expect-key') {
+      const value = argv[index + 1];
+      if (value === undefined || value.startsWith('-')) {
+        console.error('Missing value for --expect-key');
+        return null;
+      }
+      expectedPublicKeys.push(value);
+      index += 1;
+      continue;
+    }
+
+    if (token.startsWith('-')) {
+      console.error(`Unknown flag: ${token}`);
+      return null;
+    }
+
+    positionals.push(token);
+  }
+
+  const tarballPath = positionals[0];
+  if (!tarballPath) {
+    return null;
+  }
+
+  if (positionals.length > 1) {
+    console.error(`Unexpected extra argument: ${positionals[1]}`);
+    return null;
+  }
+
+  return { tarballPath, expectedPublicKeys };
+}
+
 /**
  * Flag-aware parse: a flag's value must not itself be a flag, and the input path
  * is any bare positional rather than strictly `--from`+2. Previously

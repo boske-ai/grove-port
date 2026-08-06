@@ -90,7 +90,19 @@ Reference: `stableStringify` in [`packages/core/src/canonical.ts`](../../package
 
 Verifiers MUST canonicalize the manifest **as parsed from disk**, *before* applying any schema normalization. Canonicalizing a schema-normalized object breaks the format in two ways: keys the schema does not know about fall outside the signature, and any future field default silently invalidates previously-signed packages.
 
-> **Integrity, not authenticity.** `signature_public_key` lives *inside* the manifest it verifies, so anyone can mint a keypair and produce a package that verifies. v1 signatures are **tamper-evidence only** — they say nothing about who produced the package. Readers MUST NOT present a valid v1 signature as proof of origin. A trusted-key allowlist is deferred to a future version.
+> **Integrity, not authenticity — by default.** `signature_public_key` lives *inside* the manifest it verifies, so anyone can mint a keypair and produce a package that verifies. On its own, a v1 signature is **tamper-evidence only**. Readers MUST NOT present an unpinned signature as proof of origin.
+
+### Key pinning (optional, recommended for instance-to-instance transfer)
+
+A verifier MAY be given a set of public keys trusted to have produced the package. When supplied, it MUST reject a package whose `signature_public_key` is not in that set — even though the package's own signature validates. Comparison SHOULD be over decoded key bytes, so equivalent base64 encodings match.
+
+The order matters: verify the signature **first**, then pin the key. A tampered package must report tampering, not an untrusted key.
+
+Pinning is what turns the signature into proof of origin, and it is the intended mode for instance-to-instance and backup-restore transfers. The expected key must reach the verifier **out of band** — from the instance that produced the export, never from the package itself.
+
+Reference: `grove-port verify --expect-key <base64>` (repeatable, to allow key rotation).
+
+> **Adapter-produced packages cannot be pinned.** An IN adapter converting a vendor export signs with a keypair generated on the spot and immediately discarded — no one retains it, so no verifier can pin it. Those packages are, in practice, **unsigned**: the signature only proves the file has not changed since conversion. Treat converted packages as exactly as trustworthy as the vendor export they came from.
 
 ### Unverified members
 

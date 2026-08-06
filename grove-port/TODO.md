@@ -50,7 +50,8 @@ Last updated: 2026-08-06
 | ⬜ | OUT adapter: Open WebUI (optional) | Community contribution |
 | ✅ | boske.dev `/port` landing (no converter) | move-landing track A |
 | ⬜ | Optional: publish npm `@grove-port/*` | deferred — metadata + versions now aligned at 0.2.0 |
-| ⬜ | **`verify --expect-key <base64>`** — trusted-key allowlist, so signatures can prove origin and not just integrity | audit-remediation non-goal; the only remaining trust gap |
+| ✅ | **`verify --expect-key <base64>`** — trusted-key allowlist, so signatures can prove origin and not just integrity | [`2026-08-06-audit-remediation`](./docs/work/active/2026-08-06-audit-remediation/) |
+| ⬜ | **Boske: record the export signing key** so `--expect-key` is usable for backup/restore and instance-to-instance import | Boske monorepo — CLI side is done; product must retain the key |
 
 ## P2b — Global long tail
 

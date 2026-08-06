@@ -5,7 +5,12 @@ import { mkdtemp, rm } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import path from 'node:path';
 import { inspectEnvelope, unpackAndVerifyEnvelope } from '@grove-port/core';
-import { parseConvertArgs, type ConvertOptions } from './parse-args.js';
+import {
+  parseConvertArgs,
+  parseVerifyArgs,
+  type ConvertOptions,
+  type VerifyOptions,
+} from './parse-args.js';
 import {
   convertAdapterExport,
   isConvertAdapterName,
@@ -16,8 +21,8 @@ import {
 const USAGE = `grove-port — verify, inspect, and convert Grove Port v1 packages
 
 Usage:
-  grove-port verify <path.grove-port>
-  grove-port inspect <path.grove-port>
+  grove-port verify <path.grove-port> [--expect-key <base64> ...]
+  grove-port inspect <path.grove-port> [--expect-key <base64> ...]
   grove-port convert --from <chatgpt|claude|openwebui|librechat|gemini|doubao|deepseek|lobechat|anythingllm> <input> [--preview] [-o <out.grove-port>] [--email user@example.com]
 
 Commands:
@@ -26,10 +31,17 @@ Commands:
   convert  Run an IN adapter and write a signed .grove-port package
 
 Note on trust:
-  A Grove Port package carries the public key that verifies it, so 'verify'
-  proves the package is INTERNALLY CONSISTENT — unaltered since signing — not
-  that it came from any particular person or product. Treat a valid signature
-  as a tamper check, not as provenance.
+  A Grove Port package carries the public key that verifies it, so by default
+  'verify' proves the package is INTERNALLY CONSISTENT — unaltered since
+  signing — not that it came from any particular person or product.
+
+  Pass --expect-key <base64> (repeatable, for key rotation) to require a
+  specific signing key. Verification then also proves ORIGIN: a package signed
+  by any other key is rejected. You need the expected key out of band — from
+  the instance that produced the export, not from the package itself.
+
+  Packages written by 'convert' are signed with a throwaway key generated on
+  the spot and never recorded, so --expect-key does not apply to them.
 
 Limits (verify/inspect refuse anything larger):
   archive 512 MiB · 20,000 tar entries · 512 MiB extracted · data.json 128 MiB
@@ -41,23 +53,33 @@ function printUsage(): void {
 }
 
 
-async function runVerify(tarballPath: string): Promise<number> {
+async function runVerify({ tarballPath, expectedPublicKeys }: VerifyOptions): Promise<number> {
   const extractDir = await mkdtemp(path.join(tmpdir(), 'grove-port-verify-'));
 
   try {
-    const { manifest, unverifiedMembers } = await unpackAndVerifyEnvelope({
+    const { manifest, signatureTrust, unverifiedMembers } = await unpackAndVerifyEnvelope({
       tarballPath,
       extractDir,
+      expectedPublicKeys,
     });
 
-    console.log('OK — envelope is internally consistent.');
-    console.log('');
-    console.log('  Checksums match and the signature verifies against the key the');
-    console.log('  manifest carries. That proves the package has not been altered');
-    console.log('  since it was signed — it does NOT prove who produced it, because');
-    console.log('  the package supplies its own verification key. Trust the contents');
-    console.log('  only as much as you trust wherever you obtained this file.');
-    console.log('');
+    if (signatureTrust === 'trusted-key') {
+      console.log('OK — envelope is intact and signed by a trusted key.');
+      console.log('');
+      console.log('  Checksums match, the signature verifies, and the signing key is one');
+      console.log('  you supplied via --expect-key. This package came from a holder of');
+      console.log('  that key.');
+      console.log('');
+    } else {
+      console.log('OK — envelope is internally consistent.');
+      console.log('');
+      console.log('  Checksums match and the signature verifies against the key the');
+      console.log('  manifest carries. That proves the package has not been altered');
+      console.log('  since it was signed — it does NOT prove who produced it, because');
+      console.log('  the package supplies its own verification key. Pass --expect-key');
+      console.log('  <base64> to require a specific signing key and get proof of origin.');
+      console.log('');
+    }
     console.log(`Version:      ${manifest.version}`);
     console.log(`Created:      ${manifest.created_at}`);
     console.log(`User:         ${manifest.user_email} (${manifest.user_id})`);
@@ -68,7 +90,11 @@ async function runVerify(tarballPath: string): Promise<number> {
       console.log(`Adapter:      ${manifest.source.adapter} (${manifest.source.source_format ?? 'n/a'})`);
     }
     console.log(`Public key:   ${manifest.signature_public_key.slice(0, 32)}...`);
-    console.log('Signature:    valid (self-signed — key is not checked against any trust anchor)');
+    console.log(
+      signatureTrust === 'trusted-key'
+        ? 'Signature:    valid (signing key matched --expect-key)'
+        : 'Signature:    valid (self-signed — key is not checked against any trust anchor)',
+    );
     console.log('');
     console.log('Counts:');
     for (const [key, value] of Object.entries(manifest.counts)) {
@@ -95,9 +121,9 @@ async function runVerify(tarballPath: string): Promise<number> {
   }
 }
 
-async function runInspect(tarballPath: string): Promise<number> {
+async function runInspect({ tarballPath, expectedPublicKeys }: VerifyOptions): Promise<number> {
   try {
-    const summary = await inspectEnvelope(tarballPath);
+    const summary = await inspectEnvelope(tarballPath, { expectedPublicKeys });
     console.log(JSON.stringify(summary, null, 2));
     return 0;
   } catch (error) {
@@ -175,30 +201,19 @@ async function main(): Promise<void> {
   let exitCode = 2;
 
   switch (command) {
-    case 'verify': {
-      const tarballPath = rest[0];
-      if (!tarballPath) {
-        printUsage();
-        break;
-      }
-      if (!existsSync(tarballPath)) {
-        console.error(`File not found: ${tarballPath}`);
-        process.exit(2);
-      }
-      exitCode = await runVerify(tarballPath);
-      break;
-    }
+    case 'verify':
     case 'inspect': {
-      const tarballPath = rest[0];
-      if (!tarballPath) {
+      const options = parseVerifyArgs(rest);
+      if (!options) {
         printUsage();
         break;
       }
-      if (!existsSync(tarballPath)) {
-        console.error(`File not found: ${tarballPath}`);
+      if (!existsSync(options.tarballPath)) {
+        console.error(`File not found: ${options.tarballPath}`);
         process.exit(2);
       }
-      exitCode = await runInspect(tarballPath);
+      exitCode =
+        command === 'verify' ? await runVerify(options) : await runInspect(options);
       break;
     }
     case 'convert': {

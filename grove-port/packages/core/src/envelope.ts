@@ -29,11 +29,55 @@ import {
   type TarExtractBudgets,
 } from './tar-budgets.js';
 
+/**
+ * How much a valid signature is worth for this package.
+ *
+ * `self-signed` — the signature verifies against the key the manifest carries.
+ * That proves the package is unaltered since signing and nothing more: anyone
+ * can mint a keypair and sign a package they authored.
+ *
+ * `trusted-key` — the signing key additionally matched a key the caller
+ * supplied out of band, so the signature also establishes origin.
+ */
+export type SignatureTrust = 'self-signed' | 'trusted-key';
+
+/**
+ * Compare public keys by their decoded bytes, so padded/unpadded or
+ * whitespace-wrapped base64 for the same key still matches.
+ */
+function normalizePublicKey(base64: string): string {
+  return Buffer.from(base64.replace(/\s+/g, ''), 'base64').toString('base64');
+}
+
+function resolveSignatureTrust(
+  actualKeyBase64: string,
+  expectedPublicKeys: readonly string[] | undefined,
+): SignatureTrust {
+  if (!expectedPublicKeys || expectedPublicKeys.length === 0) {
+    return 'self-signed';
+  }
+
+  const actual = normalizePublicKey(actualKeyBase64);
+  const matched = expectedPublicKeys.some((expected) => normalizePublicKey(expected) === actual);
+
+  if (!matched) {
+    throw new Error(
+      `envelope signing key is not trusted — expected one of ${expectedPublicKeys.length} ` +
+        `key(s), got '${actualKeyBase64}'. The package is internally consistent but was not ` +
+        `signed by a key you supplied.`,
+    );
+  }
+
+  return 'trusted-key';
+}
+
 export interface UnpackAndVerifyResult {
   manifest: ExportManifestV1;
   data: ExportDataV1;
   root: string;
   rootName: EnvelopeRootName;
+  /** `trusted-key` only when `expectedPublicKeys` was supplied and matched. */
+  signatureTrust: SignatureTrust;
   /**
    * Envelope members present on disk that no checksum covers. Always empty for
    * packages produced by this toolchain; a non-empty list means the package
@@ -59,10 +103,10 @@ export interface InspectSummary {
   signature_valid: true;
   /**
    * The manifest carries the key that verifies it, so a valid signature proves
-   * the package is internally consistent — NOT who produced it. Until Grove Port
-   * ships a trusted-key allowlist, this is always `self-signed`.
+   * the package is internally consistent — NOT who produced it. Pass
+   * `expectedPublicKeys` to pin the signing key and get `trusted-key` instead.
    */
-  signature_trust: 'self-signed';
+  signature_trust: SignatureTrust;
   /** Envelope members no checksum covers (empty for packages this toolchain produced). */
   unverified_members: string[];
 }
@@ -125,11 +169,19 @@ export async function unpackAndVerifyEnvelope({
   tarballPath,
   extractDir,
   budgets = DEFAULT_TAR_EXTRACT_BUDGETS,
+  expectedPublicKeys,
 }: {
   tarballPath: string;
   extractDir: string;
   /** Optional overrides for tests; production uses {@link DEFAULT_TAR_EXTRACT_BUDGETS}. */
   budgets?: TarExtractBudgets;
+  /**
+   * Base64 SPKI keys trusted to have produced this package. When supplied, a
+   * package signed by any other key is rejected even though its own signature
+   * verifies — this is what turns the signature from a tamper check into proof
+   * of origin. Omit to keep the default self-signed behaviour.
+   */
+  expectedPublicKeys?: readonly string[];
 }): Promise<UnpackAndVerifyResult> {
   await mkdir(extractDir, { recursive: true });
   await extractTarWithBudgets({ file: tarballPath, cwd: extractDir, budgets });
@@ -179,6 +231,10 @@ export async function unpackAndVerifyEnvelope({
     throw new Error('envelope signature is INVALID — manifest has been tampered with');
   }
 
+  // Pin the signing key only after the signature itself checks out, so a
+  // tampered package reports tampering rather than an untrusted key.
+  const signatureTrust = resolveSignatureTrust(publicKeyBase64, expectedPublicKeys);
+
   const manifest = ExportManifestV1Schema.parse(manifestRaw);
 
   if (!(EXPORT_DATA_FILENAME in manifest.checksums)) {
@@ -225,18 +281,24 @@ export async function unpackAndVerifyEnvelope({
     data,
     root,
     rootName,
+    signatureTrust,
     unverifiedMembers: collectUnverifiedMembers(topLevelEntries, manifest.checksums),
   };
 }
 
-export async function inspectEnvelope(tarballPath: string): Promise<InspectSummary> {
+export async function inspectEnvelope(
+  tarballPath: string,
+  options?: { expectedPublicKeys?: readonly string[] },
+): Promise<InspectSummary> {
   const extractDir = await mkdtemp(path.join(tmpdir(), 'grove-port-inspect-'));
 
   try {
-    const { manifest, data, rootName, unverifiedMembers } = await unpackAndVerifyEnvelope({
-      tarballPath,
-      extractDir,
-    });
+    const { manifest, data, rootName, signatureTrust, unverifiedMembers } =
+      await unpackAndVerifyEnvelope({
+        tarballPath,
+        extractDir,
+        expectedPublicKeys: options?.expectedPublicKeys,
+      });
 
     return {
       wire_id: 'boske-export-v1',
@@ -253,7 +315,7 @@ export async function inspectEnvelope(tarballPath: string): Promise<InspectSumma
       actual_counts: countDataCollections(data),
       checksum_files: Object.keys(manifest.checksums).length,
       signature_valid: true,
-      signature_trust: 'self-signed',
+      signature_trust: signatureTrust,
       unverified_members: unverifiedMembers,
     };
   } finally {

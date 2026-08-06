@@ -1,5 +1,5 @@
 import { describe, expect, test } from 'bun:test';
-import { parseConvertArgs } from './parse-args.js';
+import { parseConvertArgs, parseVerifyArgs } from './parse-args.js';
 
 describe('parseConvertArgs', () => {
   test('parses the documented form', () => {
@@ -64,5 +64,51 @@ describe('parseConvertArgs', () => {
 
   test('requires -o unless --preview is set', () => {
     expect(parseConvertArgs(['--from', 'chatgpt', 'in.json'])).toBeNull();
+  });
+});
+
+describe('parseVerifyArgs', () => {
+  test('parses a bare path', () => {
+    expect(parseVerifyArgs(['out.grove-port'])).toEqual({
+      tarballPath: 'out.grove-port',
+      expectedPublicKeys: [],
+    });
+  });
+
+  test('collects repeated --expect-key values for key rotation', () => {
+    const options = parseVerifyArgs([
+      'out.grove-port',
+      '--expect-key',
+      'AAAA',
+      '--expect-key',
+      'BBBB',
+    ]);
+
+    expect(options?.expectedPublicKeys).toEqual(['AAAA', 'BBBB']);
+  });
+
+  test('accepts the path after the flags', () => {
+    const options = parseVerifyArgs(['--expect-key', 'AAAA', 'out.grove-port']);
+    expect(options?.tarballPath).toBe('out.grove-port');
+  });
+
+  test('rejects --expect-key with no value', () => {
+    expect(parseVerifyArgs(['out.grove-port', '--expect-key'])).toBeNull();
+  });
+
+  test('rejects a flag used as the key value', () => {
+    expect(parseVerifyArgs(['out.grove-port', '--expect-key', '--verbose'])).toBeNull();
+  });
+
+  test('rejects unknown flags', () => {
+    expect(parseVerifyArgs(['out.grove-port', '--typo'])).toBeNull();
+  });
+
+  test('rejects extra positionals', () => {
+    expect(parseVerifyArgs(['a.grove-port', 'b.grove-port'])).toBeNull();
+  });
+
+  test('requires a path', () => {
+    expect(parseVerifyArgs(['--expect-key', 'AAAA'])).toBeNull();
   });
 });

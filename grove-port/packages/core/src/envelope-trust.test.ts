@@ -45,6 +45,7 @@ async function buildSignedEnvelope(options: {
   extraFiles?: Array<{ relPath: string; content: string }>;
   extraDirs?: string[];
   extraChecksums?: Record<string, string>;
+  onKey?: (publicKeyBase64: string) => void;
 }): Promise<string> {
   const { privateKey, publicKey } = generateKeyPairSync('ed25519');
   const dataBytes = Buffer.from(JSON.stringify(MINIMAL_DATA), 'utf8');
@@ -104,13 +105,14 @@ async function buildSignedEnvelope(options: {
 
   const tarballPath = path.join(staging, 'fixture.grove-port');
   await create({ gzip: true, file: tarballPath, cwd: staging }, [GROVE_PORT_ENVELOPE_ROOT]);
+  options.onKey?.(base.signature_public_key as string);
   return tarballPath;
 }
 
-async function verify(tarballPath: string) {
+async function verify(tarballPath: string, expectedPublicKeys?: readonly string[]) {
   const extractDir = await mkdtemp(path.join(tmpdir(), 'grove-port-trust-extract-'));
   try {
-    return await unpackAndVerifyEnvelope({ tarballPath, extractDir });
+    return await unpackAndVerifyEnvelope({ tarballPath, extractDir, expectedPublicKeys });
   } finally {
     await rm(extractDir, { recursive: true, force: true });
     await rm(path.dirname(tarballPath), { recursive: true, force: true });
@@ -271,5 +273,59 @@ describe('canonical serialization depth guard', () => {
     }
 
     expect(() => stableStringify(deep)).toThrow(/nesting deeper than/);
+  });
+});
+
+describe('--expect-key trusted-key allowlist', () => {
+  test('reports self-signed when no expected key is supplied', async () => {
+    const tarballPath = await buildSignedEnvelope({});
+    expect((await verify(tarballPath)).signatureTrust).toBe('self-signed');
+  });
+
+  test('reports trusted-key when the signing key matches', async () => {
+    let signingKey = '';
+    const tarballPath = await buildSignedEnvelope({ onKey: (k) => { signingKey = k; } });
+
+    expect((await verify(tarballPath, [signingKey])).signatureTrust).toBe('trusted-key');
+  });
+
+  test('matches a key given anywhere in the allowlist (key rotation)', async () => {
+    let signingKey = '';
+    const tarballPath = await buildSignedEnvelope({ onKey: (k) => { signingKey = k; } });
+    const stranger = generateKeyPairSync('ed25519').publicKey
+      .export({ type: 'spki', format: 'der' }).toString('base64');
+
+    expect((await verify(tarballPath, [stranger, signingKey])).signatureTrust).toBe('trusted-key');
+  });
+
+  test('tolerates whitespace-wrapped base64 for the same key', async () => {
+    let signingKey = '';
+    const tarballPath = await buildSignedEnvelope({ onKey: (k) => { signingKey = k; } });
+    const wrapped = signingKey.replace(/(.{20})/g, '$1\n');
+
+    expect((await verify(tarballPath, [wrapped])).signatureTrust).toBe('trusted-key');
+  });
+
+  test('rejects a package whose own signature is valid but key is untrusted', async () => {
+    // This is the whole point: internally consistent, but not from who you expect.
+    const tarballPath = await buildSignedEnvelope({});
+    const stranger = generateKeyPairSync('ed25519').publicKey
+      .export({ type: 'spki', format: 'der' }).toString('base64');
+
+    await expect(verify(tarballPath, [stranger])).rejects.toThrow(/signing key is not trusted/);
+  });
+
+  test('reports tampering rather than an untrusted key when both are wrong', async () => {
+    // Key pinning must not mask a broken signature.
+    const tarballPath = await buildSignedEnvelope({
+      mutateOnDisk: (m) => ({ ...m, user_email: 'attacker@example.com' }),
+    });
+
+    await expect(verify(tarballPath, ['some-other-key'])).rejects.toThrow(/signature is INVALID/);
+  });
+
+  test('an empty allowlist is treated as no pinning', async () => {
+    const tarballPath = await buildSignedEnvelope({});
+    expect((await verify(tarballPath, [])).signatureTrust).toBe('self-signed');
   });
 });

@@ -38,19 +38,39 @@ Out of scope: the Boske product (proprietary — report via [boske.dev](https://
 
 ---
 
-## Known and accepted: signatures prove integrity, not authenticity
+## Known and accepted: an unpinned signature proves integrity, not authenticity
 
 **This is by design in v1, and we would rather you know it than rediscover it.**
 
-A Grove Port manifest carries the public key that verifies it. Anyone can generate a keypair, sign a package they authored, and that package will pass `grove-port verify`.
+A Grove Port manifest carries the public key that verifies it. Anyone can generate a keypair, sign a package they authored, and that package will pass a plain `grove-port verify`.
 
-So a valid v1 signature means: **this package has not been altered since it was signed.** It does **not** mean the package came from any particular person, product, or export.
+So an unpinned v1 signature means: **this package has not been altered since it was signed.** It does **not** mean the package came from any particular person, product, or export.
 
 - `grove-port verify` says so in its output.
 - `grove-port inspect` reports `"signature_trust": "self-signed"`.
 - The [spec](./spec/v1/README.md#signaturesig) states it normatively.
 
-Treat a package the way you'd treat any file from its source. A trusted-key allowlist (`--expect-key`) is planned; until it ships, reports that a self-signed package verifies are **working as documented** rather than vulnerabilities. Reports that verification can be bypassed *without* a valid signature, or that a package can affect anything outside its extraction directory, absolutely are.
+### Getting proof of origin
+
+Pin the signing key:
+
+```bash
+grove-port verify export.grove-port --expect-key <base64-spki>
+```
+
+A package signed by any other key is then rejected, and `signature_trust` becomes `trusted-key`. The flag is repeatable so a key rotation can be accepted. The expected key must reach you **out of band** — from the instance that produced the export, never from the package itself.
+
+### Where pinning does and does not help
+
+| Flow | Pinning |
+|------|---------|
+| Boske instance → Boske instance | **Works.** The receiving instance knows the expected key. This is the intended mode for enterprise migration. |
+| Boske → disk → Boske (backup, GDPR export) | **Works**, if the exporting instance records the key it signed with. |
+| Vendor export → `convert` → import | **Does not apply.** See below. |
+
+**Adapter-produced packages are effectively unsigned.** `grove-port convert` generates an Ed25519 keypair on the spot, signs, and discards the private key — nothing retains it, so nothing can pin it. The signature on a converted package proves only that the file has not changed since conversion. A converted package is exactly as trustworthy as the vendor export it came from, and no more.
+
+Reports that an unpinned self-signed package verifies are **working as documented** rather than vulnerabilities. Reports that verification can be bypassed *without* a valid signature, that pinning can be defeated, or that a package can affect anything outside its extraction directory, absolutely are.
 
 ---
 

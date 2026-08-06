@@ -55,6 +55,17 @@ Extract `buildAdapterManifest()` + `AdapterExportStats` into core; adopt in all 
 3. Worker caches the inflated ZIP (one inflate, not three); deferred `revokeObjectURL`; worker terminated on cancel; upload size cap.
 4. `exclude` tests from `convert-browser` / `cli` tsconfigs.
 
+### Wave 6 — `--expect-key` (added after the main waves landed)
+
+Trusted-key pinning in core (`expectedPublicKeys`), surfaced as a repeatable
+`--expect-key` on `verify` and `inspect`. Signature is verified *first*, then the
+key pinned, so a tampered package reports tampering rather than an untrusted key.
+
+Scoped deliberately: this helps Boske→Boske and backup-restore, where the
+receiving side knows the expected key. It does **not** help the consumer funnel —
+`convert` signs with a throwaway key that is discarded immediately, so those
+packages cannot be pinned. That asymmetry is now documented rather than implied.
+
 ### Wave 5 — Spec, docs, process
 
 Spec signature section corrected to match the implementation; budgets, trust model, and layout allowlist documented; `SECURITY.md`, `CONTRIBUTING.md`, `.editorconfig`; npm metadata + version alignment; synthetic ChatGPT fixtures; stale work folders archived; CI workflow.
@@ -63,7 +74,7 @@ Spec signature section corrected to match the implementation; budgets, trust mod
 
 ## Explicit non-goals
 
-- `--expect-key` / trusted-key allowlist. Still deferred — but now the tooling *says* the signature is self-signed rather than implying provenance.
+- ~~`--expect-key` / trusted-key allowlist.~~ **Built after all** (Wave 6) once the audit work was committed as a clean checkpoint.
 - A lint/format toolchain. Adding one now either fails CI on existing code or forces a repo-wide reformat that would bury these fixes. `.editorconfig` only.
 - Deleting `_archive/mistral`. AGENTS.md says archive, don't delete, and ADR 0001 links to it. Its raw `unzipSync` is wired to the budgeted helper so no unbudgeted inflate path exists anywhere in the tree.
 
