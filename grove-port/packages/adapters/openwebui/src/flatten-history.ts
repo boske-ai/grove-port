@@ -14,20 +14,58 @@ function isImportableMessage(message: OpenWebUiMessage | undefined): message is 
   );
 }
 
-function maxTimestampInSubtree(
-  messageId: string,
+/**
+ * Latest timestamp within each message's subtree, for every message, in one pass.
+ *
+ * Iterative and cycle-safe: a crafted or corrupt `childrenIds` graph must not
+ * recurse forever, and long threads must not overflow the stack.
+ */
+function computeSubtreeMaxTimestamps(
   messages: Record<string, OpenWebUiMessage>,
-): number {
-  const message = messages[messageId];
-  if (!message) {
-    return 0;
+): Map<string, number> {
+  const maxima = new Map<string, number>();
+  const settled = new Set<string>();
+  const expanding = new Set<string>();
+
+  for (const rootId of Object.keys(messages)) {
+    if (settled.has(rootId)) {
+      continue;
+    }
+
+    const stack: string[] = [rootId];
+    while (stack.length > 0) {
+      const messageId = stack[stack.length - 1]!;
+      const message = messages[messageId];
+
+      if (!message || settled.has(messageId)) {
+        stack.pop();
+        expanding.delete(messageId);
+        continue;
+      }
+
+      if (!expanding.has(messageId)) {
+        expanding.add(messageId);
+        for (const childId of message.childrenIds ?? []) {
+          if (!settled.has(childId) && !expanding.has(childId)) {
+            stack.push(childId);
+          }
+        }
+        continue;
+      }
+
+      let max = message.timestamp ?? 0;
+      for (const childId of message.childrenIds ?? []) {
+        max = Math.max(max, maxima.get(childId) ?? 0);
+      }
+
+      maxima.set(messageId, max);
+      settled.add(messageId);
+      expanding.delete(messageId);
+      stack.pop();
+    }
   }
 
-  let max = message.timestamp ?? 0;
-  for (const childId of message.childrenIds ?? []) {
-    max = Math.max(max, maxTimestampInSubtree(childId, messages));
-  }
-  return max;
+  return maxima;
 }
 
 function findRootMessageIds(messages: Record<string, OpenWebUiMessage>): string[] {
@@ -50,10 +88,18 @@ export function flattenOpenWebUiHistory(history: OpenWebUiHistory): FlattenHisto
   }
 
   const lineageIds: string[] = [];
+  const seen = new Set<string>();
   let hadFork = false;
   let cursor: string | null = currentId;
 
   while (cursor) {
+    // A cyclic `parentId` chain would otherwise loop forever, growing
+    // `lineageIds` until the process dies of memory exhaustion.
+    if (seen.has(cursor)) {
+      break;
+    }
+    seen.add(cursor);
+
     lineageIds.unshift(cursor);
     const message: OpenWebUiMessage | undefined = messages[cursor];
     if (!message) {
@@ -80,19 +126,28 @@ export function flattenOpenWebUiHistory(history: OpenWebUiHistory): FlattenHisto
       return { orderedMessageIds: [], hadFork: false };
     }
 
+    const subtreeMaxTimestamps = computeSubtreeMaxTimestamps(messages);
+
     let currentRoot = roots[0]!;
     if (roots.length > 1) {
       hadFork = true;
       currentRoot = roots.reduce((bestId, candidateId) => {
-        const bestScore = maxTimestampInSubtree(bestId, messages);
-        const candidateScore = maxTimestampInSubtree(candidateId, messages);
+        const bestScore = subtreeMaxTimestamps.get(bestId) ?? 0;
+        const candidateScore = subtreeMaxTimestamps.get(candidateId) ?? 0;
         return candidateScore > bestScore ? candidateId : bestId;
       }, roots[0]!);
     }
 
     const orderedMessageIds: string[] = [];
+    const walked = new Set<string>();
     let walkId: string | null = currentRoot;
     while (walkId) {
+      // Cyclic `childrenIds` must terminate the walk, not spin forever.
+      if (walked.has(walkId)) {
+        break;
+      }
+      walked.add(walkId);
+
       orderedMessageIds.push(walkId);
       const node: OpenWebUiMessage | undefined = messages[walkId];
       const children: string[] = node?.childrenIds ?? [];
@@ -103,8 +158,8 @@ export function flattenOpenWebUiHistory(history: OpenWebUiHistory): FlattenHisto
         hadFork = true;
       }
       walkId = children.reduce((bestId: string, childId: string) => {
-        const bestScore = maxTimestampInSubtree(bestId, messages);
-        const childScore = maxTimestampInSubtree(childId, messages);
+        const bestScore = subtreeMaxTimestamps.get(bestId) ?? 0;
+        const childScore = subtreeMaxTimestamps.get(childId) ?? 0;
         return childScore > bestScore ? childId : bestId;
       }, children[0]!);
     }

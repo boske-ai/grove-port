@@ -108,7 +108,12 @@ describe('@grove-port/adapter-chatgpt', () => {
         (message) => (message as { role?: string }).role === 'assistant',
       ) as { text?: string } | undefined;
 
-      expect(assistant?.text).toContain('([Signal Sciences - Crunchbase Company Profile & Funding]');
+      expect(assistant?.text).toContain(
+        '([Example Corp — Widget Benchmarks](https://example.com/widgets))',
+      );
+      expect(assistant?.text).toContain(
+        '([Example Labs — Latency Report](https://example.com/latency))',
+      );
     } finally {
       await rm(workDir, { recursive: true, force: true });
     }

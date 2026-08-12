@@ -106,6 +106,10 @@ export async function packEnvelopeBytes({
   }
 
   const readmeText = readme ?? defaultReadme({ ...manifest, checksums } as ExportManifestV1);
+  const readmeBytes = new TextEncoder().encode(readmeText);
+  // Checksum the README so no envelope member sits outside the signature.
+  checksums[EXPORT_README_FILENAME] = await sha256HexBytes(readmeBytes);
+
   const finalManifest = ExportManifestV1Schema.parse({
     ...manifest,
     checksums,
@@ -118,7 +122,7 @@ export async function packEnvelopeBytes({
 
   tarEntries.unshift(
     { path: `${envelopeRoot}/${EXPORT_DATA_FILENAME}`, data: dataBytes },
-    { path: `${envelopeRoot}/${EXPORT_README_FILENAME}`, data: new TextEncoder().encode(readmeText) },
+    { path: `${envelopeRoot}/${EXPORT_README_FILENAME}`, data: readmeBytes },
     {
       path: `${envelopeRoot}/${EXPORT_MANIFEST_FILENAME}`,
       data: new TextEncoder().encode(manifestText),

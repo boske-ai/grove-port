@@ -3,10 +3,16 @@
 # Add a row when creating any new active work folder that may touch code.
 
 folders:
+  2026-08-06-audit-remediation:
+    skill: audit-remediation
+    plan: plan.md
+    status: approved
+    invoke: "@grove-port-implementation @audit-remediation"
+
   2026-07-22-p0-hardening:
     skill: p0-hardening
     plan: plan.md
-    status: approved
+    status: archived
     invoke: "@grove-port-implementation @p0-hardening"
 
   2026-07-15-move-landing-open-repo-boske-import:
@@ -18,13 +24,13 @@ folders:
   2026-06-22-global-in-adapters:
     skill: global-in-adapters
     plan: plan.md
-    status: approved
+    status: archived
     invoke: "@grove-port-implementation @global-in-adapters"
 
   2026-06-18-online-converter:
     skill: _default-work-folder
     plan: plan.md
-    status: pivoted
+    status: archived
     invoke: "@grove-port-implementation @move-funnel"
 
   2026-06-21-p2-adapters:

@@ -482,6 +482,15 @@ function renderStats(stats: BrowserExportStats): void {
   statsGrid.classList.remove('hidden');
 }
 
+/**
+ * Refuse oversized uploads before `arrayBuffer()` allocates them.
+ *
+ * Matches the 512 MiB archive budget the core inflate/extract helpers enforce,
+ * so the tab fails with a readable message instead of an out-of-memory crash on
+ * a file the converter would have rejected anyway.
+ */
+const MAX_UPLOAD_BYTES = 512 * 1024 * 1024;
+
 async function handleFileSelected(file: File): Promise<void> {
   const jobId = ++activeJob;
   const manualPreselection = getManualPreselection();
@@ -502,6 +511,20 @@ async function handleFileSelected(file: File): Promise<void> {
   setActionEnabled(false);
 
   showFileSummary(file);
+
+  if (file.size > MAX_UPLOAD_BYTES) {
+    setFileLoading(false);
+    pickerView = { mode: 'idle' };
+    renderPlatformPicker();
+    setActionEnabled(false);
+    setStatus(
+      `This export is ${formatBytes(file.size)} — larger than the ${formatBytes(MAX_UPLOAD_BYTES)} ` +
+        `browser limit. Use the grove-port CLI for exports this size.`,
+      'error',
+    );
+    return;
+  }
+
   setStatus(`Reading ${file.name}…`, 'loading');
   await yieldToBrowser();
 
@@ -704,8 +727,12 @@ convertButton.addEventListener('click', async () => {
     const anchor = document.createElement('a');
     anchor.href = url;
     anchor.download = result.fileName;
+    document.body.append(anchor);
     anchor.click();
-    URL.revokeObjectURL(url);
+    anchor.remove();
+    // Firefox and Safari can abort a download whose object URL is revoked in the
+    // same task as the click — release it on a later turn instead.
+    setTimeout(() => URL.revokeObjectURL(url), 60_000);
 
     setStatus(`Downloaded ${result.fileName} — ${result.messageCount} messages packed.`, 'success');
     setStepState('download');

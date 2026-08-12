@@ -1,8 +1,17 @@
 {
   "name": "@grove-port/adapter-anythingllm",
-  "version": "1.0.0",
-  "description": "AnythingLLM chat log export → Grove Port v1 IN adapter",
+  "version": "0.2.0",
+  "description": "AnythingLLM chat log export \u2192 Grove Port v1 IN adapter",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/boske-ai/grove-port.git",
+    "directory": "packages/adapters/anythingllm"
+  },
+  "homepage": "https://github.com/boske-ai/grove-port/tree/main/packages/adapters/anythingllm#readme",
+  "bugs": {
+    "url": "https://github.com/boske-ai/grove-port/issues"
+  },
   "type": "module",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -16,7 +25,9 @@
       "import": "./dist/browser.js"
     }
   },
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "build": "tsc -p tsconfig.json"
   },

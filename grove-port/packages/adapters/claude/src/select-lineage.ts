@@ -63,6 +63,12 @@ export function selectActiveLineage(
   let current: ClaudeMessage | undefined = byUuid.get(leafId);
 
   while (current) {
+    // A cyclic `parent_message_uuid` chain would otherwise loop forever, growing
+    // `lineage` until the process dies of memory exhaustion.
+    if (lineageIds.has(current.uuid)) {
+      break;
+    }
+
     lineage.unshift(current);
     lineageIds.add(current.uuid);
     const parentId = current.parent_message_uuid;

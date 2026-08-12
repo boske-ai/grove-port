@@ -1,4 +1,4 @@
-import { packEnvelopeBytes } from '@grove-port/core/browser';
+import { buildAdapterManifest, packEnvelopeBytes } from '@grove-port/core/browser';
 import type { EnvelopeRootName, ExportDataV1, ExportManifestV1 } from '@grove-port/schema';
 import { collectReferencedAssetDatNames, stageChatGptAssets } from './assets.js';
 import { flattenConversationMapping } from './flatten-mapping.js';
@@ -117,6 +117,16 @@ export async function buildChatGptGrovePortBundle(
   const userId = options.userId ?? bundle.user?.id ?? 'chatgpt-import';
   const userEmail = options.userEmail ?? bundle.user?.email ?? 'unknown@import.local';
 
+  // Validate before staging assets: `stageChatGptAssets` walks `conversation.mapping`,
+  // so a malformed export used to surface a raw TypeError instead of this message.
+  for (const conv of bundle.conversations) {
+    if (!conv.mapping || typeof conv.mapping !== 'object') {
+      throw new Error(
+        'Invalid ChatGPT export: conversation is missing a mapping graph. Check that ChatGPT is selected as the source platform.',
+      );
+    }
+  }
+
   const stagedAssets = await stageChatGptAssets({
     conversations: bundle.conversations,
     assetFileNames: bundle.assetFileNames,
@@ -134,12 +144,6 @@ export async function buildChatGptGrovePortBundle(
   let forkedConversations = 0;
 
   for (const conv of bundle.conversations) {
-    if (!conv.mapping || typeof conv.mapping !== 'object') {
-      throw new Error(
-        'Invalid ChatGPT export: conversation is missing a mapping graph. Check that ChatGPT is selected as the source platform.',
-      );
-    }
-
     const { conversation, messages } = convertConversation(
       conv,
       userId,
@@ -179,34 +183,19 @@ export async function buildChatGptGrovePortBundle(
     attachments: stagedAssets.attachments,
   };
 
-  const manifest = {
-    version: 'v1' as const,
+  const manifest = buildAdapterManifest({
+    adapterId: ADAPTER_ID,
+    adapterVersion: ADAPTER_VERSION,
+    sourceFormat: SOURCE_FORMAT,
+    userId,
+    userEmail,
     label: options.label,
-    created_at: new Date().toISOString(),
-    source: {
-      app_version: ADAPTER_VERSION,
-      deployment: 'web-saas' as const,
-      tier: 'free' as const,
-      instance_id: '00000000-0000-4000-8000-000000000000',
-      adapter: ADAPTER_ID,
-      adapter_version: ADAPTER_VERSION,
-      source_format: SOURCE_FORMAT,
-    },
-    user_id: userId,
-    user_email: userEmail,
     counts: {
       conversations: stats.conversationCount,
       messages: stats.messageCount,
       files: stats.fileCount,
-      presets: 0,
-      agents: 0,
-      memories: 0,
-      tool_calls: 0,
-      transcript_sessions: 0,
-      workspace_items: 0,
-      shares: 0,
     },
-  };
+  });
 
   return {
     data,

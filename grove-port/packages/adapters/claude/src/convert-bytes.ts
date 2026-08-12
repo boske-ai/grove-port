@@ -1,4 +1,4 @@
-import { packEnvelopeBytes } from '@grove-port/core/browser';
+import { buildAdapterManifest, packEnvelopeBytes } from '@grove-port/core/browser';
 import type { EnvelopeRootName, ExportDataV1, ExportManifestV1 } from '@grove-port/schema';
 import {
   formatMessageText,
@@ -158,34 +158,19 @@ export async function buildClaudeGrovePortBundle(
     attachments: [],
   };
 
-  const manifest: ClaudeExportBuildResult['manifest'] = {
-    version: 'v1',
+  const manifest: ClaudeExportBuildResult['manifest'] = buildAdapterManifest({
+    adapterId: ADAPTER_ID,
+    adapterVersion: ADAPTER_VERSION,
+    sourceFormat: SOURCE_FORMAT,
+    userId,
+    userEmail,
     label: options.label,
-    created_at: new Date().toISOString(),
-    source: {
-      app_version: ADAPTER_VERSION,
-      deployment: 'web-saas',
-      tier: 'free',
-      instance_id: '00000000-0000-4000-8000-000000000000',
-      adapter: ADAPTER_ID,
-      adapter_version: ADAPTER_VERSION,
-      source_format: SOURCE_FORMAT,
-    },
-    user_id: userId,
-    user_email: userEmail,
     counts: {
       conversations: stats.conversationCount,
       messages: stats.messageCount,
       files: stats.fileCount,
-      presets: 0,
-      agents: 0,
-      memories: 0,
-      tool_calls: 0,
-      transcript_sessions: 0,
-      workspace_items: 0,
-      shares: 0,
     },
-  };
+  });
 
   return { data, manifest, stats };
 }

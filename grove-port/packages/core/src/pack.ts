@@ -127,7 +127,10 @@ export async function packEnvelope({
     }
 
     const readmeText = readme ?? defaultReadme({ ...manifest, checksums } as ExportManifestV1);
-    await writeFile(path.join(root, EXPORT_README_FILENAME), readmeText, 'utf8');
+    const readmeBytes = Buffer.from(readmeText, 'utf8');
+    await writeFile(path.join(root, EXPORT_README_FILENAME), readmeBytes);
+    // Checksum the README so no envelope member sits outside the signature.
+    checksums[EXPORT_README_FILENAME] = sha256Hex(readmeBytes);
 
     const finalManifest = ExportManifestV1Schema.parse({
       ...manifest,

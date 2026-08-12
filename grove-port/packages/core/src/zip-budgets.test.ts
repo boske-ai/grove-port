@@ -139,3 +139,25 @@ function patchZipUncompressedSize(zip: Uint8Array, originalSize: number): Uint8A
   view.setUint32(cd + 24, originalSize, true);
   return out;
 }
+
+describe('unzipSyncWithBudgets caching', () => {
+  test('reuses the inflate result for repeated calls on the same bytes', () => {
+    // The browser flow runs detect -> preview -> convert on one cached upload;
+    // each adapter inflates internally, so this used to decompress three times.
+    const zipped = zipSync({ 'a.json': strToU8('{"hello":"world"}') });
+
+    const first = unzipSyncWithBudgets(zipped);
+    const second = unzipSyncWithBudgets(zipped);
+
+    expect(second).toBe(first);
+  });
+
+  test('does not serve a cached result to a stricter budget', () => {
+    const zipped = zipSync({ 'a.json': strToU8('x'.repeat(4096)) });
+    unzipSyncWithBudgets(zipped);
+
+    expect(() => unzipSyncWithBudgets(zipped, { maxSingleEntryUncompressedBytes: 8 })).toThrow(
+      /single-entry budget/,
+    );
+  });
+});
