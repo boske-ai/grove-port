@@ -1,0 +1,108 @@
+name: grove-port release
+
+# Publishes @grove-port/* to npm.
+#
+# Manual only, on purpose. npm publishes are effectively permanent (unpublish
+# is restricted after 72 hours), so releases should be a deliberate act rather
+# than a side effect of a merge.
+#
+# Requires:
+#   - repo secret NPM_TOKEN (npm automation token with publish rights)
+#   - the @grove-port scope owned by that account
+#
+# `dry_run: true` (the default) runs the whole pipeline including `npm publish
+# --dry-run`, so the first use costs nothing and proves the wiring.
+
+on:
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: 'Run publish in --dry-run mode (nothing is uploaded)'
+        type: boolean
+        default: true
+
+permissions:
+  contents: read
+  id-token: write # npm provenance attestation
+
+defaults:
+  run:
+    working-directory: grove-port
+
+jobs:
+  release:
+    name: build · verify · publish
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      # npm (not bun) does the publishing: provenance attestation is an npm CLI
+      # feature and needs the OIDC token from id-token: write above.
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          registry-url: https://registry.npmjs.org
+
+      - name: Install
+        run: bun install --frozen-lockfile
+
+      - name: Build
+        run: bun run build
+
+      - name: Typecheck
+        run: bunx tsc -p tsconfig.test.json --noEmit
+
+      - name: Test
+        run: bun test
+
+      # A published package that cannot be require()'d is the whole reason this
+      # pipeline exists -- prove both module systems resolve before uploading.
+      - name: Verify ESM and CJS entry points
+        run: |
+          node -e "import('@grove-port/core').then(m => {
+            if (typeof m.unpackAndVerifyEnvelope !== 'function') throw new Error('ESM entry broken');
+            console.log('ESM entry OK');
+          })"
+          node -e "
+            const c = require('@grove-port/core');
+            if (typeof c.unpackAndVerifyEnvelope !== 'function') throw new Error('CJS entry broken');
+            console.log('CJS entry OK');
+          "
+
+      # Dependency order matters: schema has no internal deps, core needs schema,
+      # adapters need both, cli needs everything.
+      - name: Publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          DRY: ${{ inputs.dry_run && '--dry-run' || '' }}
+        run: |
+          set -e
+          publish() {
+            echo "::group::publish $1"
+            (cd "$1" && npm publish --access public --provenance $DRY)
+            echo "::endgroup::"
+          }
+
+          publish packages/schema
+          publish packages/core
+          for a in chatgpt claude openwebui librechat gemini doubao deepseek lobechat anythingllm; do
+            publish "packages/adapters/$a"
+          done
+          publish packages/convert-browser
+          publish packages/cli
+
+      - name: Summary
+        run: |
+          if [ "${{ inputs.dry_run }}" = "true" ]; then
+            echo "### Dry run — nothing was published" >> $GITHUB_STEP_SUMMARY
+            echo "Re-run with \`dry_run: false\` to publish for real." >> $GITHUB_STEP_SUMMARY
+          else
+            echo "### Published to npm" >> $GITHUB_STEP_SUMMARY
+            echo "Bump versions before the next release; npm rejects a re-publish of the same version." >> $GITHUB_STEP_SUMMARY
+          fi

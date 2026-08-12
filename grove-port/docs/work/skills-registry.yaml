@@ -3,6 +3,12 @@
 # Add a row when creating any new active work folder that may touch code.
 
 folders:
+  2026-08-12-npm-publishing:
+    skill: _default-work-folder
+    plan: plan.md
+    status: approved
+    invoke: "@grove-port-implementation"
+
   2026-08-06-audit-remediation:
     skill: audit-remediation
     plan: plan.md

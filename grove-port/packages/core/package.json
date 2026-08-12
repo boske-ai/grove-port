@@ -13,12 +13,13 @@
     "url": "https://github.com/boske-ai/grove-port/issues"
   },
   "type": "module",
-  "main": "./dist/index.js",
+  "main": "./dist/cjs/index.js",
   "types": "./dist/index.d.ts",
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
-      "import": "./dist/index.js"
+      "import": "./dist/index.js",
+      "require": "./dist/cjs/index.js"
     },
     "./browser": {
       "types": "./dist/browser.d.ts",
@@ -29,14 +30,15 @@
     "dist"
   ],
   "scripts": {
-    "build": "tsc -p tsconfig.json"
+    "build": "tsc -p tsconfig.json && tsc -p tsconfig.cjs.json && node ../../scripts/mark-cjs.mjs core"
   },
   "dependencies": {
-    "@grove-port/schema": "workspace:*",
+    "@grove-port/schema": "^0.2.0",
     "fflate": "^0.8.2",
     "tar": "^7.5.22"
   },
   "devDependencies": {
     "@types/tar": "^6.1.13"
-  }
+  },
+  "module": "./dist/index.js"
 }

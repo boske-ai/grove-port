@@ -20,7 +20,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@grove-port/convert-browser": "workspace:*"
+    "@grove-port/convert-browser": "^0.2.0"
   },
   "devDependencies": {
     "vite": "^6.3.5"

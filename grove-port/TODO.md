@@ -1,6 +1,6 @@
 # Grove Port — Backlog
 
-Last updated: 2026-08-06
+Last updated: 2026-08-12
 
 **Active work:** [`docs/work/active/`](./docs/work/active/) · Audit remediation: [`2026-08-06-audit-remediation`](./docs/work/active/2026-08-06-audit-remediation/)
 
@@ -49,8 +49,9 @@ Last updated: 2026-08-06
 | ⬜ | Optional: AMP/PAM → Grove | Tier A — reuse converters |
 | ⬜ | OUT adapter: Open WebUI (optional) | Community contribution |
 | ✅ | boske.dev `/port` landing (no converter) | move-landing track A |
-| ⬜ | Optional: publish npm `@grove-port/*` | deferred — metadata + versions now aligned at 0.2.0 |
+| 🟡 | **Publish npm `@grove-port/*`** — dual ESM/CJS build + release pipeline ready; publish is a manual dispatch | [`2026-08-12-npm-publishing`](./docs/work/active/2026-08-12-npm-publishing/) |
 | ✅ | **`verify --expect-key <base64>`** — trusted-key allowlist, so signatures can prove origin and not just integrity | [`2026-08-06-audit-remediation`](./docs/work/active/2026-08-06-audit-remediation/) |
+| ⬜ | **Boske: drop its forked `envelope.js` for `@grove-port/core`** — ends the drift that caused the Aug 2026 import bug | blocked on publishing |
 | ⬜ | **Boske: record the export signing key** so `--expect-key` is usable for backup/restore and instance-to-instance import | Boske monorepo — CLI side is done; product must retain the key |
 
 ## P2b — Global long tail

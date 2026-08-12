@@ -32,8 +32,8 @@
     "build": "tsc -p tsconfig.json"
   },
   "dependencies": {
-    "@grove-port/core": "workspace:*",
-    "@grove-port/schema": "workspace:*",
+    "@grove-port/core": "^0.2.0",
+    "@grove-port/schema": "^0.2.0",
     "fflate": "^0.8.2"
   }
 }
