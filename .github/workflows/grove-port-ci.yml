@@ -34,8 +34,20 @@ jobs:
           bun-version: latest
 
       # Frozen so a drifted lockfile fails here rather than resolving silently.
+      #
+      # Exception: Dependabot cannot parse or update bun.lock, so it edits
+      # package.json alone. A frozen install then fails on "lockfile had
+      # changes" and tells us nothing about whether the bump actually works.
+      # Install unfrozen for its PRs so CI reports the real answer; the stale
+      # lockfile still has to be regenerated before any of them can merge.
       - name: Install
-        run: bun install --frozen-lockfile
+        run: |
+          if [ "${{ github.actor }}" = "dependabot[bot]" ]; then
+            echo "Dependabot PR — installing unfrozen (bun.lock is not Dependabot-maintained)"
+            bun install
+          else
+            bun install --frozen-lockfile
+          fi
 
       - name: Build (schema → core → adapters → CLI)
         run: bun run build
