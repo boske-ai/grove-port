@@ -1,0 +1,27 @@
+version: 2
+
+# NOTE: Dependabot does not parse `bun.lock`. It reads the `package.json`
+# files below, so version *ranges* are checked but the resolved lockfile is
+# not. Until Dependabot supports bun.lock, treat `bun update` + the CI run as
+# the real check on resolved versions.
+updates:
+  - package-ecosystem: npm
+    directory: /grove-port
+    schedule:
+      interval: weekly
+    open-pull-requests-limit: 5
+    labels:
+      - dependencies
+    groups:
+      dev-tooling:
+        patterns:
+          - 'typescript'
+          - '@types/*'
+          - 'vite'
+
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: monthly
+    labels:
+      - dependencies

@@ -21,7 +21,7 @@
     },
     "packages/adapters/anythingllm": {
       "name": "@grove-port/adapter-anythingllm",
-      "version": "1.0.0",
+      "version": "0.2.0",
       "dependencies": {
         "@grove-port/core": "workspace:*",
         "@grove-port/schema": "workspace:*",
@@ -30,7 +30,7 @@
     },
     "packages/adapters/chatgpt": {
       "name": "@grove-port/adapter-chatgpt",
-      "version": "1.0.0",
+      "version": "0.2.0",
       "dependencies": {
         "@grove-port/core": "workspace:*",
         "@grove-port/schema": "workspace:*",
@@ -39,7 +39,7 @@
     },
     "packages/adapters/claude": {
       "name": "@grove-port/adapter-claude",
-      "version": "1.0.0",
+      "version": "0.2.0",
       "dependencies": {
         "@grove-port/core": "workspace:*",
         "@grove-port/schema": "workspace:*",
@@ -48,7 +48,7 @@
     },
     "packages/adapters/deepseek": {
       "name": "@grove-port/adapter-deepseek",
-      "version": "1.0.0",
+      "version": "0.2.0",
       "dependencies": {
         "@grove-port/core": "workspace:*",
         "@grove-port/schema": "workspace:*",
@@ -57,7 +57,7 @@
     },
     "packages/adapters/doubao": {
       "name": "@grove-port/adapter-doubao",
-      "version": "1.0.0",
+      "version": "0.2.0",
       "dependencies": {
         "@grove-port/core": "workspace:*",
         "@grove-port/schema": "workspace:*",
@@ -66,7 +66,7 @@
     },
     "packages/adapters/gemini": {
       "name": "@grove-port/adapter-gemini",
-      "version": "1.0.0",
+      "version": "0.2.0",
       "dependencies": {
         "@grove-port/core": "workspace:*",
         "@grove-port/schema": "workspace:*",
@@ -75,7 +75,7 @@
     },
     "packages/adapters/librechat": {
       "name": "@grove-port/adapter-librechat",
-      "version": "1.0.0",
+      "version": "0.2.0",
       "dependencies": {
         "@grove-port/core": "workspace:*",
         "@grove-port/schema": "workspace:*",
@@ -84,7 +84,7 @@
     },
     "packages/adapters/lobechat": {
       "name": "@grove-port/adapter-lobechat",
-      "version": "1.0.0",
+      "version": "0.2.0",
       "dependencies": {
         "@grove-port/core": "workspace:*",
         "@grove-port/schema": "workspace:*",
@@ -93,7 +93,7 @@
     },
     "packages/adapters/openwebui": {
       "name": "@grove-port/adapter-openwebui",
-      "version": "1.0.0",
+      "version": "0.2.0",
       "dependencies": {
         "@grove-port/core": "workspace:*",
         "@grove-port/schema": "workspace:*",
@@ -101,7 +101,7 @@
     },
     "packages/cli": {
       "name": "@grove-port/cli",
-      "version": "0.1.0",
+      "version": "0.2.0",
       "bin": {
         "grove-port": "./dist/cli.js",
       },
@@ -121,7 +121,7 @@
     },
     "packages/convert-browser": {
       "name": "@grove-port/convert-browser",
-      "version": "0.1.0",
+      "version": "0.2.0",
       "dependencies": {
         "@grove-port/adapter-anythingllm": "workspace:*",
         "@grove-port/adapter-chatgpt": "workspace:*",
@@ -132,16 +132,17 @@
         "@grove-port/adapter-librechat": "workspace:*",
         "@grove-port/adapter-lobechat": "workspace:*",
         "@grove-port/adapter-openwebui": "workspace:*",
+        "@grove-port/core": "workspace:*",
         "fflate": "^0.8.2",
       },
     },
     "packages/core": {
       "name": "@grove-port/core",
-      "version": "0.1.0",
+      "version": "0.2.0",
       "dependencies": {
         "@grove-port/schema": "workspace:*",
         "fflate": "^0.8.2",
-        "tar": "^7.4.3",
+        "tar": "^7.5.22",
       },
       "devDependencies": {
         "@types/tar": "^6.1.13",
@@ -149,7 +150,7 @@
     },
     "packages/schema": {
       "name": "@grove-port/schema",
-      "version": "0.1.0",
+      "version": "0.2.0",
       "dependencies": {
         "zod": "^3.25.76",
       },
@@ -327,7 +328,7 @@
 
     "source-map-js": ["source-map-js@1.2.1", "", {}, "sha512-UXWMKhLOwVKb728IUtQPXxfYU+usdybtUrK/8uGE8CQMvrhOpwvzDBwj0QhSL7MQc7vIsISBG8VQ8+IDQxpfQA=="],
 
-    "tar": ["tar@7.5.16", "", { "dependencies": { "@isaacs/fs-minipass": "^4.0.0", "chownr": "^3.0.0", "minipass": "^7.1.2", "minizlib": "^3.1.0", "yallist": "^5.0.0" } }, "sha512-56adEpPMouktRlBLXiaYFFzZ/3+JXa8P9n7WbR+ibIjtviN55mEaOkiysCnPnWm+7kkui1Dn8J9l+g6zV8731w=="],
+    "tar": ["tar@7.5.22", "", { "dependencies": { "@isaacs/fs-minipass": "^4.0.0", "chownr": "^3.0.0", "minipass": "^7.1.2", "minizlib": "^3.1.0", "yallist": "^5.0.0" } }, "sha512-MFO/QzvtAOmJbkhOaCTvbGcFN9L9b+JunIsDwaKljSOdcLMea3NJ1k9Usz/rjdfSXTq4dfzfeS7W4p4YOAAHeA=="],
 
     "tinyglobby": ["tinyglobby@0.2.17", "", { "dependencies": { "fdir": "^6.5.0", "picomatch": "^4.0.4" } }, "sha512-wXR/dYpcqKmfWpEdZjiKJOwCNFndD0DMnrW/cYjVGttEkBfVgcLFHoNrlj47mjOVic9yyNu65alsgF4NQyTa2g=="],
 

@@ -34,7 +34,7 @@
   "dependencies": {
     "@grove-port/schema": "workspace:*",
     "fflate": "^0.8.2",
-    "tar": "^7.4.3"
+    "tar": "^7.5.22"
   },
   "devDependencies": {
     "@types/tar": "^6.1.13"
