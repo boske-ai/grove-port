@@ -68,7 +68,7 @@ packages cannot be pinned. That asymmetry is now documented rather than implied.
 
 ### Wave 5 — Spec, docs, process
 
-Spec signature section corrected to match the implementation; budgets, trust model, and layout allowlist documented; `SECURITY.md`, `CONTRIBUTING.md`, `.editorconfig`; npm metadata + version alignment; synthetic ChatGPT fixtures; stale work folders archived; CI workflow.
+Spec signature section corrected to match the implementation; budgets, trust model, and layout allowlist documented; `SECURITY.md`, `CONTRIBUTING.md`, `.editorconfig`; npm metadata + version alignment; synthetic ChatGPT fixtures; stale work folders archived; CI hardened.
 
 ---
 
@@ -85,7 +85,7 @@ Spec signature section corrected to match the implementation; budgets, trust mod
 - [x] Every audit PoC re-run and confirmed closed
 - [x] Regression test per finding
 - [x] `bun test` green (151), `bun run build` clean, `tsc -p tsconfig.test.json` clean
-- [x] CI runs all three on PR
+- [x] CI runs build + typecheck + test on PR (root `.github/workflows/grove-port-ci.yml`)
 
 ## Tests
 

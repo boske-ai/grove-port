@@ -17,7 +17,7 @@ Last updated: 2026-08-06
 | ✅ | Wire compatibility test vs Boske ExportService output | foundation |
 | ✅ | **Signature over raw manifest bytes** — schema defaults no longer invalidate old packages; unknown keys no longer ride unsigned | [`2026-08-06-audit-remediation`](./docs/work/active/2026-08-06-audit-remediation/) |
 | ✅ | **Adapter hostile-input hardening** — cycle guards + linear fork resolution in all 5 graph walkers | same |
-| ✅ | **CI** — build · typecheck · test on every PR | same |
+| ✅ | **CI hardened** — existing `grove-port-ci` workflow gained typecheck, frozen lockfile, and a dist-leak guard | same |
 | ✅ | **Spec corrected** — `signature.sig` section now matches the implementation; limits + trust model documented | same |
 
 ---
@@ -33,8 +33,8 @@ Last updated: 2026-08-06
 | 🟡 | **`/port` landing** (no upload) + retire converter embed | [`2026-07-15-move-landing-open-repo-boske-import`](./docs/work/active/2026-07-15-move-landing-open-repo-boske-import/) |
 | ✅ | **Public open repo** [boske-ai/grove-port](https://github.com/boske-ai/grove-port) | same |
 | ✅ | **Boske import:** Wave 3 complete (multi-adapter UI + rollback + .grove-port download) | Boske monorepo |
-| ✅ | **ZIP bomb budgets** in adapters/`unzipSync` (entry count, uncompressed bytes, ratio) | [`2026-07-22-p0-hardening`](./docs/work/active/2026-07-22-p0-hardening/) |
-| 🗂️ | Online converter Phase 1 (embed) — **pivoted** | [`2026-06-18-online-converter`](./docs/work/active/2026-06-18-online-converter/) |
+| ✅ | **ZIP bomb budgets** in adapters/`unzipSync` (entry count, uncompressed bytes, ratio) | [`2026-07-22-p0-hardening`](./docs/work/archive/2026-07-22-p0-hardening/) |
+| 🗂️ | Online converter Phase 1 (embed) — **pivoted** | [`2026-06-18-online-converter`](./docs/work/archive/2026-06-18-online-converter/) |
 
 ---
 
@@ -42,7 +42,7 @@ Last updated: 2026-08-06
 
 | Status | Item | Work folder |
 |--------|------|-------------|
-| ✅ | **Global IN adapters** — Gemini, Doubao, DeepSeek, LobeChat, AnythingLLM | [`2026-06-22-global-in-adapters`](./docs/work/active/2026-06-22-global-in-adapters/) |
+| ✅ | **Global IN adapters** — Gemini, Doubao, DeepSeek, LobeChat, AnythingLLM | [`2026-06-22-global-in-adapters`](./docs/work/archive/2026-06-22-global-in-adapters/) |
 | ✅ | IN adapter: LibreChat JSON | [`2026-06-21-p2-adapters`](./docs/work/archive/2026-06-21-p2-adapters/) |
 | ✅ | ChatGPT **sharded** ZIP (`conversations-NNN.json`) | adapter-chatgpt |
 | ⬜ | IN adapter: Open WebUI SQLite (`webui.db`) | Harder; knowledge base |

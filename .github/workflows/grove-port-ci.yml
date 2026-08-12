@@ -4,9 +4,18 @@ on:
   push:
     paths:
       - 'grove-port/**'
+      - '.github/workflows/grove-port-ci.yml'
   pull_request:
     paths:
       - 'grove-port/**'
+      - '.github/workflows/grove-port-ci.yml'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: grove-port-ci-${{ github.ref }}
+  cancel-in-progress: true
 
 defaults:
   run:
@@ -14,12 +23,36 @@ defaults:
 
 jobs:
   test:
+    name: build · typecheck · test
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
+
       - uses: oven-sh/setup-bun@v2
         with:
           bun-version: latest
-      - run: bun install
-      - run: bun run build
-      - run: bun test
+
+      # Frozen so a drifted lockfile fails here rather than resolving silently.
+      - name: Install
+        run: bun install --frozen-lockfile
+
+      - name: Build (schema → core → adapters → CLI)
+        run: bun run build
+
+      - name: Typecheck
+        run: bunx tsc -p tsconfig.test.json --noEmit
+
+      - name: Test
+        run: bun test
+
+      # A tsconfig missing `exclude: src/**/*.test.ts` compiles tests into dist,
+      # where they run as a stale second copy of the suite and ship in the package.
+      - name: Fail if compiled tests leaked into dist
+        run: |
+          leaked=$(find packages apps -path '*/dist/*' -name '*.test.*' -print)
+          if [ -n "$leaked" ]; then
+            echo "Compiled test files must not ship in dist/:"
+            echo "$leaked"
+            exit 1
+          fi
