@@ -38,7 +38,7 @@
     "tar": "^7.5.22"
   },
   "devDependencies": {
-    "@types/tar": "^6.1.13"
+    "@types/tar": "^7.0.87"
   },
   "module": "./dist/index.js"
 }
