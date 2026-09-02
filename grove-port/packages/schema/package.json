@@ -31,7 +31,7 @@
     "emit-json-schema": "bun run scripts/emit-json-schema.ts"
   },
   "dependencies": {
-    "zod": "^3.25.76"
+    "zod": "^4.5.4"
   },
   "devDependencies": {
     "zod-to-json-schema": "^3.24.6"
